@@ -86,7 +86,7 @@ const History = () => {
                         </>
                     :
                         <div className="content__empty">
-                            Veuillez sélectionner une commande effectuée.
+                            Veuillez sélectionner une réservation effectuée.
                         </div>    
                     }
                     

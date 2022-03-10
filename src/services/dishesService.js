@@ -7,11 +7,10 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 // DISHES
 
-const createDish = async (name, price, description, type, token) => {
+const createDish = async (name, description, type, token) => {
     try {
         const { data } = await axios.post(API_URL + "/dishes", {
             name,
-            price,
             description,
             type
         }
@@ -68,12 +67,11 @@ const getCountByName = async (name) => {
     }
 };
 
-const updateDish = async (id, name, price, desc, type, token) => {
+const updateDish = async (id, name, desc, type, token) => {
     try {
         const { data } = await axios.patch(
         API_URL + "/dishes/" +id, {
             name: name,
-            price : price,
             description : desc,
             type: type,
         }

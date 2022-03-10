@@ -30,7 +30,7 @@ const List = ({dateList, onDateChange, rightRef}) => {
         return (
           <div className="list__container__box" key={d._id} onClick={() => handleClick(d.dateC)}>
             <p>{moment(d.dateC).locale("fr").format("LL")}</p>
-            <span>Plats dispo : {d.nbR}</span>
+            <span>Places dispo : {d.nbR}</span>
           </div>
         );
       }

@@ -45,10 +45,10 @@ const HeaderBody = ({ toggle }) => {
                         Accueil
                 </NavLink>
                 <NavLink
-                    to="/commander"
+                    to="/reserver"
                     activeClassName="active-link"
                     onClick={toggle}>
-                        Commander
+                        Réserver
                 </NavLink>
 
                 { isLogged() && 

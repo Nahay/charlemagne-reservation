@@ -155,10 +155,6 @@ const AdminDates = () => {
         const val = e.target.value;
         if(Number(val) || val === "") setNb(val);
     }
-
-    const handleTimeMinChange = (e) => setTimeMin(e.target.value);
-
-    const handleTimeMaxChange = (e) => setTimeMax(e.target.value);
     
 
     // BD -------------------------------------------------------------------
@@ -316,19 +312,16 @@ const AdminDates = () => {
                             <label htmlFor="y">Oui</label>
                         </div>
 
-                        <div className='input-time'>
-                            <div className="input-time___min">
-                                <p>Heure min :</p>
-                                <input type="time" value={timeMin} onChange={handleTimeMinChange} required/>
-                            </div>
-                            <div className="input-time___max">
-                                <p>Heure max :</p>
-                                <input type="time" value={timeMax} onChange={handleTimeMaxChange} required/>
-                            </div>
-                            
-                        </div>
+                        <InputText
+                            value={nb}
+                            placeholder="Places disponibles*"
+                            handleChange={handleNbChange}
+                            required={true}
+                        />
 
                         <div className="select-container">
+                            
+                            <div className="input-duo">
                             <select value={select} id="dish-select" className="dish-select" onChange={handleSelectChange}>
                                 <option value="0" id="0">Liste des plats</option>
                                 <optgroup label="Entrées">
@@ -352,13 +345,6 @@ const AdminDates = () => {
                                     })}
                                 </optgroup>
                             </select>
-                            <div className="input-duo">
-                                <InputText
-                                    value={nb}
-                                    placeholder="Nombre Cuisine*"
-                                    handleChange={handleNbChange}
-                                    required={false}
-                                />
                                 <InputButton value= { upD ? "Enregistrer nombre" : "Ajouter le plat à cette date" } type="button" onClick={upD ? onUpdateDishSubmit : onDishSubmit}/>
                             </div>
                         </div>

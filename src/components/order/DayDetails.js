@@ -1,31 +1,34 @@
 import React, {useEffect, useState} from 'react';
+import { Link } from 'react-router-dom';
+
 import moment from "moment";
 import "moment/locale/fr";
 import { decodeToken } from 'react-jwt';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Table from '../order/Table';
-import { toast } from 'react-toastify';
+
 
 const DayDetails = ({date, dishByDateList}) => {
 
     const [isAvailable, setIsAvailable] = useState(false);
+    const [haveDesc, setHaveDesc] = useState(false);
     const [isLogged, setIsLogged] = useState(false);
 
     useEffect(() => {
 
         async function getNb() {
             setIsAvailable(false);
+            setHaveDesc(false);
             dishByDateList.forEach(d => {
                 if (d.numberRemaining > 0) setIsAvailable(true);
+                if (d.idDish.description !== "") setHaveDesc(true);
             });
         }
         
         async function getUser() {
             const userDecoded = decodeToken(localStorage.getItem("userToken"));
-            if (userDecoded) {
-                setIsLogged(true);
-            }
+            if (userDecoded) { setIsLogged(true) }
         }
         
         getUser();
@@ -42,19 +45,21 @@ const DayDetails = ({date, dishByDateList}) => {
             { isAvailable &&
 
             <>
-                <div className="right__tip">
-                    <p>Passez la souris sur le nom du plat pour avoir sa description.</p>
-                </div>
+                { haveDesc &&
+                    <div className="right__tip">
+                        <p>Passez la souris sur le nom du plat pour avoir sa description.</p>
+                    </div>
+                }
 
                 <div className="day-details__button">
                     <div className="btn">
                         { isLogged ? 
-                            <Link to={`passer-commande/${date}`} onClick={() => localStorage.removeItem('date')}>
-                                Commander
+                            <Link to={`passer-reservation/${date}`} onClick={() => localStorage.removeItem('date')}>
+                                Réserver
                             </Link> 
                             :
                             <Link to={"connexion"} onClick={() => toast.error("Veuillez vous connecter avant de passer commande !")}>
-                                Commander
+                                Réserver
                             </Link> 
                         }                    
                     </div>

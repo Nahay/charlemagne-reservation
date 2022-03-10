@@ -272,7 +272,7 @@ const PassCommand = () => {
         </div>
         <div className="container__mess-btn">
           <div className="input-btn" >
-              <input type="submit" value="Commander" />
+              <input type="submit" value="Réserver" />
           </div>
         </div>
       </div>

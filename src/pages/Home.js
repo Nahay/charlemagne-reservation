@@ -39,7 +39,7 @@ const Home = () => {
 
                 <p className = "home__subtitle" id = "home__subtitle">{welcomeMess}</p>
                 
-                <Button name = "Commander" link = "/commander"/>
+                <Button name = "Réserver" link = "/reserver"/>
             </div>
             <div className = "home__right">
                 <Time/>

@@ -26,8 +26,8 @@ const UserTemp = () => {
                 <Switch>
                     <Route exact path="/" component = {Home} />
 
-                    <Route exact path="/commander" component = {Order} />
-                    <ProtectedUserRoute exact path="/passer-commande/:date" component = {PassCommand} />
+                    <Route exact path="/reserver" component = {Order} />
+                    <ProtectedUserRoute exact path="/passer-reservation/:date" component = {PassCommand} />
                     <Route exact path="/contact" component = {Contact} />
                     <ProtectedUserRoute exact path="/history" component = {History} />
                     <ProtectedLoginRoute exact path="/connexion" component = {Login}/>

@@ -27,7 +27,6 @@ const AdminDishes = () => {
 
     const [id, setId] = useState("");
     const [type, setType] = useState('e');
-    const [price, setPrice] = useState("");
     const [name, setName] = useState("");
     const [previousName, setPreviousName] = useState("");
     const [desc, setDesc] = useState("");
@@ -143,24 +142,18 @@ const AdminDishes = () => {
         }
     }
 
-    const handleNameChange = (e) => { setName(e.target.value) }
+    const handleNameChange = (e) => setName(e.target.value)
 
-    const handlePriceChange = (e) => {
-        const val = e.target.value;
-        if(Number(val) || val === "") setPrice(val);
-    }
-
-    const handleDescChange = (e) => { setDesc(e.target.value) }
+    const handleDescChange = (e) => setDesc(e.target.value)
 
 
     // SET STATES ------------------------------------------------------------
 
-    const onClickDish = ({ _id, name, price, description, type }) => {
+    const onClickDish = ({ _id, name, description, type }) => {
         setCreate(false);
         setId(_id);
         setName(name);
         setPreviousName(name);
-        setPrice(price);
         setDesc(description);
         setType(type);
     }
@@ -169,7 +162,6 @@ const AdminDishes = () => {
         setCreate(true);
         setType('e');
         setName("");
-        setPrice("");
         setDesc("");
     }
 
@@ -215,7 +207,7 @@ const AdminDishes = () => {
             if (create) {
                 const count = await getDishByName(name);
                 if (!count) {
-                    await createDish(name, price, desc, type, token);
+                    await createDish(name, desc, type, token);
                     onClickNewDish();
                     getDishList(type);
                 }
@@ -228,7 +220,7 @@ const AdminDishes = () => {
                 if (name !== previousName) {
                     const count = await getDishByName(name);
                     if (!count) {
-                        await updateDish(id, name, price, desc, type, token);
+                        await updateDish(id, name, desc, type, token);
                         setPreviousName(name);
                         getDishList(type);
                     }
@@ -236,7 +228,7 @@ const AdminDishes = () => {
                     else toast.error("Ce nom existe déjà.");
                 }
                 else {
-                    await updateDish(id, name, price, desc, type, token);
+                    await updateDish(id, name, desc, type, token);
                     setPreviousName(name);
                     getDishList(type);
                 }
@@ -324,12 +316,6 @@ const AdminDishes = () => {
                         value={name}
                         placeholder="Nom du plat*"
                         handleChange={handleNameChange}
-                    />
-                    <span>Prix :</span>
-                    <InputText
-                        value={price}
-                        placeholder="Prix*"
-                        handleChange={handlePriceChange}
                     />
                     <span>Description (facultative) :</span>
                     <TextArea

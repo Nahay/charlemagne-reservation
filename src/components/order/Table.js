@@ -18,7 +18,7 @@ const Table = ({dishByDateList}) => {
                 dishByDateList.forEach(async d => {
                     setDishesList(dishesList =>
                         [...dishesList,
-                            {type: getTypeName(d.idDish.type), name: d.idDish.name, nb: d.numberRemaining, description: d.idDish.description }
+                            {name: d.idDish.name, description: d.idDish.description }
                         ]
                     );
                 });
@@ -30,44 +30,22 @@ const Table = ({dishByDateList}) => {
     }, [dishByDateList]);
 
 
-    const getTypeName = (type) => {
-        switch (type) {
-            case "e":
-                return "Entrée";
-            case "p":
-                return "Plat";
-            case "de":
-                return "Dessert";
-            case "di":
-                return "Divers";
-            default:
-                return
-        }
-    }
-
     const columns = [
         {
-            name: 'Type',
-            selector: row => row.type,
-            sortable: true,
-        },
-        {
-            name: 'Nom',
+            name: 'Menu',
             cell: row => (
                 <div className="dish__information">
                      <span>{row.name}</span>
                     <div className="dish__description">
+                        {row.description !== "" &&
                             <div className="dish__description__content">
                                 <p>Description : <br/>{row.description}</p>
                             </div>
+                        }
                         </div>
                 </div>               
             ),
-            sortable: true,
-        },
-        {
-            name: 'Nombre Dispo',
-            selector: row => row.nb,
+            sortable: false,
         }
     ];
 
@@ -79,7 +57,7 @@ const Table = ({dishByDateList}) => {
             <DataTable
                 columns={columns}
                 data={dishesList}
-                noDataComponent="Il n'y a aucun plat à cette date."
+                noDataComponent="Il n'y a pas de menu à cette date."
                 defaultSortFieldId={1}
                 theme="dark"
             />
