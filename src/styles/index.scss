@@ -1,0 +1,31 @@
+@import "./settings";
+@import "./components/pageNotFound";
+
+// avant les autres sinon changements spéciaux pas appliqués
+@import "./components/generics";
+
+@import "./components/header";
+@import "./components/home";
+@import "./components/contact";
+@import "./components/connection";
+@import "./components/order/history";
+
+@import "./components/loginPage";
+
+@import "./components/admin/adminHome";
+@import "./components/admin/adminDishes";
+@import "./components/admin/adminDates";
+@import "./components/admin/adminCommands";
+@import "./components/admin/adminAccounts";
+
+@import "./components/order/order";
+@import "./components/order/calendar";
+@import "./components/order/list";
+@import "./components/order/dayDetails";
+@import "./components/order/passCommand";
+
+@import "./components/toast";
+
+// à la fin sinon pas appliqué
+@import "./responsive";
+@import "./light";

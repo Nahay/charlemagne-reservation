@@ -1,0 +1,187 @@
+.history__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    .list__container {
+
+        .list__container__box {
+
+            height: fit-content;
+            min-height: 75px;
+            padding-left: 0;
+            p {
+                padding-left: 0;
+                font-size: 16px;
+            }
+
+            .icon-delete {
+                display:none;
+            }
+
+            .infos-dish,
+            .infos-command {
+
+                display: flex;
+                align-items: center;
+
+                width: 100%;
+                height: 75px;
+                padding-left: 25px;
+                
+                .dish__quantity,
+                .command__total { 
+                    white-space: nowrap;
+                    margin-right: 30px;
+                }
+            }
+        }
+    }  
+
+    .history__left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+        height: 100%;
+        width: 50%;
+
+        .left__content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            width: 80%;
+            height: 80%;
+
+            .history__title {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: 100%;
+                height: 60px;
+        
+                background: var(--input-lighter-bg);
+                margin-bottom: 10%;
+
+                font-size: 25px;
+                white-space: nowrap;
+                color: var(--svg-color);
+                transition: all .5s ease;
+
+                .title-name {
+                    color: $color-primary;
+                    font-weight: bold;
+                    margin-right: 12px;
+                }
+            }
+        }
+    }
+
+    .history__right {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+        height: 100%;
+        width: 50%;
+        
+        background: var(--color-secondary);
+        overflow-y: scroll;
+
+        .right__content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            width: 60%;
+            height: 50%;
+
+            .content__empty {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                width: fit-content;
+                height: 50px;
+                padding: 0 5%;
+
+                background: var(--input-lighter-bg);
+                color: var(--svg-color);
+                white-space: nowrap;
+                transition: all .5s ease;
+                font-size: 100%;
+            }
+
+            p.content__empty { margin-bottom:15px }
+        }
+
+    }
+
+    @media (max-width: 1688px) {
+        .history__left .left__content .history__title {
+            font-size: 21px;
+        }
+    }
+    
+
+    @media (max-width: 1145px) {
+        .history__left .left__content .history__title {
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 850px) {
+        flex-direction: column;
+        height : unset;
+
+        .history__left {
+            width : 100%;
+            height : 100vh;
+
+            .left__content .history__title { font-size: 20px }
+        }
+
+        .history__right {
+            width : 100%;
+            height : 50vh;
+            
+            padding : 40px 0;
+        }
+    }
+
+    @media (max-width: 550px) {
+        .history__left .left__content .history__title {
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 430px) {
+        .history__left .left__content .history__title {
+            font-size: 14px;
+        }
+
+        .history__right .right__content .content__empty {
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .history__left .left__content .history__title {
+            font-size: 10px;
+        }
+
+        .history__right .right__content .content__empty {
+            font-size: 10px;
+        }
+    }
+}

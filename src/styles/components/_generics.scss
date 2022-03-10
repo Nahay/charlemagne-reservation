@@ -1,0 +1,894 @@
+// ----------------- BUTTON ---------------------------------
+
+.btn {
+  a, button {
+    z-index: 0;
+    width: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+    height: 30px;
+    border: none;
+    background-color: $color-primary;
+    transition: 0.5s;
+    color: white;
+    overflow: hidden;
+
+    &::after {
+      z-index: -1;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -5%;
+      width: 0%;
+      height: 100%;
+      background-color: var(--color-secondary);
+      transition: 0.5s;
+      transform: skewX(-10deg);
+    }
+
+    &:hover::after { width: 110% }
+
+    &:hover { color: white }
+  }
+}
+
+// ----------------- LOGO ---------------------------------
+
+.logo { img { width: 100px } }
+
+// ----------------- TIME ---------------------------------
+
+.time {
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 10px;
+
+  p:nth-child(1) {
+    color: $color-primary;
+    font-size: 4vw;
+    
+  }
+
+  p:nth-child(2) {
+    font-size: 2vw;
+    color: var(--color-grey);
+  }
+}
+
+// -------------- INPUT TEXT & TEXTAREA -----------------------------------
+
+.input,
+.input-email,
+.textarea {
+  position: relative;
+  width: 100%;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    left: 0;
+    height: 2px;
+    background-color: $color-primary;
+    transition: 0.3s;
+  }
+
+  input,
+  textarea {
+    color: var(--color-grey-dark);
+    font-size: 16px;
+    background-color: var(--input-bg);
+    border: none;
+    outline: none;
+    width: calc(100% - 40px);
+    height: 50px;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    transition: all ease-out 0.3s;
+  }
+}
+
+.input,
+.input-email {
+  &::after { top: 48px }
+
+  &:focus-within::after { width: 100% }
+}
+
+.textarea {
+  display: inline;
+
+  &::after { bottom: 5px }
+
+  &:focus-within::after { width: 100% }
+
+  textarea {
+    padding: 20px;
+    resize: vertical;
+    width: 100%;
+    font-size: 16px;
+    height: 100px;
+    max-width: calc(100% - 40px);
+    max-height: 200px;
+    min-height: 50px;
+    // margin pour que le after soit bien en bas
+    margin-bottom: 0;
+
+    &:focus::-webkit-resizer { background: var(--input-bg) }
+
+  }
+}
+
+// --------------- INPUT BUTTON -----------------------------
+
+.input-btn {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -5%;
+    width: 0;
+    height: 100%;
+    background-color: $color-primary;
+    transition: 0.5s;
+    transform: skewX(-10deg);
+  }
+
+  &:hover::after {
+    width: 110%;
+  }
+
+  input {
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 100%;
+    border: 2px solid $color-primary;
+    transition: 0.5s;
+    color: $color-primary;
+    background-color: transparent;
+    transition: all ease-out 0.3s;
+    outline: none;
+
+    &:hover {
+      color: white;
+      cursor: pointer;
+    }
+  }
+}
+
+// --------------- LOGOUT BUTTON -----------------------------
+
+.btn__logout {
+  color: var(--color-grey-dark);
+  font-size: 14px;
+  cursor: pointer;
+
+  * { transition: all 0.3s }
+  &:hover .connect__container p:last-child,
+  &:hover .connect__container p:last-child svg
+   { color : $color-primary }
+
+  .connect__container {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+
+    .connect__name {
+      margin-bottom:10px;
+      color:var(--svg-color);
+    }
+
+    svg {
+      transition: all 0.1s;
+      color:var(--svg-color);
+      margin-right:10px;
+    }
+  }
+}
+
+// --------------- INPUT CHECKBOX -----------------------------
+
+input[type="checkbox"] {
+  filter: hue-rotate(150deg);
+  cursor: pointer;
+  outline: none;
+}
+
+// --------------- INPUT RADIO -----------------------------
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"] + *::before {
+  content: "";
+  display: inline-block;
+  vertical-align:middle;
+  width: .7rem;
+  height: .7rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  border : solid .1rem var(--color-grey-dark);
+}
+
+input[type="radio"]:checked + *::before {
+  background: radial-gradient($color-primary 0%, $color-primary 40%, transparent 50%, transparent);
+  border-color: $color-primary;
+}
+
+//  --------------- INPUT TIME -----------------------------
+
+input[type="time"] {
+  background: var(--input-bg);
+  border: none;
+  outline: none;
+  color: var(--color-grey);
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-align: center;
+  cursor: text;
+  font-size: 16px;
+
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(100%);
+    width: 20%;
+  }
+  
+  &::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: $color-primary;
+    transition: 0.3s;
+  }
+    
+  &:focus-within::after {
+    width: 100%;
+  }
+}
+
+// --------------- CONFIRMATION BOX -----------------------------
+
+.confirmation__container {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+
+  visibility: hidden;
+  opacity: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  transition: all 0.3s linear;
+  
+  .confirmation-box__container {
+    position: absolute;
+    z-index: 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 550px;
+    height: 250px;
+
+    transition: all 0.3s linear;
+    background: var(--color-black);
+    border-radius: 15px;
+    color: white;
+
+
+    .confirmation-box__content {
+      position: relative;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      
+      width: 85%;
+      height: 80%;
+
+      transition: all 0.3s linear;
+     
+      background: var(--color-black);
+      border-radius: 15px;
+
+      p { color: white }
+  
+      .content__buttons {
+        display: flex;
+        justify-content: space-evenly;
+
+        width: 100%;
+
+        transition: all 0.3s linear;
+        margin-top: 10%;
+        .input-btn {
+          transition: all 0.3s linear;
+          &:after {
+            content: none;
+          }
+
+          input {
+            color: white;
+            background: $color-primary;
+          }
+        }
+      }
+    }
+  }
+  
+  .confirmation__background {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background:rgba(43, 43, 43, 0.8);
+    backdrop-filter: blur(10px);    
+  }
+
+  @media (max-width: 580px) {
+      .confirmation-box__container {
+        width: 450px;
+        .confirmation-box__content {
+          .content__buttons {
+            flex-direction: column;
+            align-items: center;
+
+            margin-top: 10px;
+            .input-btn {
+              width: 100%;
+
+              margin-top: 10px;
+
+              input { width: 100% }
+            }
+          }
+
+        }
+      }
+  }
+
+  @media (max-width: 450px) {
+    .confirmation-box__container {
+      width: 350px;
+
+      .confirmation-box__content {
+        p { white-space: nowrap; font-size: 14px }
+
+        .content__buttons {
+          width: 80%;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 350px) {
+    .confirmation-box__container {
+      width: 250px;
+
+      .confirmation-box__content {
+        p { 
+          font-size: 14px;
+          white-space: normal;
+          text-align: center;
+        }
+
+        .content__buttons {
+          width: 80%;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 300px) {
+    .confirmation-box__container {
+      width: 200px;
+
+      .confirmation-box__content {
+        p { 
+          font-size: 12px;
+          white-space: normal;
+          text-align: center;
+        }
+
+        .content__buttons {
+          width: 70%;
+        }
+      }
+    }
+  }
+}
+
+// --------------- SUMMARY BOX -----------------------------
+
+.summary-container {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  
+  width: 100%;
+  height: 100%;
+
+  visibility: hidden;
+  opacity: 0;
+
+  transition: all 0.3s linear;
+
+  .summary-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 700px;
+    height: 550px;
+
+    background: var(--color-black);
+    border-radius: 15px;
+
+    .summary-items {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      width: 75%;
+      height: 90%;
+      
+      transition: all .3s ease;
+
+      .summary-title {
+        margin: 0px 0 30px 0;
+        font-size: 30px;
+        transition: all .3s ease;
+      }
+
+      .summary-name {
+        align-self: flex-start;
+        
+        margin-bottom: 20px;
+        transition: all .3s ease;
+      }
+
+      .summary-list {
+        width: 100%;
+        height: 200px;
+
+        overflow-y: scroll;
+        background: var(--history-bg);
+        transition: all .3s ease;
+
+        .list---box {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          height: fit-content;
+          min-height: 50px;
+
+          font-size: 14px;
+          border-bottom: 1px solid white;
+          padding: 0 20px;
+
+          &:last-child { border: none }
+
+          .box---name { width: 180px }
+
+          .box---quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 50px;
+          }
+
+          .box---price {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 50px;
+
+            transition: all .3s ease;
+          }
+          
+        }
+      }
+
+      .summary-confirmation {
+        align-self: flex-start;
+
+        margin-top: 10px;
+        transition: all .3s ease;
+      }
+
+      .summary-total {
+        align-self: flex-end;
+        margin-top: 20px;
+        transition: all .3s ease;
+      }
+
+      .input-btn {
+        justify-self: flex-end;
+        margin-top: 20px;
+        
+        input {
+          color: white;
+          background: $color-primary;
+        }
+      }
+    }
+  }
+
+  .summary-background {
+    position: absolute;
+    z-index: -1;
+
+    width: 100%;
+    height: 100%;
+
+    transition: all 0.5s;
+    background:rgba(43, 43, 43, 0.8);
+    backdrop-filter: blur(10px);
+  }
+
+  @media(max-width: 740px){
+    .summary-content {
+      margin: 0 50px 0 50px;
+
+      height: 520px;
+      .summary-items {
+        .summary-title {
+          font-size: 26px;
+        }
+
+        .summary-name,
+        .summary-confirmation,
+        .summary-total {
+          font-size: 14px;
+        }
+      }
+    }   
+  }
+
+  @media(max-width: 580px){
+    .summary-content {
+
+      height: 520px;
+      .summary-items {
+        .summary-title {
+          font-size: 22px;
+        }
+
+        .summary-name,
+        .summary-confirmation,
+        .summary-total {
+          font-size: 13px;
+        }
+        .summary-list {
+          height: 150px;
+        }
+      }
+    }   
+  }
+
+  @media(max-width: 580px){
+    .summary-content {
+      .summary-items {
+        .summary-title {
+          font-size: 18px;
+        }
+
+        .summary-name,
+        .summary-confirmation,
+        .summary-total {
+          font-size: 12px;
+        }
+        .summary-list {
+          height: 150px;
+        }
+      }
+    }   
+  }
+}
+
+// --------------- DISHSUM BOX -----------------------------
+
+.dish-summary__container {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+
+  visibility: hidden;
+  opacity: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  transition: all 0.3s linear;
+  
+  .dish-summary-box__container {
+    position: absolute;
+    z-index: 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 650px;
+    height: 500px;
+
+    transition: all 0.3s linear;
+    background: var(--color-black);
+    border-radius: 15px;
+    color: white;
+
+    .dish-summary-box__content {
+      position: relative;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      
+      width: 70%;
+      height: 80%;
+
+      transition: all 0.3s linear;
+
+      .dish-name {
+        color: $color-primary;
+        font-size: 36px;
+        font-weight: bold;
+      }
+
+      .dish-quantity-price {
+        color:var(--svg-color);
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .dish-description {
+        overflow-y: scroll;
+        width: calc(100% - 40px);
+        height: calc(40% - 20px);
+        padding: 10px 20px;
+        background: var(--history-bg);
+        color:var(--svg-color);
+      }
+
+      .dish-total {
+        color:var(--svg-color);
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
+  
+      .content__buttons {
+        display: flex;
+        justify-content: space-evenly;
+
+        width: 90%;
+
+        .input-btn {
+          &:after {
+            content: none;
+          }
+
+          input {
+            color: white;
+            background: $color-primary;
+          }
+        }
+      }
+    }
+  }
+  
+  .dish-summary__background {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background:rgba(43, 43, 43, 0.8);
+    backdrop-filter: blur(10px);    
+  }
+
+  @media (max-width: 690px) {
+    .dish-summary-box__container {
+      width: 500px;
+      height: 450px;
+    }
+  }
+
+  @media (max-width: 530px) {
+    .dish-summary-box__container {
+      width: 450px;
+      height: 350px;
+
+      .dish-summary-box__content {
+        .dish-name {
+          font-size: 32px;
+        }
+
+        .dish-quantity-price, 
+        .dish-total, 
+        .dish-description {
+          font-size: 14px;
+        }
+
+        .content__buttons {
+          input {
+            width: 150px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 460px) {
+    .dish-summary-box__container {
+      width: 375px;
+      height: 275px;
+
+      .dish-summary-box__content {
+        .dish-name {
+          font-size: 26px;
+        }
+
+        .dish-quantity-price, 
+        .dish-total, 
+        .dish-description {
+          font-size: 12px;
+        }
+
+        .content__buttons {
+          input {
+            width: 125px;
+            height: 40px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 370px) {
+    .dish-summary-box__container {
+      width: 320px;
+      height: 275px;
+
+      .dish-summary-box__content {
+        .dish-name {
+          font-size: 24px;
+        }
+
+        .dish-quantity-price, 
+        .dish-total, 
+        .dish-description {
+          font-size: 11px;
+        }
+
+        .content__buttons {
+          input {
+            width: 100px;
+            height: 40px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 331px) {
+    .dish-summary-box__container {
+      width: 250px;
+      height: 250px;
+
+      .dish-summary-box__content {
+        .dish-name {
+          font-size: 20px;
+        }
+
+        .dish-quantity-price, 
+        .dish-total, 
+        .dish-description {
+          font-size: 10px;
+        }
+
+        .dish-quantity-price {
+          flex-direction: column;
+          
+          p {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+          }
+        }
+
+      }
+    }
+  }
+}
+
+
+// --------------- COUNTER  -----------------------------
+.counter__content {
+  display: flex;
+  input {
+    color: var(--color-grey-dark);
+    font-size: 16px;
+    background-color: var(--input-bg);
+    border: none;
+    outline: none;
+    width: 30px;
+    height: 50px;
+    padding: 0 10px;
+    transition: all ease-out 0.3s;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+
+    height: 50px;
+
+      button {
+        width: 25px;
+        height: 25px;
+        outline: none;
+        border: none;
+        color: var(--color-grey-dark);
+        background:var(--color-black);
+        transition: all .3s ease;
+        position: relative;
+
+        &:hover {
+          background-color: $color-primary;
+          color: white;
+        }
+
+        &:active {
+          background-color: $color-primary;
+
+          transform: translateY(4px);
+        }
+    }
+  }
+
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+}

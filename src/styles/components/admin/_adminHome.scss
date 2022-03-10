@@ -1,0 +1,55 @@
+.admin-home {
+    height : 100%;
+    width : 100%;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    color : white;
+    
+    .admin-home__container {
+        height : 100%;
+        width : 60%;
+        min-width: 365px;
+        display : flex;
+        justify-content: center;
+        align-items: center;
+
+        .container__inputs {
+            width: 100%;
+            
+            p { margin-bottom: 2em }
+            .textarea textarea {
+                height:180px;
+
+                @media (max-height: 770px) { height:150px }
+                @media (max-height: 710px) { height:110px }
+            }
+            
+            .container__inputs__1 { margin-bottom: 15px }
+
+            .container__inputs__1, .container__inputs__2 {
+                display : flex;
+                flex-direction: column;
+                background : var(--color-secondary);
+                padding : 20px;
+
+                .input-btn {
+                    align-self: flex-end;
+
+                    input {
+                        width : 150px;
+                        background-color : var(--color-secondary);
+                        border-color: white;
+                        color : white;
+
+                        &:hover {
+                            transition-duration : 0.2s;
+                            background-color : var(--input-bg);
+                            border-color : var(--input-bg);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

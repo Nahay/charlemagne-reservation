@@ -1,0 +1,158 @@
+.admin-accounts {
+
+    height : 100%;
+    width : 100%;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    color : white;
+
+
+    .admin-accounts__left {
+        width : 50%;
+        height : 100%;
+
+        .left__account-list {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 5% 5%;
+            height : 90%;
+
+            .left__icons {
+                align-self: flex-end;
+
+                svg {
+                    color : white;
+                    font-size : 22px;
+                    transition : color 0.2s;
+                    margin-bottom : 7px;
+
+                    &:hover {
+                        color : $color-primary;
+                        cursor : pointer;
+                    }
+
+                    &:first-child {
+                        margin-right : 10px;
+                    }
+
+                    &:last-child {
+                        margin-right : 2px;
+                    }
+                }
+            }
+
+            .list__container {
+                height : 100%;
+
+                .list__container__box {
+
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+
+    .admin-accounts__right {
+        background : var(--color-secondary);
+        width : 50%;
+        height : 100%;
+        overflow-y: scroll;
+        display : flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+       
+        .right__content {
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100%;
+            width: 60%;
+
+            .btn {
+                align-self: flex-end;
+                margin-top: 80px;
+                margin-bottom: 40px;
+
+                button {
+                    height:50px;
+
+                    &:hover {
+                        cursor : pointer;
+                    }
+                }
+            }
+    
+            .right__content__form {
+                display:flex;
+                flex-direction: column;
+                width : 100%;
+
+                .right__content__form__radio {
+                    margin-left:20px;
+                    margin-bottom: 20px;
+
+                    label {
+                        margin-left : 30px;
+                    }
+                    
+                }
+
+                .admin-form {
+
+                    display:flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    width:100%;
+
+                    .input-btn {
+                        margin-top:20px;
+                        margin-bottom: 40px;
+                        align-self: flex-end;
+                    }
+
+                    .input-label{
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 850px) {
+        flex-direction: column;
+        height : unset;
+
+        .admin-accounts__left {
+            width : 100%;
+            height : 100vh;
+        }
+
+        .admin-accounts__right {
+            width : 100%;
+            height : 100vh;
+        }
+    }
+
+    @media (max-width: 415px) {
+
+        .admin-accounts__right {
+            .right__content {
+                .right__content__form__radio {
+                    margin-left:0 !important;
+                    font-size: 14px;
+
+                    label {
+                        margin-left: 25px !important;
+                    }
+                }
+            }
+        }
+    }
+}

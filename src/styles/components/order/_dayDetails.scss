@@ -1,0 +1,41 @@
+.day-details {
+
+    width: 100%;
+    height: fit-content;
+    
+
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    .day-details__title {
+        margin-bottom : 5%;
+        font-size : 30px;
+        color : white;
+    }
+
+    .table__container {
+        min-width: 450px;
+        
+        .fmVibl, .gVntFC {
+            border:10px solid var(--input-lighter-bg);
+            background : var(--input-lighter-bg);
+            color:var(--svg-color);
+        }
+
+        .bwuMqc {
+            background : var(--input-bg);
+            color:var(--svg-color);
+        }
+
+        .jBIaED {
+            background : var(--input-lighter-bg);
+            color:var(--svg-color);
+        }
+    }
+
+    .day-details__button {
+        margin-top: 5%;
+    }
+}

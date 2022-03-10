@@ -1,0 +1,23 @@
+@media (min-width:1301px) and (min-height :550px) {
+    .header__icon { display : none }
+}
+
+@media (max-width:1300px) {
+
+    .main {
+        margin-left : 0;
+        width : 100vw;
+    }
+
+    .header { display : none }
+}
+
+@media (max-height:550px) {
+    
+    .main {
+        width : 100vw;
+        margin-left : 0;
+    }
+    
+    .header { display : none }
+}

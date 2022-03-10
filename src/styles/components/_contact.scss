@@ -1,0 +1,412 @@
+.contact__container {
+  display: flex;
+  justify-content: space-between;
+
+  height: 100%;
+  width: 100%;
+  
+  overflow: hidden;
+
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #3a3a3a;
+  }
+  &::-webkit-scrollbar {
+    width: 10px;
+    background-color: var(--input-bg);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: var(--color-black);
+  }
+
+  .contact__left {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .left__content {
+      height: 100%;
+      width: 85%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      h1 {
+        color: #ff614f;
+        font-size: 65px;
+        margin-bottom: 20px;
+        transition: all ease-out 0.3s;
+      }
+
+      p {
+        margin-bottom: 30px;
+        color: var(--svg-color);
+        transition: all ease-out 0.3s;
+      }
+
+      .contact__form {
+        position: relative;
+
+        span {
+          display: none;
+          color: red;
+          position: absolute;
+          top: 105%;
+          left: 50%;
+          transform: translateX(-50%);
+          width: fit-content;
+          text-align: center;
+          padding-bottom: 50px;
+          transition: all ease-out 0.3s;
+        }
+
+        .contact__input {
+          .input-tel {
+            width: 90px;
+            margin-top:4px;
+          }
+
+          .input__btn {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+          }
+
+          .input__name-email {
+            display: flex;
+
+            div:last-child { margin-left: 10px }
+          }
+        }
+      }
+    }
+  }
+
+  .contact__right {
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .right__bg {
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: -1;
+      background: url(https://lycee-charlespointet-thann.fr/wp-content/uploads/2018/12/DSC00014-800x400.jpg);
+      filter: grayscale(100%);
+      opacity: 0.4;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .right__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+
+      h1 {
+        font-size: 36px;
+        color: #ff614f;
+        transition: all ease-out 0.3s;
+      }
+
+      .right__info {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        svg {
+          color: $color-primary;
+          margin-right: 20px;
+        }
+
+        a {
+          color: white;
+          font-size: 16px;
+          transition: all ease-out 0.3s;
+        }
+
+        a:hover { color: $color-primary }
+
+        &:first-child svg { margin-right: 24px }
+      }
+    }
+  }
+
+  // RESPONSIVE
+
+  @media (max-width: 1482px) {
+    .contact__left .left__content {
+      h1 { font-size: 52px }
+      p { font-size: 16px }
+    }
+
+    .contact__right .right__content h1 { font-size: 34px }
+  }
+
+  @media (max-width: 1346px) { .contact__right .right__content h1 { font-size: 32px } }
+
+  @media (max-width: 1140px) {
+    .contact__left {
+      .left__content {
+        h1 { font-size: 50px }
+        p { font-size: 14px }
+      }
+    }
+
+    .contact__right .right__content {
+      h1 { font-size: 30px }
+      .right__info svg, a { font-size: 14px }
+    }
+  }
+
+  @media (max-width: 1017px) {
+    .contact__left .left__content {
+      h1 { font-size: 46px }
+      p { font-size: 13px }
+    }
+
+    .contact__right .right__content {
+      h1 { font-size: 26px }
+      .right__info svg, a { font-size: 13px }
+    }
+  }
+
+  @media (max-width: 936px) {
+    position: fixed;
+
+    flex-direction: column;
+    justify-content: flex-start;
+
+    overflow-y: scroll;
+
+    .contact__left {
+      order: 2;
+      width: 100%;
+
+      .left__content {
+        h1 { font-size: 42px }
+        p { font-size: 12px }
+
+        .input, .input-email, .textarea {
+          input, textarea { font-size: 14px }
+        }
+      }
+    }
+
+    .contact__right {
+      order: 1;
+      width: 100%;
+
+      .right__content {
+        h1 { font-size: 28px }
+        .right__info svg, a { font-size: 14px }
+      }
+    }
+  }
+
+  @media (max-width: 550px) {
+    .contact__left {
+      .left__content {
+        h1 {
+          font-size: 34px;
+        }
+        P {
+          font-size: 12px;
+        }
+      }
+    }
+    .contact__right {
+      .right__content {
+        h1 {
+          font-size: 24px;
+        }
+        .right__info {
+          svg,
+          a {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 430px) {
+    .contact__left {
+      .left__content {
+        h1 {
+          font-size: 30px;
+        }
+
+        .input,
+        .input-email,
+        .textarea {
+          input,
+          textarea {
+            font-size: 13px;
+          }
+          input {
+            height: 45px;
+          }
+        }
+
+        .input::after,
+        .input-email::after {
+          top: 45px;
+        }
+        .contact__form {
+          span {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+
+    .contact__right {
+      .right__content {
+        h1 {
+          font-size: 22px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 380px) {
+    .contact__left {
+      .left__content {
+        h1 {
+          font-size: 26px;
+        }
+
+        p {
+          font-size: 11px;
+        }
+
+        .input__btn {
+          input {
+            width: 150px;
+            height: 45px;
+            font-size: 12px;
+          }
+        }
+
+        .input,
+        .input-email,
+        .textarea {
+          input,
+          textarea {
+            font-size: 12px;
+          }
+        }       
+
+      }
+    }
+
+    .contact__right {
+      .right__content {
+        h1 {
+          font-size: 19px;
+        }
+        .right__info {
+          svg,
+          a {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 320px) {
+    .contact__right {
+      .right__content {
+        h1 {
+          font-size: 16px;
+        }
+        .right__info {
+          svg, 
+          a {
+            font-size: 11px;
+          }
+        }
+      }
+    }
+  }
+
+  // HEIGHT RESPONSIVE -------------------------------------
+
+  @media (max-height: 620px) {
+    overflow-y: scroll;
+
+    .contact__left {
+      .left__content {
+        .textarea textarea { resize: none }
+        h1 { font-size: 32px }
+        p { font-size: 12px }
+
+        .input, .input-email {
+          input {
+            font-size: 14px;
+            height: 40px;
+          }
+
+          &::after { top: 40px }
+        }
+
+        .textarea textarea {
+          height: 50px;
+          padding: 20px 20px;
+          font-size: 14px;
+        }
+        
+        .input__btn input {
+          height: 40px;
+          width: 175px;
+          font-size: 12px;
+        }
+      }
+    }
+
+    .contact__right { padding: 20px 0 }
+  }
+
+  @media (max-height: 450px) {
+    position: fixed;
+
+    flex-direction: column;
+    justify-content: flex-start;
+
+    width: 100%;   
+
+    .contact__left {
+      order: 2;
+      width: 100%;
+
+      .left__content { justify-content: flex-start }
+    }
+
+    .contact__right {
+      order: 1;
+      width: 100%;
+
+      .right__content { justify-content: flex-start }
+    }
+  }
+}

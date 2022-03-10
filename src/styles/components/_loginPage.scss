@@ -1,0 +1,131 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+    width:100%;
+
+    background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(https://lycee-charlespointet-thann.fr/wp-content/uploads/2018/12/DSC00014-800x400.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .login-icon {
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        order:1;
+
+        width: 150px;
+        height: 150px;
+
+        border-radius: 50%;
+        background:var(--color-black);
+        margin-bottom:30px;
+        border: 5px solid transparent;
+        transition: 0.5s;
+
+        svg {
+            transition: 0.5s;
+            font-size:60px;
+            color:var(--svg-color);
+        }
+    }
+
+    .login-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        order: 2;
+
+        width: 30%;
+        height: 50%;
+
+        border-radius: 2%;
+        background: var(--color-black);
+        transition: 0.2s;
+        border: 5px solid transparent;
+
+        .login-form__content {
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            width:80%;
+
+            .input, .input-email {
+                &:first-child { margin-bottom: 3px }
+            }
+    
+            .content__password {
+                position: relative;
+
+                display: flex;
+                justify-content: flex-end;
+
+                width: 100%;
+
+                span {
+                    position : relative;
+                    font-size: 13px;
+                    cursor: pointer;
+                    color: var(--color-grey);
+                    transition: color 0.5s;
+
+                    &:hover { color: $color-primary }
+
+                    &:hover + p {
+                        visibility: visible;
+                        opacity: 1;
+                    }
+                }
+                
+                p {
+                    position: absolute;
+                    bottom: 30px;
+                    right: 0;
+                    z-index: 10;
+
+                    width: 200px;
+
+                    padding: 10px;
+                    border-radius: 10px;
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: visibility 0.2s, opacity 0.5s linear;
+                    color: white;
+                    background: $color-primary;
+                    text-align: center;
+                    font-size: 14px;
+                }
+            }
+            
+            .input-btn {
+                width: 50%;
+                margin-top: 30px;
+                z-index: 1;
+    
+                input { width: 100% }
+            }
+        }
+
+        &:hover, &:hover+.login-icon {
+            border: 5px solid var(--color-grey-dark);
+        }
+
+        @media(max-width:1000px) { width: 300px }
+
+        @media(max-height:668px) { height: 334px }
+    }
+
+    @media(max-width:1100px) {
+        .login-icon {
+            width: 120px;
+            height: 120px;
+
+            svg { font-size: 45px }
+        }
+    }
+}

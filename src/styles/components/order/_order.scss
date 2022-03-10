@@ -1,0 +1,170 @@
+.order {
+    display : flex;
+    height : 100%;
+
+    .order__left {
+        display : flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        width : 50%;
+
+        .order__left__content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items : center;
+
+            width: 80%;
+            height: 100%;
+
+            .order__left__content__icons {
+                align-self: flex-end;
+                
+                svg {
+                    color : var(--svg-color);
+                    font-size : 22px;
+                    transition : color 0.2s;
+                    margin-bottom : 3px;
+                    cursor : pointer;
+
+                    &:hover { color : $color-primary }
+
+                    &:first-child { margin-right : 10px }
+
+                    &:last-child { margin-right : 2px }
+                }
+            }
+
+            .list__container .list__container__box span {
+                width: 35%;
+            }
+        }
+    }
+
+    .order__right {
+        position: relative;
+
+        display : flex;
+        justify-content: center;
+        align-items: center;
+
+        width : 50%;
+        
+        background: var(--color-secondary);
+        overflow-y: scroll;
+
+        .day-details {
+            margin-top: 50px;
+            margin-bottom: 50px;
+
+            .right__tip {
+                width: 85%;
+
+                margin-top:10px;
+                text-align: right;
+                
+                p {
+                    color: var(--color-grey-dark);
+                    font-style: italic;
+                    font-size: 14px;
+                }
+            }
+
+            .table__container {
+                width: 85%;
+
+                .eXhAUl, .jBIaED { font-size:14px }
+
+                div:first-child { overflow: visible }
+
+                .dish__information {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    position: relative;
+                    
+
+                    &:hover > .dish__description {
+                        visibility: visible;
+                        opacity: 1;
+                    }
+
+                    .dish__description {
+                        visibility: hidden;
+                        opacity: 0;
+                        position: absolute;
+                        transition: visibility 0.15s, opacity 0.4s linear;
+                        
+                        .dish__description__content {                      
+                            position: relative;
+                            bottom: 115px;
+                            right: 50px;
+
+                            display: flex;
+                            flex-direction: column;
+
+                            width: 250px;
+                            height: 150px;
+
+                            background: $color-primary;
+                            color:white;
+                            border-radius: 10px; 
+                            padding: 20px;
+
+                            &::after {
+                                position: absolute;
+                                top: 190px;
+                                left: 60px;
+
+                                height: 15px;
+                                width: 15px;
+
+                                content: "";
+                                background: $color-primary;
+                                transform: rotate(180deg);
+                                clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    // ------------------- RESPONSIVE ----------------------
+
+    @media (max-width: 1035px) {
+        flex-direction: column;
+        height : unset;
+
+        .order__left {
+            width : 100%;
+            height : 100vh;
+
+            .order__left__content { width : 60% }
+        }
+
+        .order__right {
+            width : 100%;
+            height : auto;
+            overflow-y: hidden;
+        }
+    }
+
+    @media (max-width: 720px) {
+        .react-calendar__month-view__weekdays__weekday { padding : 4px }
+        .react-calendar__month-view__weekdays abbr { font-size:12px }
+    }
+
+    @media (max-width: 480px) {
+        .order__right .day-details .table__container {
+            width: 200px !important;
+            min-width: fit-content;
+        }
+    }
+}

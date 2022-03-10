@@ -1,0 +1,193 @@
+.admin-dishes {
+    height : 100%;
+    width : 100%;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    color : white;
+
+    .admin-dishes__left {
+        width : 50%;
+        height : 100%;
+
+        .left__dishes-list {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 5% 5%;
+            height : 90%;
+
+            .left__icons {
+                align-self: flex-end;
+
+                display:flex;
+                
+                margin-bottom : 5px;
+
+                input {
+                    width:110px;
+                    height:40px;
+
+                    text-align: center;
+                    color : var(--svg-color);
+                    font-size : 22px;
+                    transition : all 0.2s;
+                    margin-right:3px;
+                    background:none;
+                    outline:none;
+                    border:none;
+                    cursor : pointer;
+
+                    &:hover { background : $color-primary }
+
+                    &:last-child { margin-right: 2px }
+                }
+
+                .inv-container {
+
+                    svg { color: var(--svg-color) }
+                    
+                    display:flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    height:40px;
+                    width:50px;
+
+                    cursor : pointer;
+                }
+            }
+
+            .list__container {
+                height : 100%;
+
+                .list__container__box { padding: 0 }
+            }
+        }
+    }
+
+    .admin-dishes__right {
+        background : var(--color-secondary);
+        height : 100%;
+        width : 50%;
+        display : flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .btn {
+            align-self: flex-end;
+            margin-bottom: 15%;
+            margin-right : 15%;
+            
+            button {
+                height : 50px;
+                cursor : pointer;
+            }
+        }
+
+        .right__form {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+
+            .right__form__radio {
+                margin-bottom : 5%;
+
+                label {
+                    cursor:pointer;
+                    margin-left : 30px;
+                }
+            }
+
+            span { margin: 10px 0 }
+
+            .input-btn {
+                align-self: flex-end;
+                margin-top : 5%;
+            }
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .admin-dishes__left .left__dishes-list .left__icons input {
+            width:80px;
+            
+            font-size:15px;
+        }
+    }
+
+    @media (max-width: 1150px) {
+        .admin-dishes__right .right__form { width:80% }
+    }
+
+    @media (max-width: 1000px) {
+        .admin-dishes__right .right__form .right__form__radio {
+            label {
+                font-size:14px;
+                margin-left:25px;
+            }
+            label[for="e"] { margin-left:0 }
+        }
+    }
+
+    @media (max-width: 940px) {
+        .admin-dishes__left .left__dishes-list .left__icons {
+            input, .inv-container { height:35px }
+
+            input {
+                width:70px;
+                font-size:14px;
+            }
+        }
+    }
+
+    @media (max-width: 850px) {
+        flex-direction: column;
+        height : unset;
+
+        .admin-dishes__left {
+            width : 100%;
+            height : 100vh;
+        }
+
+        .admin-dishes__right {
+            width : 100%;
+            height : unset;
+            
+            padding : 40px 0;
+        }
+    }
+
+    @media (max-height: 650px) {
+        .admin-dishes__right {
+            overflow-y: scroll;
+
+            .btn { margin: 45px 15% }
+
+            .input-btn { margin-bottom: 15px }
+            
+        }
+    }
+
+    @media (max-width: 490px) {
+        .admin-dishes__left .left__dishes-list .left__icons {
+            input, .inv-container { height:30px }
+
+            input {
+                width:60px;
+                font-size:13px;
+            }
+
+            svg { font-size: 18px }
+        }
+    }
+
+    @media (max-width: 450px) {
+        .admin-dishes__right .right__form .right__form__radio label {
+            font-size:12px;
+            margin-left:20px;
+        }
+    }
+}

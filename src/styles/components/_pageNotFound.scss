@@ -1,0 +1,12 @@
+.page-not-found {
+    
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    height : 100%;
+
+    p {
+        color : var(--svg-color);
+        font-size : 200px;
+    }
+}

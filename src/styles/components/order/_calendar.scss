@@ -1,0 +1,210 @@
+.react-calendar {
+    width : 100%;
+    max-width: 100%;
+    background: var(--input-lighter-bg);
+    border: none;
+    line-height: 1.125em;
+  
+    button {
+      margin: 0;
+      border: 0;
+      outline: none;
+    }
+  
+    button:enabled:hover {
+      cursor: pointer;
+    }
+  
+  }
+  
+  .react-calendar--doubleView {
+    width: 700px;
+
+    .react-calendar__viewContainer {
+      display: flex;
+      margin: -0.5em;
+    
+      & > * {
+        width: 50%;
+        margin: 0.5em;
+      }
+    }
+  }
+  
+  .react-calendar,
+  .react-calendar *,
+  .react-calendar *:before,
+  .react-calendar *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  // haut du calendrier (flèches + octobre 2021)
+  .react-calendar__navigation {
+    height: 44px;
+    margin-bottom: 1em;
+
+    button {
+      min-width: 44px;
+      background: none;
+      color : var(--svg-color);
+
+      &:enabled:hover, &:enabled:focus {
+        background-color: #e6e6e6;
+        color : black;
+      }
+    }
+
+    button[disabled] {
+      background-color: #f0f0f0;
+    }
+
+    .react-calendar__navigation__label {
+      &:disabled {
+        color : var(--svg-color);
+        background : none;
+      }
+    }
+
+    .react-calendar__navigation__label__labelText {
+      font-size : 1.15em;
+    }
+
+    .react-calendar__navigation__arrow {
+      font-size : 1.25em;
+    }
+  }
+  
+  .react-calendar__month-view__weekdays {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.75em;
+
+    abbr {
+      text-decoration: none;
+    }
+  }
+  
+  .react-calendar__month-view__weekdays__weekday {
+    padding: 1em;
+    color : var(--svg-color);
+    border-right: 1px solid #5c5c5c;
+
+    &:last-child{
+        border-right: none;
+    }
+  }
+  
+  .react-calendar__month-view__weekNumbers {
+    font-weight: bold;
+  
+    .react-calendar__tile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75em;
+      padding: calc(0.75em / 0.75) calc(0.5em / 0.75);
+    }
+  }
+
+  // div qui englobe les jours
+  .react-calendar__month-view__days {
+    button {       
+      border-right: 1px solid #5c5c5c;
+      border-top: 1px solid #5c5c5c;
+    }
+    button:nth-child(7n) {
+      border-right: none;
+    }
+  }
+
+  // toutes les cases des jours
+  .react-calendar__month-view__days__day {
+    color : var(--svg-color);
+
+    &:hover {
+      color : black;
+    }
+  }
+  
+  // cases des week-end
+  .react-calendar__month-view__days__day--weekend {
+    color: #b60505;
+    
+    &:hover {
+      color : #b60505;
+    }
+  }
+
+  // cases des mois voisins
+  .react-calendar__month-view__days__day--neighboringMonth {
+    color: #757575;
+
+    &:hover {
+      color : #757575;
+    }
+  }
+  
+  .react-calendar__year-view .react-calendar__tile,
+  .react-calendar__decade-view .react-calendar__tile,
+  .react-calendar__century-view .react-calendar__tile {
+    padding: 2em 0.5em;
+    color : var(--svg-color);
+
+    &:hover {
+      color : black;
+    }
+  }
+  
+  // toutes les cases même choix date
+  .react-calendar__tile {
+    max-width: 100%;
+    text-align: center;
+    padding: 5% 0.5em;
+    background: none;
+    transition : 0.2s;
+  
+    &:disabled {
+      background-color: #f0f0f0;
+    }
+  
+    &:enabled:hover, &:enabled:focus {
+      background-color: #e6e6e6;
+    }
+  }
+  
+  // case jour mois année d'aujourd'hui
+  .react-calendar__tile--now {
+    background: #ffffa9;
+  
+    &:enabled:hover, &:enabled:focus {
+      background: #e9e99c;
+    }
+
+    &:enabled {
+      color : black;
+    }
+
+  }
+  
+  // quand case cliquée + son hover
+  .react-calendar__tile--active {
+    background: var(--color-secondary);
+    color: white;
+    transition : color 0.2s;
+  
+    &:enabled:hover, &:enabled:focus {
+      background: var(--color-secondary);
+      color : white;
+    }
+  }
+  
+  .react-calendar--selectRange .react-calendar__tile--hover {
+    background-color: #e6e6e6;
+  }
+  
+  .highlight {
+    background-color: $color-primary
+  }

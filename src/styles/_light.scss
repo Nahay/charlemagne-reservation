@@ -1,0 +1,142 @@
+html[data-theme="light"] {
+
+    --color-secondary : rgb(70, 53, 53);
+
+    --color-black: white;
+  
+    --header-bg: rgb(230, 227, 227);
+    --header-body-border:rgb(179, 179, 179);
+    --header-color: rgb(73,68,68);
+  
+    --color-grey: rgb(177,177,177);
+    --color-grey-dark: rgb(0, 0, 0);
+  
+    --input-lighter-bg: rgb(242,242,242);
+    --input-bg: #c7c5c5;
+  
+    --svg-color:black;
+
+    --history-bg:rgb(230, 227, 227);
+
+
+    body { background-color : rgb(219, 219, 219) }
+
+
+    // SCROLLBAR ---------------------------------
+
+    *::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px transparent;
+        background-color: transparent;
+    }
+
+    *::-webkit-scrollbar { background-color: transparent }
+    
+    *::-webkit-scrollbar-thumb {
+        box-shadow: inset 0 0 6px transparent;
+        background-color: #c4c4c4;
+    }
+
+
+    // HEADER ------------------------------------
+    
+    .header .header__body .btn__logout .connect__container .connect-name {color: $color-primary }
+
+    .btn__logout .connect__container .connect__name {
+        color: $color-primary;
+        font-weight: bold;
+    }
+
+    // ORDER ------------------------------------
+
+    .order .order__right .day-details .right__tip p { color: var(--header-bg) }
+
+    // CONTACT ----------------------------------
+
+    .contact__container .contact__left .left__content .contact__form .contact__input .input__btn {
+        input {
+            background-color : $color-primary;
+            color:white;
+        }
+    }
+
+    .contact__right .right__bg {
+        filter: brightness(80%) contrast(250%);
+        opacity: 0.7;
+    }
+
+    // PASS COMMAND -----------------------------
+
+    input[type="time"] {
+        color:black;
+        
+        &::-webkit-calendar-picker-indicator {
+            filter:invert(0%);
+            color: black;
+        }
+    }
+
+    .make-order .make-order__container {
+        .container__mess-btn .input-btn input {
+            background-color: $color-primary;
+            color:white;
+        }
+
+        .container__comment p { background-color: white }
+
+        h1 { color: $color-primary }
+    }
+
+    // RADIO ------------------------------------
+
+    input[type="radio"] + *::before { border-color : var(--color-grey) }
+
+    input[type="radio"]:checked + *::before {
+        background: radial-gradient($color-primary 0%, $color-primary 40%, transparent 50%, transparent);
+        border-color: $color-primary;
+    }
+
+    // LOGIN PAGE -------------------------------
+
+    .login-container {
+        .login-form, .login-icon  { background-color: rgb(219, 219, 219) }
+
+        .login-form {
+            .login-form__content {
+                .content__password span {
+                    color : var(--header-color);
+                    font-weight: bold;
+                
+                }
+                .input-btn input {
+                    background-color: $color-primary;
+                    color:white;
+                }
+            }
+
+            &:hover, &:hover+.login-icon { border: 5px solid transparent }
+        }
+    }
+
+    // ADMIN DATES -------------------------------
+
+    .admin-dates .admin-dates__right .right__form .right__form__1 {
+        .select-container .dish-select {
+            color:black;
+    
+            option { color:black }
+        }
+    }
+
+    .dish-list .list__container { background-color: var(--input-bg) }
+
+    // ADMIN COMMANDS ---------------------------
+
+    .admin-commands .admin-commands__right {
+        .commands-list .list__container { background-color: var(--input-bg) }
+        .right__form .right__form__1 .commands-dish-list .list__container { background-color: var(--input-bg) }
+    }
+
+    // ADMIN ACCOUNTS --------------------------
+
+    .admin-accounts .admin-accounts__left .left__account-list .left__icons svg { color:black }
+}
