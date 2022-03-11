@@ -47,22 +47,14 @@ const getDatesByVisibility = async () => {
     }
 };
 
-const getDateById = async (id) => {
-    try {
-        const { data } = await axios.get(API_URL + "/calendar/" +id);
-        return data;
-    } catch(err) {
-        toast.error(err.message);
-    }
-};
-
-const updateDate = async (date, visibility, comment, nbPlaces, token) => {
+const updateDate = async (date, visibility, comment, nbPlaces, nbRemaining, token) => {
     try {
         await axios.patch(
             API_URL + "/calendar/" +date, {
                 visibility,
                 comment,
-                nbPlaces
+                nbPlaces,
+                nbRemaining
             }, adminConfig(token)
         );
         toast.success("La date a été mise à jour !");
@@ -71,7 +63,7 @@ const updateDate = async (date, visibility, comment, nbPlaces, token) => {
     }
 };
 
-const updateDateNbR = async (nbRemaining, token) => {
+const updateDateNbR = async (date, nbRemaining, token) => {
     try {
         await axios.patch(
             API_URL + "/calendar/nbR/" +date, {
@@ -124,7 +116,6 @@ export {
     createDate,
     getDates,
     getDateByDate,
-    getDateById,
     getDatesByVisibility,
     updateDate,
     deleteDate,

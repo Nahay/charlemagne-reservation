@@ -11,7 +11,7 @@ import DishList from '../../components/admin/DishList';
 import AdminCalendar from "../../components/admin/AdminCalendar";
 import Box from '../../components/generic/Box';
 
-import { getDates, updateDate, getDateByDate, createDate, deleteDate, addDishToDate, DelDishFromDate } from '../../services/calendarService';
+import { getDates, updateDate, createDate, deleteDate, DelDishFromDate, addDishToDate } from '../../services/calendarService';
 import { getDishes } from '../../services/dishesService';
 
 
@@ -24,42 +24,44 @@ const AdminDates = () => {
 
     const [date, setDate] = useState(new Date(new Date().toDateString()).getTime());
     const [dateList, setDatesList] = useState([]);
-    const [dishByDateList, setDishByDateList] = useState([]);
+    const [dishList, setDishList] = useState([]);
 
     const [dateExists, setDateExists] = useState(false);
     const [visibility, setVisibility] = useState(true);
     const [comment, setComment] = useState("");
+    const [nbP, setNbP] = useState("");
+    const [nbR, setNbR] = useState("");
+    const [currentDishList, setCurrentDishList] = useState([]);
 
-    const [nb, setNb] = useState("");
     const [idD, setIdD] = useState("");
-    const [nbC, setNbC] = useState("");
-    const [currentCommandList, setCurrentCommandList] = useState({});
     const [deletedDate, setDeletedDate] = useState(true);
 
+    const [nb, setNb] = useState("");
     const [select, setSelect] = useState("0");
-    const [dishList, setDishList] = useState([]);
 
 
     useEffect(() => {
 
         async function defineDate(dateC) {
             setDate(dateC);
-            const foundDate = await getDateByDate(dateC);
+
+            const dates = await getDates();
+            setDatesList(dates);
+
+            const foundDate = dates.filter((d) => d.dateC === dateC)[0];
     
-            // la date n'existe pas encore dans la bdd
-            if (foundDate !== null) {
+            // la date existe dans la bdd
+            if (foundDate) {
                 setDateExists(true);
                 setVisibility(foundDate.visibility);
                 setComment(foundDate.comment);
+                setNb(foundDate.nbPlaces);
                 setSelect("0");
-                setNb("");
-
-                getDishByDateList(foundDate.dateC);
+                setCurrentDishList(foundDate.dishes);
             }
         }
 
         getDishList();
-        getDateList();
         defineDate(new Date(new Date().toDateString()).getTime());
 
     }, []);
@@ -77,47 +79,39 @@ const AdminDates = () => {
         setDatesList(dates);
     }
 
-    const getDishByDateList = async (dateC) => {
-        
-        const dishes = await getDishByDate(dateC);
-
-        if (dishes === null) setDishByDateList([]);
-        else setDishByDateList(dishes);
-    }
-
     const resetValues = () => {
         setDateExists(false);
         setVisibility(true);
         setComment("");
         setSelect("0");
         setNb("");
-        setDishByDateList([]);
+        setCurrentDishList([]);
     }   
 
-    const resetValuesFromDate = (foundDate) => {
+    const resetValuesFromDate = (d) => {
         setDateExists(true);
-        setVisibility(foundDate.visibility);
-        setComment(foundDate.comment);
+        setVisibility(d.visibility);
+        setComment(d.comment);
         setSelect("0");
-        setNb(""); 
-        getDishByDateList(foundDate.dateC);
+        setNbP(d.nbPlaces);
+        setNbR(d.nbRemaining);
+        setNb(d.nbPlaces);
+        setCurrentDishList(d.dishes);
     }
 
     const onChangeDate = async (dateC) => {
 
         setDate(dateC);
-        const foundDate = await getDateByDate(dateC);
+        const foundDate = dateList.filter((d) => d.dateC === dateC)[0];
 
         // si la date n'existe pas encore dans la bdd
-        if (foundDate === null) resetValues();
+        if (!foundDate) resetValues();
         else resetValuesFromDate(foundDate);
     }
 
-    const onClickDish = ({_id, idDish, numberKitchen}) => {
+    const onClickDish = ({_id, idDish}) => {
         setIdD(_id);
         setSelect(idDish._id);
-        setNb(numberKitchen);
-        setNbC(numberKitchen);
     }
 
 
@@ -130,12 +124,7 @@ const AdminDates = () => {
 
     const handleCommentChange = (e) => setComment(e.target.value);
 
-    const handleSelectChange = (e) => {
-        setSelect(e.target.value);
-
-        const dish = dishByDateList.filter(d => d.idDish._id === e.target.value);
-        if(dish.length > 0) onClickDish(dish[0]);
-    }
+    const handleSelectChange = (e) => setSelect(e.target.value);
 
     const handleNbChange = (e) => {
         const val = e.target.value;
@@ -147,27 +136,34 @@ const AdminDates = () => {
 
     const saveDate = async () => {
 
+        const nbReserve = nbP - nbR;
+
         if (!dateExists) {
-            createDate(date, visibility, comment, token);
-            setDateExists(true);
+            if (nb !== "") {
+                createDate(date, visibility, comment, nb, token);
+                setDateExists(true);
+                getDateList();
+            }
+            else toast.error("Veuillez entrer un nombre de places.")
+        }
+        else if (nb >= nbReserve) {
+            await updateDate(date, visibility, comment, nb, nb-nbReserve, token);
             getDateList();
         }
-        else updateDate(date, visibility, comment, token);
+        else toast.error("Le nombre de places ne peut être inférieur à" +nbR);
     }
 
     const deleteAndSetDate = async () => {
-        let haveCommand = false;
-        dishByDateList.forEach(d => {
-            if (d.numberKitchen !== d.numberRemaining) haveCommand = true;
-        });
 
-        if (!haveCommand) {
+        if (nbP === nbR) {
             await deleteDate(date, token);
-            await deleteAllDishesDate(date, token);
             await getDateList();
+
+            resetValues();
+
             onChangeDate(new Date(new Date().toDateString()).getTime());
         }
-        else toast.error("Il y a une commande à cette date, vous ne pouvez pas la supprimer.");
+        else toast.error("Il y a une réservation à cette date, vous ne pouvez pas la supprimer.");
 
         box.current.style.visibility = "hidden";
         box.current.style.opacity = 0;
@@ -178,57 +174,46 @@ const AdminDates = () => {
         saveDate();        
     }
 
+    // btn ajouter la plat à la date
     const onDishSubmit = async (e) => {
-        e.preventDefault();        
+        e.preventDefault();
+
         // si on a sélectionné qqe chose :
         if (select !== "0") {
-            if (dateExists) {
+            if (nb !== "") {
 
-                let dishExists = false;
-                dishByDateList.forEach(d => {
-                    if (d.idDish._id === select) dishExists = true;
-                });
+                // si la date existe déjà
+                if (dateExists) {
 
-                if (!dishExists) {
-                    await createDishDate(date, select, nb, token);
-                    getDishByDateList(date);
+                    const dish = dateList.filter((d) => d.dateC === date)[0].dishes.filter((d) => d._id === e.target.value)[0];
+
+                    // si le plat n'existe pas encore dans la date
+                    if (!dish) {
+                        // ajouter le plat à la date
+                        await addDishToDate(date, select, token);
+                        getDateList();
+                    }
+                    else toast.error("Le plat existe déjà !");
                 }
-                else toast.error("Le plat existe déjà !");
-            }
 
-            // la date n'existe pas : on la crée et on ajoute le plat
-            else {
-                await createDate(date, visibility, comment, token);
-                setDateExists(true);
-                await createDishDate(date, select, nb, token);
-                getDishByDateList(date);
-                getDateList();
-            }
+                // la date n'existe pas : on la crée et on ajoute le plat
+                else {
+                    await createDate(date, visibility, comment, nb, token);
+                    setDateExists(true);
+                    await addDishToDate(date, select, token);
+                    getDateList();
+                }
 
-            setNb("");
-            setSelect("0");
+                setNb("");
+                setSelect("0");   
+            }
+            else toast.error("Veuillez entrer un nombre de places.");
         }
         else toast.error("Aucun plat n'est sélectionné.");
     }
 
-
-    const onUpdateDishSubmit = async (e) => {
-        e.preventDefault();
-
-        const nbR = 1;
-        const nbCommande = nbC - nbR;
-
-        if (nb >= nbCommande) {
-            await updateDishDate(idD, nb, nb-nbCommande);
-            getDishByDateList(date);
-            toast.success("La quantité a été mise à jour !")
-        }
-        else toast.error(`Vous ne pouvez pas mettre un nombre inférieur au nombre de commandes qui est de : ${nbCommande}.`);
-    }
-
     const onClickDelete = async () => {
-        await DelDishFromDate(date, currentCommandList._id, token);
-        getDishByDateList(date);
+        await DelDishFromDate(date, idD, token);
 
         box.current.style.visibility = "hidden";
         box.current.style.opacity = 0;
@@ -241,7 +226,6 @@ const AdminDates = () => {
 
     const onClickDeleteIcon = (e) => {
         if(e.dateC === date) {
-            setCurrentCommandList(e);
             setDeletedDate(false);
         }
         else setDeletedDate(true);
@@ -332,7 +316,7 @@ const AdminDates = () => {
 
                         <div className="dish-list">
                             <DishList
-                                dishByDateList={dishByDateList}
+                                dishByDateList={currentDishList}
                                 onClickDish={onClickDish}
                                 onClickDelete={onClickDeleteIcon}
                             />
@@ -349,7 +333,7 @@ const AdminDates = () => {
                             <div className="multi-btn">
 
                                     <div onClick={onClickDeleteIcon}>
-                                        <InputButton type="button" value="Supprimer"/>
+                                        <InputButton value="Supprimer" type="button"/>
                                     </div>
 
                                     <InputButton value="Enregistrer" type="submit"/>                                    
