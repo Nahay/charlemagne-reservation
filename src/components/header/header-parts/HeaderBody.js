@@ -17,7 +17,9 @@ const HeaderBody = ({ toggle }) => {
         toast.success('À bientôt !');
     }
 
-    const handleUserLogin = () => history.push('/connexion');
+    const handleUserSignIn = () => history.push('/connexion');
+
+    const handleUserSignUp = () => history.push('./inscription');
 
     const isLogged = () => { 
         const userDecoded = decodeToken(localStorage.getItem("userToken"));
@@ -32,9 +34,10 @@ const HeaderBody = ({ toggle }) => {
 
             <Logout
                 handleLogout={handleUserLogout}
-                handleLogin={handleUserLogin}
+                handleSignIn={handleUserSignIn}
+                handleSignUp={handleUserSignUp}
                 isAdmin={false}
-                isAuthenticated={localStorage.getItem("userToken")}
+                token={localStorage.getItem('userToken')}
             />
 
             <nav>

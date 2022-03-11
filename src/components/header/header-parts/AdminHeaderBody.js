@@ -22,7 +22,7 @@ const AdminHeaderBody = ({ toggle }) => {
             <Logout
                 handleLogout={handleAdminLogout}
                 isAdmin={true}
-                isAuthenticated={localStorage.getItem("adminToken")}
+                token={localStorage.getItem("adminToken")}
             />
 
             <nav>
@@ -48,7 +48,7 @@ const AdminHeaderBody = ({ toggle }) => {
                     to="/admin/commandes"
                     activeClassName="active-link"
                     onClick={toggle}>
-                        Commandes
+                        Réservations
                 </NavLink>
                 <NavLink
                     exact to="/admin/comptes"

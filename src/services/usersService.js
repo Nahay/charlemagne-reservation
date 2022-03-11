@@ -118,7 +118,18 @@ const deleteUserByUsername = async (username, token) => {
 
 const userSignIn = async (username, password) => {
     try {
-        const { data } = await axios.post(API_URL + "/users/signin", { username: username, password: password });
+        const { data } = await axios.post(API_URL + "/users/signin", { username, password });
+        return data;
+    } catch(err) {
+        toast.error(err.message);
+    }
+};
+
+// SIGN UP ------------------------------------------------------------------------------------------------------------------------------------
+
+const userSignUp = async (username, password, name, firstname, email, tel, comment) => {
+    try {
+        const { data } = await axios.post(API_URL + "/users/signup", { username, password, name, firstname, email, tel, comment });
         return data;
     } catch(err) {
         toast.error(err.message);
@@ -128,6 +139,7 @@ const userSignIn = async (username, password) => {
 
 export {
     userSignIn,
+    userSignUp,
     getUserByUsername,
     getFirstNameByUsername,
     getUserById,

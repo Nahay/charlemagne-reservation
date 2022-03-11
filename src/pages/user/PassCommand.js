@@ -5,6 +5,8 @@ import 'moment/locale/fr';
 import { decodeToken } from 'react-jwt';
 import { toast } from 'react-toastify';
 
+import InputText from "../../components/generic/InputText";
+import InputNumber from "../../components/generic/InputNumber";
 import TextArea from '../../components/generic/TextArea';
 import OrderTable from "../../components/order/OrderTable";
 import Summary from "../../components/order/Summary";
@@ -14,11 +16,11 @@ import { getParam } from '../../services/paramsService';
 import { getUserById } from '../../services/usersService'; 
 import { getDateByDate } from "../../services/calendarService";
 import { createCommand } from "../../services/commandsService";
-import { createCommandList } from "../../services/commandsListService";
 
 
 const PassCommand = () => {
     const token = localStorage.getItem('userToken');
+    const decodedToken = decodeToken(token);
 
     const summary = useRef(null);
     const input = useRef(null);
@@ -31,12 +33,16 @@ const PassCommand = () => {
     const [time, setTime] = useState("");
     const [orderInfo, setOrderInfo] = useState("");
     const [comment, setComment] = useState("");
-    const [container, setContainer] = useState(false);
     const [confirmEmail, setConfirmEmail] = useState(false);
+    const [confirmAccount, setConfirmAccount] = useState(false);
     const [total, setTotal] = useState("");
     const [userId, setUserId] = useState("");
+
     const [name, setName] = useState("");
     const [firstname, setFirstname] = useState("");
+    const [tel, setTel] = useState("");
+    const [nbP, setNbP] = useState("");
+
     const [dateComment, setDateComment] = useState("");
 
 
@@ -141,7 +147,7 @@ const PassCommand = () => {
     summary.current.style.opacity = "0";
 
     history.push("/");
-    toast.success("La commande a été passée avec succès !");
+    toast.success("La réservation est passée avec succès !");
 
   }
 
@@ -174,11 +180,9 @@ const PassCommand = () => {
 
     if(!wrongCommand && total > 0) {
       // Créer la commande si aucun des champs entrés est faux
-      const command = await createCommand(userId, parseInt(date), timeC, false, container, comment, total, token);
+      const command = await createCommand(userId, parseInt(date), timeC, false, comment, total, token);
       // Parcours de la liste des commandes et créer chacune d'entre elle
       commandList.forEach(async (d) => {
-       
-        await createCommandList(command._id, d._id, parseInt(d.nbC), token);
         const dishDate = await getDishByDateAndDish(date, d._id);
         await updateDishDate(dishDate._id, dishDate.numberKitchen, dishDate.numberRemaining - parseInt(d.nbC));
       });
@@ -200,13 +204,18 @@ const PassCommand = () => {
 
   // HANDLE ------------------------------------------------
 
-  const handleComment = (e) => setComment(e.target.value);
+  const handleNameChange = (e) => setName(e.target.value);
 
-  const handleContainerChange = () => setContainer(container ? false : true);
+  const handleComment = (e) => setComment(e.target.value);
 
   const handleEmailChange = () => setConfirmEmail(confirmEmail ? false : true);
 
   const handleTimeChange = (e) => setTimeC(e.target.value);
+
+  const handleAccountChange = (e) => setConfirmAccount(confirmAccount ? false : true);
+
+  const handleTelChange = (e) => !isNaN(e.target.value) && setTel(e.target.value);
+  const handleNbPChange = (e) => !isNaN(e.target.value) && setNbP(e.target.value);
 
   return (
     <form className="make-order" onSubmit={onOrderSubmit} ref={form}>
@@ -221,14 +230,22 @@ const PassCommand = () => {
       />
       <div className="make-order__container">
         <h1 className="container__date">{moment(new Date(parseInt(date))).locale('fr').format('LL')}</h1>
+
         <div className="container__comment">
           <p>{orderInfo}</p>
           {dateComment !== "" && <p>{dateComment}</p>}
         </div>
-        <div className="container__name">
-          <p className="fixed-text name">{firstname} {name}</p>
+
+        <div className="container__informations">
+          <div className="informations-content">
+            <InputText placeholder="Nom" handleChange={handleNameChange} value={name}/>
+            <InputNumber placeholder="Tel" handleChange={handleTelChange} value={tel}/>
+          </div>         
         </div>
+        
+
         <OrderTable data={data} setData={setData}/>
+
         <div className="container__comm-others">
           <TextArea
               value={comment}
@@ -237,30 +254,34 @@ const PassCommand = () => {
               handleChange={handleComment}
           />
           <div className="comm-others__others">
+            <InputNumber placeholder="Nombre de personnes" handleChange={handleNbPChange} value={nbP}/>
             <div className="others__total">
               <p>Total : </p>
               <p className="fixed-text"> {total} €</p>
             </div>
+            { decodedToken ? 
+            <div className="checkbox__container">
+              <input
+              type="checkbox"
+              id="confirm-email"
+              name="confirm-email"
+              checked={confirmEmail}
+              onChange={handleEmailChange}
+              />
+              <label htmlFor="confirm-email">Recevoir un email de confirmation</label>              
+            </div>
+            :
             <div className="checkbox__container">
               <input
                 type="checkbox"
-                id="container"
-                name="container"
-                checked={container}
-                onChange={handleContainerChange}
-              />
-              <label htmlFor="container">J'amène mes propres contenants</label>
+                id="confirm-acc"
+                name="confirm-acc"
+                checked={confirmAccount}
+                onChange={handleAccountChange}
+                />
+              <label htmlFor="confirm-acc">Créer un compte avant de prendre réservation</label>              
             </div>
-            <div className="checkbox__container">
-              <input
-                type="checkbox"
-                id="confirm-email"
-                name="confirm-email"
-                checked={confirmEmail}
-                onChange={handleEmailChange}
-              />
-              <label htmlFor="confirm-email">Recevoir un email de confirmation</label>
-            </div>
+            }
             <div className="time__container">
               <div className="time__text">
                 <p>Heure de retrait : </p>
@@ -270,11 +291,13 @@ const PassCommand = () => {
             </div>
           </div>
         </div>
+
         <div className="container__mess-btn">
           <div className="input-btn" >
               <input type="submit" value="Réserver" />
           </div>
         </div>
+
       </div>
     </form>
   );

@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 
 import moment from "moment";
 import "moment/locale/fr";
-import { decodeToken } from 'react-jwt';
-import { toast } from 'react-toastify';
 
 import Table from '../order/Table';
 
@@ -13,7 +11,6 @@ const DayDetails = ({date, dishByDateList}) => {
 
     const [isAvailable, setIsAvailable] = useState(false);
     const [haveDesc, setHaveDesc] = useState(false);
-    const [isLogged, setIsLogged] = useState(false);
 
     useEffect(() => {
 
@@ -26,12 +23,6 @@ const DayDetails = ({date, dishByDateList}) => {
             });
         }
         
-        async function getUser() {
-            const userDecoded = decodeToken(localStorage.getItem("userToken"));
-            if (userDecoded) { setIsLogged(true) }
-        }
-        
-        getUser();
         getNb();
     
     }, [dishByDateList]);
@@ -53,15 +44,9 @@ const DayDetails = ({date, dishByDateList}) => {
 
                 <div className="day-details__button">
                     <div className="btn">
-                        { isLogged ? 
-                            <Link to={`passer-reservation/${date}`} onClick={() => localStorage.removeItem('date')}>
-                                Réserver
-                            </Link> 
-                            :
-                            <Link to={"connexion"} onClick={() => toast.error("Veuillez vous connecter avant de passer commande !")}>
-                                Réserver
-                            </Link> 
-                        }                    
+                        <Link to={`passer-reservation/${date}`} onClick={() => localStorage.removeItem('date')}>
+                            Réserver
+                        </Link>               
                     </div>
                 </div>
             </>

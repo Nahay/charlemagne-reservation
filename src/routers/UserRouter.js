@@ -11,9 +11,11 @@ import Contact from '../pages/Contact';
 import Order from '../pages/Order';
 import PassCommand from '../pages/user/PassCommand';
 import Login from '../pages/Login';
+import SignUp from '../pages/SignUp';
 import History from '../pages/user/History';
 
 import PageNotFound from '../pages/PageNotFound';
+
 
 
 const UserTemp = () => {
@@ -27,10 +29,11 @@ const UserTemp = () => {
                     <Route exact path="/" component = {Home} />
 
                     <Route exact path="/reserver" component = {Order} />
-                    <ProtectedUserRoute exact path="/passer-reservation/:date" component = {PassCommand} />
+                    <Route exact path="/passer-reservation/:date" component = {PassCommand} />
                     <Route exact path="/contact" component = {Contact} />
                     <ProtectedUserRoute exact path="/history" component = {History} />
                     <ProtectedLoginRoute exact path="/connexion" component = {Login}/>
+                    <ProtectedLoginRoute exact path="/inscription" component = {SignUp} />
 
                     {/* <Route exact path="/mentions-legales" component = {Home} />
                     <Route exact path="/cgu-cgv" component = {Home} /> */}

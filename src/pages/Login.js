@@ -43,6 +43,7 @@ const Login = () => {
               handleLoginSubmit={handleLoginSubmit} 
               username={username}
               password={password}
+              user={true}
             />
             <div className="login-icon">
                 <FontAwesomeIcon icon={faUsers}/>

@@ -173,29 +173,54 @@
 .btn__logout {
   color: var(--color-grey-dark);
   font-size: 14px;
-  cursor: pointer;
 
   * { transition: all 0.3s }
-  &:hover .connect__container p:last-child,
-  &:hover .connect__container p:last-child svg
-   { color : $color-primary }
 
   .connect__container {
     display:flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+
+    .connect__content  { 
+      p:hover {
+        color : $color-primary;
+        cursor: pointer;
+      }
+    }
+
+    .connect__icon-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover svg { color : $color-primary }
+
+      p:hover {
+        color : $color-primary;
+        cursor: pointer;
+      }
+    }
 
     .connect__name {
       margin-bottom:10px;
       color:var(--svg-color);
     }
-
+    
     svg {
       transition: all 0.1s;
       color:var(--svg-color);
       margin-right:10px;
     }
   }
+  
+  .not-column {
+    display: flex;
+    flex-direction: row;
+
+    &:hover svg { color : $color-primary }
+  }
+
 }
 
 // --------------- INPUT CHECKBOX -----------------------------

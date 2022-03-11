@@ -41,6 +41,23 @@
             margin-bottom:5%;
         }
 
+        .container__informations {
+            display: flex;
+
+            width: 100%;
+
+            .informations-content {
+                display: flex;
+                justify-content: space-between;
+                width: 40%;
+
+                .input {
+                    width: 49%;
+                }
+            }            
+
+        }
+
         .container__comment {
            width: 100%;
 
@@ -62,17 +79,17 @@
                     margin-bottom: 4%;
                 }
            }
-
-           
         }
 
         .table__container {
-            width:100%;
-            margin-top:25px;
+            width: 40%;
+            margin-right: auto;
+
+            margin-top: 25px;
             margin-bottom: 25px;
 
             .fmVibl {
-                border:10px solid var(--input-lighter-bg);
+                border: 10px solid var(--input-lighter-bg);
                 background : var(--input-lighter-bg);
                 color:var(--svg-color);
             }
