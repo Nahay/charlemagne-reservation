@@ -90,16 +90,25 @@
                     justify-content: space-between;
                 }
 
+                .nb-places {
+                    width:100%;
+                    .input { width:200px }
+                }
+
                 .select-container {
+                    display : flex;
+                    justify-content: space-between;
+
                     width: 100%;
                     
                     margin: 5% 0 2% 0;
-                
+        
                     .dish-select {
-                        width: 100%;
+                        width:inherit;
                         height :50px;
                         
                         margin-bottom: 3%;
+                        margin-right: 10px;
                         padding-left: 10px;
                         outline: none;
                         border: none;
@@ -107,7 +116,7 @@
                         background: var(--input-bg);
                         transition: 0.5s;
                         font-size: 16px;
-     
+        
                         optgroup { font-size: 14px }
     
                         option {
@@ -120,26 +129,17 @@
                             color: white;
                         }
                     }
-        
-                    .input-duo {
-                        display : flex;
-                        justify-content: space-between;
-        
-                        .input { width: 45% }
-        
-                        .input-btn input {
-                            margin-top : 0;
-                            width : 200px;
-                        }
-        
-                        & + .input-btn {
-                            align-self: flex-end;
-                            margin-top : 2em;
-                        }
+    
+                    .input-btn, input {
+                        width : 200px;
+                        min-width:200px;
+                    }
+    
+                    & + .input-btn {
+                        align-self: flex-end;
+                        margin-top : 2em;
                     }
                 }
-
-                            
 
                 .dish-list {
 
@@ -258,6 +258,15 @@
                     input { min-width: 130px }           
                 }
             }
+        }
+    }
+
+    @media(max-width:600px) {
+        .admin-dates__right .right__form .right__form__1 .select-container {
+            flex-direction: column;
+
+            .input-btn, input { width:100% }
+            .input-btn { margin-bottom:5px }
         }
     }
 

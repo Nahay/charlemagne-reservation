@@ -11,8 +11,9 @@ import DishList from '../../components/admin/DishList';
 import AdminCalendar from "../../components/admin/AdminCalendar";
 import Box from '../../components/generic/Box';
 
-import {getDates, updateDate, getDateByDate, createDate, deleteDate} from '../../services/calendarService';
-import {getDishes, createDishDate, getDishByDate, deleteAllDishesDate, deleteDishDate, updateDishDate} from '../../services/dishesService';
+import { getDates, updateDate, getDateByDate, createDate, deleteDate, addDishToDate, DelDishFromDate } from '../../services/calendarService';
+import { getDishes } from '../../services/dishesService';
+
 
 const AdminDates = () => {
 
@@ -29,14 +30,9 @@ const AdminDates = () => {
     const [visibility, setVisibility] = useState(true);
     const [comment, setComment] = useState("");
 
-
-    const [upD, setUpD] = useState(false);
     const [nb, setNb] = useState("");
     const [idD, setIdD] = useState("");
     const [nbC, setNbC] = useState("");
-    const [nbR, setNbR] = useState("");
-    const [timeMin, setTimeMin] = useState("12:00");
-    const [timeMax, setTimeMax] = useState("16:00");
     const [currentCommandList, setCurrentCommandList] = useState({});
     const [deletedDate, setDeletedDate] = useState(true);
 
@@ -55,8 +51,6 @@ const AdminDates = () => {
                 setDateExists(true);
                 setVisibility(foundDate.visibility);
                 setComment(foundDate.comment);
-                setTimeMin(foundDate.timeMin);
-                setTimeMax(foundDate.timeMax);
                 setSelect("0");
                 setNb("");
 
@@ -97,8 +91,6 @@ const AdminDates = () => {
         setComment("");
         setSelect("0");
         setNb("");
-        setTimeMin("12:00");
-        setTimeMax("16:00");
         setDishByDateList([]);
     }   
 
@@ -106,8 +98,6 @@ const AdminDates = () => {
         setDateExists(true);
         setVisibility(foundDate.visibility);
         setComment(foundDate.comment);
-        setTimeMin(foundDate.timeMin);
-        setTimeMax(foundDate.timeMax);
         setSelect("0");
         setNb(""); 
         getDishByDateList(foundDate.dateC);
@@ -123,14 +113,11 @@ const AdminDates = () => {
         else resetValuesFromDate(foundDate);
     }
 
-    const onClickDish = ({_id, idDish, numberKitchen, numberRemaining}) => {
-        setUpD(true);
-
+    const onClickDish = ({_id, idDish, numberKitchen}) => {
         setIdD(_id);
         setSelect(idDish._id);
         setNb(numberKitchen);
         setNbC(numberKitchen);
-        setNbR(numberRemaining);
     }
 
 
@@ -148,7 +135,6 @@ const AdminDates = () => {
 
         const dish = dishByDateList.filter(d => d.idDish._id === e.target.value);
         if(dish.length > 0) onClickDish(dish[0]);
-        else setUpD(false);
     }
 
     const handleNbChange = (e) => {
@@ -162,11 +148,11 @@ const AdminDates = () => {
     const saveDate = async () => {
 
         if (!dateExists) {
-            createDate(date, visibility, comment, timeMin, timeMax, token);
+            createDate(date, visibility, comment, token);
             setDateExists(true);
             getDateList();
         }
-        else updateDate(date, visibility, comment, timeMin, timeMax, token);
+        else updateDate(date, visibility, comment, token);
     }
 
     const deleteAndSetDate = async () => {
@@ -196,34 +182,31 @@ const AdminDates = () => {
         e.preventDefault();        
         // si on a sélectionné qqe chose :
         if (select !== "0") {
-            if(nb !== "") {
-                if (dateExists) {
+            if (dateExists) {
 
-                    let dishExists = false;
-                    dishByDateList.forEach(d => {
-                        if (d.idDish._id === select) dishExists = true;
-                    });
+                let dishExists = false;
+                dishByDateList.forEach(d => {
+                    if (d.idDish._id === select) dishExists = true;
+                });
 
-                    if (!dishExists) {
-                        await createDishDate(date, select, nb, token);
-                        getDishByDateList(date);
-                    }
-                    else toast.error("Le plat existe déjà !");
-                }
-
-                // la date n'existe pas : on la crée et on ajoute le plat
-                else {
-                    await createDate(date, visibility, comment, timeMin, timeMax, token);
-                    setDateExists(true);
+                if (!dishExists) {
                     await createDishDate(date, select, nb, token);
                     getDishByDateList(date);
-                    getDateList();
                 }
-
-                setNb("");
-                setSelect("0");
+                else toast.error("Le plat existe déjà !");
             }
-            else toast.error("Veuillez entrer un nombre cuisine.");
+
+            // la date n'existe pas : on la crée et on ajoute le plat
+            else {
+                await createDate(date, visibility, comment, token);
+                setDateExists(true);
+                await createDishDate(date, select, nb, token);
+                getDishByDateList(date);
+                getDateList();
+            }
+
+            setNb("");
+            setSelect("0");
         }
         else toast.error("Aucun plat n'est sélectionné.");
     }
@@ -232,6 +215,7 @@ const AdminDates = () => {
     const onUpdateDishSubmit = async (e) => {
         e.preventDefault();
 
+        const nbR = 1;
         const nbCommande = nbC - nbR;
 
         if (nb >= nbCommande) {
@@ -243,11 +227,8 @@ const AdminDates = () => {
     }
 
     const onClickDelete = async () => {
-        if (currentCommandList.numberKitchen === currentCommandList.numberRemaining) {
-            await deleteDishDate(currentCommandList._id, token);
-            getDishByDateList(date);
-        }
-        else toast.error("Ce plat a déjà été commandé, vous ne pouvez pas le supprimer.");
+        await DelDishFromDate(date, currentCommandList._id, token);
+        getDishByDateList(date);
 
         box.current.style.visibility = "hidden";
         box.current.style.opacity = 0;
@@ -312,16 +293,16 @@ const AdminDates = () => {
                             <label htmlFor="y">Oui</label>
                         </div>
 
-                        <InputText
-                            value={nb}
-                            placeholder="Places disponibles*"
-                            handleChange={handleNbChange}
-                            required={true}
-                        />
+                        <div className="nb-places">
+                            <InputText
+                                value={nb}
+                                placeholder="Places disponibles*"
+                                handleChange={handleNbChange}
+                                required={true}
+                            />
+                        </div>
 
                         <div className="select-container">
-                            
-                            <div className="input-duo">
                             <select value={select} id="dish-select" className="dish-select" onChange={handleSelectChange}>
                                 <option value="0" id="0">Liste des plats</option>
                                 <optgroup label="Entrées">
@@ -345,8 +326,8 @@ const AdminDates = () => {
                                     })}
                                 </optgroup>
                             </select>
-                                <InputButton value= { upD ? "Enregistrer nombre" : "Ajouter le plat à cette date" } type="button" onClick={upD ? onUpdateDishSubmit : onDishSubmit}/>
-                            </div>
+
+                            <InputButton value= "Ajouter le plat à cette date" type="button" onClick={onDishSubmit}/>
                         </div>
 
                         <div className="dish-list">

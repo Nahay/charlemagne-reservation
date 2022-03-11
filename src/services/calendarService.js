@@ -5,14 +5,13 @@ import { adminConfig } from './config';
 const API_URL = process.env.REACT_APP_API_URL;
 
 
-const createDate = async (dateC, visibility, comment, timeMin, timeMax, token) => {
+const createDate = async (dateC, visibility, comment, nbPlaces, token) => {
     try {
         await axios.post(API_URL + "/calendar", {
             dateC,
             visibility,
             comment, 
-            timeMin,
-            timeMax
+            nbPlaces
         }, adminConfig(token));
         toast.success("La date a été créée !");
 
@@ -57,14 +56,26 @@ const getDateById = async (id) => {
     }
 };
 
-const updateDate = async (date, visibility, comment, timeMin, timeMax, token) => {
+const updateDate = async (date, visibility, comment, nbPlaces, token) => {
     try {
         await axios.patch(
             API_URL + "/calendar/" +date, {
                 visibility,
                 comment,
-                timeMin,
-                timeMax
+                nbPlaces
+            }, adminConfig(token)
+        );
+        toast.success("La date a été mise à jour !");
+    } catch(err) {
+        toast.error(err.message);
+    }
+};
+
+const updateDateNbR = async (nbRemaining, token) => {
+    try {
+        await axios.patch(
+            API_URL + "/calendar/nbR/" +date, {
+                nbRemaining
             }, adminConfig(token)
         );
         toast.success("La date a été mise à jour !");
@@ -82,6 +93,32 @@ const deleteDate = async (date, token) => {
     }
 };
 
+const addDishToDate = async (date, dishID, token) => {
+    try {
+        await axios.patch(
+            API_URL + "/calendar/dish/" +date, {
+                dishID
+            }, adminConfig(token)
+        );
+        toast.success("Le plat a été ajouté à la date !");
+    } catch(err) {
+        toast.error(err.message);
+    }
+};
+
+const DelDishFromDate = async (date, dishID, token) => {
+    try {
+        await axios.patch(
+            API_URL + "/calendar/del-dish/" +date, {
+                dishID
+            }, adminConfig(token)
+        );
+        toast.success("Le plat a été supprimé de la date !");
+    } catch(err) {
+        toast.error(err.message);
+    }
+};
+
 
 export {
     createDate,
@@ -90,5 +127,8 @@ export {
     getDateById,
     getDatesByVisibility,
     updateDate,
-    deleteDate
+    deleteDate,
+    updateDateNbR,
+    addDishToDate,
+    DelDishFromDate
 };
