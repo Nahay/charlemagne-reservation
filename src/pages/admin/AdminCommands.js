@@ -16,7 +16,7 @@ import DishCommandList from "../../components/admin/DishCommandList";
 import { getDateByDate, getDates } from "../../services/calendarService";
 import { hideCommand, deleteCommand, getCommandByDate, updateCommand, getNbOfDishByDay } from "../../services/commandsService";
 import { deleteCommandList, updateQuantity, getCommandListById } from "../../services/commandsListService";
-import { updateDishDateQtt, getDishByDateAndDish, getDishById, updateDishDate, getDishByDate } from "../../services/dishesService";
+import {  getDishById } from "../../services/dishesService";
 
 
 const AdminCommands = () => {
@@ -82,170 +82,6 @@ const AdminCommands = () => {
     setVisibleCommandsList(visibleCommands);
   };
 
-  const formatCsvData = async (e) => { 
-    const dishes = await getDishByDate(e);
-    const nbDishes = await getNbOfDishByDay(e, token);
-    const commands = await getCommandByDate(e, token);
-    
-    let data = [ { columns: [], data: [] }];
-
-    data[0].columns.push(
-      {title: "#", width: {wpx: 50}, style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center"}, border: {right: {style: "thin", color: {rgb: "D4D4D4"}}} } },
-      {title: "Nom", width: {wpx: 100}, style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center"}, border: {right: {style: "thin", color: {rgb: "D4D4D4"}}} } }
-    );
-
-    dishes.forEach(d => {
-      data[0].columns.push({title: `${d.idDish.name}`, width: {wpx: 100}, style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "thin", color: {rgb: "D4D4D4"}}} }});
-    });
-
-    data[0].columns.push(
-      {title: "Montant", width: {wpx: 75}, style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "thin", color: {rgb: "D4D4D4"}}} } },
-    
-      {title: "Boite", width: {wpx: 75}, style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold:   true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "thin", color: {rgb:  "D4D4D4"}}} } },
-
-      {title: "Heure", width: {wpx: 80}, style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true},  alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "thin", color: {rgb:  "D4D4D4"}}} } },
-
-      {title: "", width: {wpx: 55}, style: { font: {bold: true}, fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {left: {style: "medium", color: {rgb: "000000"}} } } },
-      
-      {title: "Paiement", width: {wpx: 65}, style: { font: {bold: true}, fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, alignment:  {horizontal: "center", vertical: "center", wrapText: true}}},
-
-      {title: "", width: {wpx: 55}, style: { font: {bold: true}, fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, alignment:  {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "medium", color: {rgb: "0000000"}}} } },
-
-      {title: "Commentaires", width: {wpx: 200}, style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold:   true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "medium", color: {rgb: "000000"}}} } }
-    );
-
-    data[0].data.push([
-      {value: "", style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center"}, border: {right: {style: "thin", color: {rgb: "D4D4D4"}}} } },
-      {value: "", style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center"}, border: {right: {style: "thin", color: {rgb: "D4D4D4"}}} } }
-    ]);
-
-    dishes.forEach(d => {
-      data[0].data[0].push({value: parseInt(d.idDish.price), style: {numFmt: "0.00€",fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "thin", color: {rgb: "D4D4D4"}}} }});
-    });
-
-    data[0].data[0].push(
-      {value: "en €", style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "thin", color: {rgb: "D4D4D4"}}} } }, 
-    
-      {value: "perso", style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold:   true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "thin", color: {rgb:  "D4D4D4"}}} } }, 
-
-      {value: "de retrait", style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "thin", color: {rgb:  "D4D4D4"}}} } },
-
-      {value: "CB", style: { font: {bold: true}, fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {left: {style: "medium", color: {rgb: "000000"}} } } },
-      
-      {value: "Espèce", style: { font: {bold: true}, fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, alignment: {horizontal: "center", vertical: "center", wrapText: true} } }, 
-
-      {value: "Chèque", style: { font: {bold: true}, fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "medium", color: {rgb: "0000000"}}} } }, 
-
-      {value: "", style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: {right: {style: "medium", color: {rgb: "000000"}}} } }
-    );
-    
-    let index = 0;
-    let total = 0;
-
-    commands.forEach((command, i) => {
-      total += command.total;
-      index = i;
-
-      if((i+1) === commands.length) {
-        data[0].data.push([
-          {value: i+1,  style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}}, right: { style: "thin", color: {rgb: "D4D4D4"} }, top: { style: "thin", color: {rgb: "D4D4D4"}}} }},
-
-          {value: command.user.name,  style: {alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}}} }}
-        ]);
-
-        dishes.forEach(dish => {
-          let here = false;
-          for(let j = 0; j < command.list.length; j++) {
-            if(command.list[j].dishID._id === dish.idDish._id){
-              data[0].data[i+1].push({value: command.list[j].quantity,  style: {alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}}}  }});
-              here = true;
-              break;
-            }
-          }
-          !here && data[0].data[i+1].push({value: 0,  style: {alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}}}  }});
-        });
-
-        data[0].data[i+1].push({value: parseInt(command.total + "€"), style: {numFmt: "0.00€", alignment: {horizontal: "right", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}}}  }});
-
-        command.container ? 
-          data[0].data[i+1].push({value: "✔", style: {alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}}}  }})
-        : 
-          data[0].data[i+1].push({value: "❌", style: {alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}}} }});
-        
-        data[0].data[i+1].push(
-          {value: command.timeC,  style: {alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}}} }},
-            
-          {value: "", style: {border: { bottom: {style: "medium", color: {rgb: "000000"}}, left: { style: "medium", color: {rbg: "000000"}}} }},
-          {value: "", style: {border: { bottom: {style: "medium", color: {rgb: "000000"}}} }},
-          {value: "", style: {border: { bottom: {style: "medium", color: {rgb: "000000"}}, right: { style: "medium", color: {rbg: "000000"}}} }},
-          {value: command.comment,  style: {font: {sz: "8"}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}}, right: { style: "medium", color: {rbg: "000000"}}}  }}
-        );
-      }
-      else {
-        data[0].data.push([
-          {value: i+1,  style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText:true}, border: { right: { style: "thin", color: {rgb: "D4D4D4"} }, top: { style: "thin", color: {rgb: "D4D4D4"}}} }},
-
-          {value: command.user.name,  style: {alignment: {horizontal: "center", vertical: "center", wrapText:true}}}
-        ]);
-
-        dishes.forEach(dish => {
-          let here = false;
-          for(let j = 0; j < command.list.length; j++) {
-            if(command.list[j].dishID._id === dish.idDish._id){
-              data[0].data[i+1].push({value: command.list[j].quantity,  style: {alignment: {horizontal: "center", vertical: "center", wrapText: true} }});
-              here = true;
-              break;
-            }
-          }
-          !here && data[0].data[i+1].push({value: 0,  style: {alignment: {horizontal: "center", vertical: "center", wrapText: true} }});
-        });
-
-        data[0].data[i+1].push({value: parseInt(command.total + "€"), style: {numFmt: "0.00€", alignment: {horizontal: "right", vertical: "center", wrapText: true} }});
-
-        command.container ? 
-          data[0].data[i+1].push({value: "✔", style: {alignment: {horizontal: "center", vertical: "center", wrapText: true} }})
-        : 
-          data[0].data[i+1].push({value: "❌", style: {alignment: {horizontal: "center", vertical: "center", wrapText: true} }});
-        
-        data[0].data[i+1].push(
-          {value: command.timeC,  style: {alignment: {horizontal: "center", vertical: "center", wrapText: true} }},
-
-          {value: "", style: {border: { left: { style: "medium", color: {rbg: "000000"}}}}},
-          {value: ""},
-          {value: "", style: {border: { right: { style: "medium", color: {rbg: "000000"}}}}},
-
-          {value: command.comment,  style: {font: {sz: "8"}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { right: {style: "medium", color: {rgb: "000000"}}} }}
-        );
-      }
-    });
-    
-    data[0].data.push([{value:""}]);
-    data[0].data.push([ {value:""}, {value:"Totaux",style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { top: {style: "medium", color: {rgb: "000000"}}, bottom: {style: "medium", color: {rgb: "000000"}}, left: {style: "medium", color: {rgb: "000000"}}, right: {style: "thin", color: {rgb: "D4D4D4"}} } } }]);
-
-    dishes.forEach((dish) => {
-      let here = false;
-      for(let j = 0; j < nbDishes.length; j++) {
-        if(nbDishes[j]._id === dish.idDish._id) {
-          data[0].data[index+3].push({value: nbDishes[j].nb, style: {font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}},  top: {style: "medium", color: {rgb: "000000"}} } }});
-          here = true;
-          break;
-        }
-      }
-
-      if(!here && commands.length > 0) {
-        data[0].data[index+3].push({value: 0, style: {font: {bold: true}, alignment: {horizontal: "center", vertical: "center", wrapText: true}, border: { bottom: {style: "medium", color: {rgb: "000000"}},  top: {style: "medium", color: {rgb: "000000"}} } }});
-      }
-  });
-
-    if(commands.length > 0) {
-      data[0].data[index+3].push({value: parseInt(total + "€"), style: {numFmt: "0.00€", font: {sz: "14", bold: true}, fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}, alignment: {horizontal: "right", vertical: "center", wrapText: true}, border: { right: {style: "medium", color: {rgb: "000000"}},  bottom: {style: "medium", color: {rgb: "000000"}},  top: {style: "medium", color: {rgb: "000000"}},  left: {style: "thin", color: {rgb: "D4D4D4"}}} }}, {value: ""}, {value: ""}, {value: ""}, {value: ""});
-
-      const currentDate = await getDateByDate(e);
-      data[0].data.push([{value: "" }, {value: ""}, {value: ""}, {value: ""}, {value: ""}, {value: ""}, {value: ""}, {value: ""}, {value: ""}, {value: ""}, {value: currentDate.comment, style: {font: {sz: "8"}}}]);
-    }
-
-    setCsvData(data);
-  }
 
   const getDishList = async (commandId) => {
     const d = commandsList.filter((d) => d._id === commandId)[0].list;
@@ -256,7 +92,6 @@ const AdminCommands = () => {
     setDate(e);
     resetInput();
     getCommandsByDate();
-    formatCsvData(e);
     setDishClicked(false);
     setPastDate(e < new Date(new Date().toDateString()).getTime());
   }
@@ -308,7 +143,6 @@ const AdminCommands = () => {
   const handleDeleteCommandList = async () => {
     const cl = await getCommandListById(currentDelete, token);
 
-    await updateDishDateQtt(date, cl[0].dishID, cl[0].quantity, token);
     await deleteCommandList(cl[0]._id, token);
 
     const remaining = commandsList.filter((c) => c._id === id)[0].list.length;
@@ -361,32 +195,25 @@ const AdminCommands = () => {
       return;
     }
 
-    const dishDate = await getDishByDateAndDish(date, currentCommandList.dishID._id);
     const dish = await getDishById(currentCommandList.dishID._id);
 
-    if (quantity > dishDate.numberRemaining + currentCommandList.quantity) 
-      toast.error(`La quantité ne peut être supérieure à ${dishDate.numberRemaining + currentCommandList.quantity}.`);
-    else {
-      // calcul du nombre dispo en faisant : nombreRestant - ( nouvelleQuantité - ancienneQuantité )
-      const numberRemaining = dishDate.numberRemaining - (quantity - currentCommandList.quantity);
+    // Calcul pour le total étant donné que la quantité change
+    // pour ne pas créer d'anomalie il est en readOnly
+    let t = total - dish.price * currentCommandList.quantity + dish.price * quantity;
+    setTotal(t);
 
-      // Calcul pour le total étant donné que la quantité change
-      // pour ne pas créer d'anomalie il est en readOnly
-      let t = total - dish.price * currentCommandList.quantity + dish.price * quantity;
-      setTotal(t);
+    // on donne la nouvelle valeur de la quantité dans le state
+    currentCommandList.quantity = parseInt(quantity);
 
-      // on donne la nouvelle valeur de la quantité dans le state
-      currentCommandList.quantity = parseInt(quantity);
-      // update le nombre dispo en cuisine
-      await updateDishDate(dishDate._id, dishDate.numberKitchen, numberRemaining);
+    // update le nombre dispo en cuisine
 
-      // update la quantité dans la command list
-      await updateQuantity(currentCommandList._id, quantity, token);
+    // update la quantité dans la command list
+    await updateQuantity(currentCommandList._id, quantity, token);
 
-      setDishClicked(false);
-      setQuantity("");
-      getDishList(id);
-    }
+    setDishClicked(false);
+    setQuantity("");
+    getDishList(id);
+    
   }
 
   const resetInput = () => {

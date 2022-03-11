@@ -7,8 +7,6 @@ import List from "../components/order/List";
 import DayDetails from "../components/order/DayDetails";
 
 import { getDateByDate, getDatesByVisibility } from '../services/calendarService';
-import { getDishByDate, getDatesAndNb } from '../services/dishesService';
-
 
 const Order = () => {
 
@@ -28,9 +26,6 @@ const Order = () => {
     async function getSetDates() {      
       const dates = await getDatesByVisibility();
       setDatesList(dates);
-
-      const datesWithNb = await getDatesAndNb();
-      setDatesAndNb(datesWithNb);
       
       if(previousDate !== null) {
         await getDishByDateList(typeof previousDate === "string" ? new Date(previousDate).getTime() : previousDate);
@@ -43,7 +38,6 @@ const Order = () => {
 
   const getDishByDateList = async (dateC) => {
     let dateVisible = false;
-    const dishes = await getDishByDate(dateC);
 
     const d = await getDateByDate(dateC);
 
@@ -51,10 +45,10 @@ const Order = () => {
       if(d.visibility) dateVisible = true;
     }
 
-    if (dishes === null || !dateVisible) {
+    if (!dateVisible) {
       setDishByDateList([]);
     }
-    else setDishByDateList(dishes);
+    else setDishByDateList([]);
   }
 
   const onDateChange = async (dateC) => {

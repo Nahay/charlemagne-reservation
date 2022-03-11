@@ -11,7 +11,6 @@ import TextArea from '../../components/generic/TextArea';
 import OrderTable from "../../components/order/OrderTable";
 import Summary from "../../components/order/Summary";
 
-import { getDishByDate, updateDishDate, getDishByDateAndDish } from "../../services/dishesService";
 import { getParam } from '../../services/paramsService';
 import { getUserById } from '../../services/usersService'; 
 import { getDateByDate } from "../../services/calendarService";
@@ -56,11 +55,6 @@ const PassCommand = () => {
 
     useEffect(() => {
 
-      async function getDishList() {
-        const dishes = await getDishByDate(date);
-        setDishList(dishes);
-      }
-
       async function getCurrentUser() {
 
         const userDecoded = decodeToken(localStorage.getItem("userToken"));
@@ -88,7 +82,6 @@ const PassCommand = () => {
       }
 
       getTimeLimit();
-      getDishList();
       getSetOrderInfo();
       getCurrentUser();
 
@@ -181,11 +174,7 @@ const PassCommand = () => {
     if(!wrongCommand && total > 0) {
       // Créer la commande si aucun des champs entrés est faux
       const command = await createCommand(userId, parseInt(date), timeC, false, comment, total, token);
-      // Parcours de la liste des commandes et créer chacune d'entre elle
-      commandList.forEach(async (d) => {
-        const dishDate = await getDishByDateAndDish(date, d._id);
-        await updateDishDate(dishDate._id, dishDate.numberKitchen, dishDate.numberRemaining - parseInt(d.nbC));
-      });
+
       setOrderedDishes(commandList);
       setSummaryTotal(total);
       

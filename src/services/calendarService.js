@@ -74,7 +74,7 @@ const updateDate = async (date, visibility, comment, nbPlaces, token) => {
 const updateDateNbR = async (nbRemaining, token) => {
     try {
         await axios.patch(
-            API_URL + "/calendar/nbR/" +date, {
+            API_URL + "/calendar/nbR/", {
                 nbRemaining
             }, adminConfig(token)
         );
