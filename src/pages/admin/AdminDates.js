@@ -157,16 +157,16 @@ const AdminDates = () => {
         }
         else {
             const foundDate = dateList.filter((d) => d.dateC === date)[0];
-            const nbReserve = parseInt(nbP) - foundDate.nbRemaining;
+
+            // nbReserve vaut le nombre de place actuel avant le changement de la date - le nbRemaining
+            const nbReserve = foundDate.nbPlaces - foundDate.nbRemaining;
 
             if (parseInt(nbP) >= nbReserve) {
-                await updateDate(date, visibility, comment, parseInt(nbP), token);
-                console.log("ok");
+                await updateDate(date, visibility, comment, parseInt(nbP), parseInt(nbP)-nbReserve, token);
                 getDateList();
             }
-            else toast.error("Le nombre de places ne peut être inférieur à" +foundDate.nbRemaining);
-        }
-        
+            else toast.error("Le nombre de places ne peut être inférieur à " +nbReserve);
+        }        
     }
 
     const deleteAndSetDate = async () => {
