@@ -106,7 +106,7 @@ const addDishToDate = async (date, dishID, token) => {
     }
 };
 
-const DelDishFromDate = async (date, dishID, token) => {
+const delDishFromDate = async (date, dishID, token) => {
     try {
         await axios.patch(
             API_URL + "/calendar/del-dish/" +date, {
@@ -130,5 +130,5 @@ export {
     deleteDate,
     updateDateNbR,
     addDishToDate,
-    DelDishFromDate
+    delDishFromDate
 };

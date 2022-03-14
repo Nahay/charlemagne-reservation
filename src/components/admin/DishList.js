@@ -12,11 +12,7 @@ const DishList = ({dishByDateList, onClickDish, onClickDelete}) => {
           return (
             <div className="list__container__box" key={d._id} >
               <div className="infos-dish" onClick={() => onClickDish(d)}>
-                <p>{d.idDish.name}</p>
-                <div className="nb-dish">
-                  <span>Nb cuisine : {d.numberKitchen}</span>
-                  <span>Nb Dispo : {d.numberRemaining}</span>
-                </div>
+                <p>{d.name}</p>
               </div>
               <div className="icon-delete" onClick={() => onClickDelete(d)}>
                 <FontAwesomeIcon icon={faTrashAlt} size="sm"/>
