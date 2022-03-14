@@ -151,6 +151,7 @@ const AdminDates = () => {
             if (nbP !== "") {
                 createDate(date, visibility, comment, nbP, token);
                 setDateExists(true);
+                
                 getDateList();
             }
             else toast.error("Veuillez entrer un nombre de places.")
@@ -167,6 +168,7 @@ const AdminDates = () => {
             }
             else toast.error("Le nombre de places ne peut être inférieur à " +nbReserve);
         }        
+        getDateList();
     }
 
     const deleteAndSetDate = async () => {
@@ -189,7 +191,7 @@ const AdminDates = () => {
 
     const onDateSubmit = async (e) => {
         e.preventDefault();
-        saveDate();        
+        saveDate();
     }
 
     // btn ajouter la plat à la date
@@ -198,10 +200,8 @@ const AdminDates = () => {
         // si on a sélectionné qqe chose :
         if (select !== "0") {
             if (nbP !== "") {
-
                 // si la date existe déjà
-                if (dateExists) {
- 
+                if (dateExists) { 
                     const dish = dateList.filter((d) => d.dateC === date)[0].dishes.filter((d) => d._id === select)[0];
 
                     // si le plat n'existe pas encore dans la date
@@ -229,7 +229,7 @@ const AdminDates = () => {
 
     const onClickDelete = async () => {
         const foundDate = dateList.filter((d) => d.dateC === date)[0];
-        console.log(foundDate.dishes.length);
+        
         if(foundDate.dishes.length > 1) {
             await delDishFromDate(date, idD, token);
             getDateDishes(date);
