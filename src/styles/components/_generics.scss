@@ -183,6 +183,10 @@
     align-items: center;
 
     .connect__content  { 
+      display:flex;
+      justify-content: flex-start;
+      align-items:baseline;
+
       p:hover {
         color : $color-primary;
         cursor: pointer;
@@ -213,14 +217,6 @@
       margin-right:10px;
     }
   }
-  
-  .not-column {
-    display: flex;
-    flex-direction: row;
-
-    &:hover svg { color : $color-primary }
-  }
-
 }
 
 // --------------- INPUT CHECKBOX -----------------------------

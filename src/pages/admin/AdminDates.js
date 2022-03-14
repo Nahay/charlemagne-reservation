@@ -340,7 +340,6 @@ const AdminDates = () => {
                         <div className="dish-list">
                             <DishList
                                 dishByDateList={currentDishList}
-                                onClickDish={onClickDish}
                                 onClickDelete={onClickDeleteIcon}
                             />
                         </div>

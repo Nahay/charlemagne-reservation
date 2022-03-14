@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 
-const DishList = ({dishByDateList, onClickDish, onClickDelete}) => {
+const DishList = ({dishByDateList, onClickDelete}) => {
 
   return (
     <div className="list__container">
     {dishByDateList.map((d) => {
           return (
             <div className="list__container__box" key={d._id} >
-              <div className="infos-dish" onClick={() => onClickDish(d)}>
+              <div className="infos-dish">
                 <p>{d.name}</p>
               </div>
               <div className="icon-delete" onClick={() => onClickDelete(d)}>

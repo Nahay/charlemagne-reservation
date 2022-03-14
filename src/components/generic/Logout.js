@@ -1,7 +1,7 @@
 import React from "react";
 
 import { decodeToken } from "react-jwt";
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -21,10 +21,13 @@ const Logout = ({ handleLogout, handleSignIn, handleSignUp, token}) => {
                     </div>
                 </div>
             :
-                <div className="connect__container not-column">
-                    <FontAwesomeIcon icon={faUser} />
+                <div className="connect__container">
                     <div className="connect__content">
+                    <FontAwesomeIcon icon={faUserPlus} />
                         <p onClick={handleSignUp}>S'inscrire</p>
+                    </div>
+                    <div className="connect__content">
+                    <FontAwesomeIcon icon={faUser} />
                         <p onClick={handleSignIn}>Se connecter</p>
                     </div>
                 </div>
