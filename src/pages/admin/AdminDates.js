@@ -34,9 +34,14 @@ const AdminDates = () => {
     const [currentDishList, setCurrentDishList] = useState([]);
 
     const [idD, setIdD] = useState("");
+<<<<<<< HEAD
     const [deleteDish, setDeleteDish] = useState(true);
 
+=======
+    const [deletedDate, setDeletedDate] = useState(true);
+>>>>>>> 0003eecb19121929fcef393b5d92352517338255
 
+    const [nb, setNb] = useState("");
     const [select, setSelect] = useState("0");
 
 
@@ -49,13 +54,21 @@ const AdminDates = () => {
             setDatesList(dates);
 
             const foundDate = dates.filter((d) => d.dateC === dateC)[0];
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 0003eecb19121929fcef393b5d92352517338255
             // la date existe dans la bdd
             if (foundDate) {
                 setDateExists(true);
                 setVisibility(foundDate.visibility);
                 setComment(foundDate.comment);
+<<<<<<< HEAD
                 setNbP(parseInt(foundDate.nbPlaces));
                 setNbR(foundDate.nbRemaining);
+=======
+                setNb(foundDate.nbPlaces);
+>>>>>>> 0003eecb19121929fcef393b5d92352517338255
                 setSelect("0");
                 setCurrentDishList(foundDate.dishes);
             }
@@ -77,17 +90,6 @@ const AdminDates = () => {
     const getDateList = async () => {
         const dates = await getDates();
         setDatesList(dates);
-    }
-
-    const getDateDishes = async (dateC) => {
-        const dates = await getDates();
-
-        const foundDate = dates.filter((d) => d.dateC === dateC)[0];
-
-        // la date existe dans la bdd
-        if (foundDate) {
-            setCurrentDishList(foundDate.dishes);
-        }
     }
 
     const resetValues = () => {
@@ -116,12 +118,8 @@ const AdminDates = () => {
         const foundDate = dateList.filter((d) => d.dateC === dateC)[0];
 
         // si la date n'existe pas encore dans la bdd
-        if (!foundDate) {
-            resetValues();
-        }
-        else {
-            resetValuesFromDate(foundDate);
-        }
+        if (!foundDate) resetValues();
+        else resetValuesFromDate(foundDate);
     }
 
     const onClickDish = ({_id, idDish}) => {

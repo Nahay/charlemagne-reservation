@@ -61,30 +61,7 @@ const Order = () => {
 
   return (
     <div className="order">
-      <div className="order__left">
-        <div className="order__left__content">
-          <div className="order__left__content__icons">
-            <FontAwesomeIcon
-              icon={faTable}
-              onClick={() => setTableActive(true)}
-            />
-            <FontAwesomeIcon
-              icon={faList}
-              onClick={() => setTableActive(false)}
-            />
-          </div>
-
-          { tableActive ?
-            <ACalendar rightRef={ref} dateList={dateList} onDateChange={onDateChange} date={typeof previousDate === "string" ? new Date(previousDate) : previousDate}/>
-          : 
-            <List rightRef={ref} dateList={datesAndNb} onDateChange={onDateChange} />
-          }
-
-        </div>
-      </div>
-      <div className="order__right" ref={ref}>
-          <DayDetails date={previousDate !== null ? new Date(previousDate).getTime() : date} dishByDateList = {dishByDateList} />
-      </div>
+      
     </div>
   );
 };
