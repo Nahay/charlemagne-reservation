@@ -29,7 +29,6 @@ const PassCommand = () => {
     const history = useHistory();
 
     const [timeC, setTimeC] = useState("");
-    const [time, setTime] = useState("");
     const [orderInfo, setOrderInfo] = useState("");
     const [comment, setComment] = useState("");
     const [confirmEmail, setConfirmEmail] = useState(false);
@@ -55,6 +54,12 @@ const PassCommand = () => {
 
     useEffect(() => {
 
+      async function getDishList() {
+        const dishes = await getDateByDate(date);
+        console.log(dishes);
+        setDishList(dishes.dishes);
+      }
+
       async function getCurrentUser() {
 
         const userDecoded = decodeToken(localStorage.getItem("userToken"));
@@ -78,9 +83,9 @@ const PassCommand = () => {
       async function getTimeLimit() {
         const currentDate = await getDateByDate(date);
         setDateComment(currentDate.comment);
-        setTime({min: currentDate.timeMin, max: currentDate.timeMax});
       }
 
+      getDishList();
       getTimeLimit();
       getSetOrderInfo();
       getCurrentUser();
@@ -93,13 +98,13 @@ const PassCommand = () => {
       function getData() {
       
           setData([]);
-
+          console.log(dishList);
           if (dishList !== []) {
   
               dishList.forEach((d, i) => {
   
                   setData(data =>
-                      [...data, {id:i, _id: d.idDish._id, name: d.idDish.name, price: d.idDish.price, nb: d.numberRemaining, nbC:""}]
+                      [...data, {id:i, _id: d._id, name: d.name}]
                   );
               });
           }
@@ -199,8 +204,6 @@ const PassCommand = () => {
 
   const handleEmailChange = () => setConfirmEmail(confirmEmail ? false : true);
 
-  const handleTimeChange = (e) => setTimeC(e.target.value);
-
   const handleAccountChange = (e) => setConfirmAccount(confirmAccount ? false : true);
 
   const handleTelChange = (e) => !isNaN(e.target.value) && setTel(e.target.value);
@@ -233,7 +236,7 @@ const PassCommand = () => {
         </div>
         
 
-        <OrderTable data={data} setData={setData}/>
+        <OrderTable data={data}/>
 
         <div className="container__comm-others">
           <TextArea
@@ -271,13 +274,7 @@ const PassCommand = () => {
               <label htmlFor="confirm-acc">Créer un compte avant de prendre réservation</label>              
             </div>
             }
-            <div className="time__container">
-              <div className="time__text">
-                <p>Heure de retrait : </p>
-                <p>({time.min} - {time.max})</p>
-              </div>
-              <input type="time" min={time.min} max={time.max} value={timeC} onChange={handleTimeChange} ref={input} required />
-            </div>
+
           </div>
         </div>
 

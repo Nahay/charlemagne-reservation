@@ -13,7 +13,7 @@ const DayDetails = ({date, dishByDateList, nbR}) => {
     const [haveDesc, setHaveDesc] = useState(false);
 
     useEffect(() => {
-        console.log(nbR);
+
         async function getNb() {
             setIsAvailable(false);
             setHaveDesc(false);
@@ -31,6 +31,13 @@ const DayDetails = ({date, dishByDateList, nbR}) => {
     return ( 
         <div className="day-details">
             <h1 className="day-details__title">{moment(date).locale('fr').format('LL')}</h1>
+
+            { isAvailable &&
+                <div className="right__places-available">
+                    <p>Places disponibles : {nbR}</p>
+                </div>
+            }
+
             <Table dishByDateList={dishByDateList}/>
             
             { isAvailable &&

@@ -59,6 +59,27 @@
             margin-top: 50px;
             margin-bottom: 50px;
 
+            .right__places-available {
+                display: flex;
+                justify-content: flex-end;
+                width: 85%;
+
+                margin-bottom: 2%;
+
+                p {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    width: 200px;
+                    height: 50px;
+
+                    color: var(--svg-color);
+                    background: var(--input-bg);                
+                }
+               
+            }
+    
             .right__tip {
                 width: 85%;
 
@@ -162,9 +183,14 @@
     }
 
     @media (max-width: 480px) {
-        .order__right .day-details .table__container {
-            width: 200px !important;
-            min-width: fit-content;
+        .order__right {
+            .day-details {
+                .right__places-available {justify-content: center }
+                .table__container {
+                    width: 200px !important;
+                    min-width: fit-content;
+                }
+            }
         }
     }
 }
