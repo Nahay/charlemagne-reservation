@@ -5,10 +5,9 @@ import InputButton from './generic/InputButton';
 import InputText from './generic/InputText';
 import InputPassword from "./generic/InputPassword";
 import InputNumber from "./generic/InputNumber";
-import TextArea from "./generic/TextArea";
 
 
-const SignUpForm = ({handleUsernameChange, handlePasswordChange, handleSignUpSubmit, handleNameChange, handleFirstnameChange, handleTelChange, handleCommentChange, handleEmailChange, email, username, password, name, firstname, tel, comment}) => {
+const SignUpForm = ({handleUsernameChange, handlePasswordChange, handleSignUpSubmit, handleNameChange, handleFirstnameChange, handleTelChange, handleEmailChange, email, username, password, name, firstname, tel }) => {
 
     const history = useHistory();
 
@@ -16,13 +15,8 @@ const SignUpForm = ({handleUsernameChange, handlePasswordChange, handleSignUpSub
         <form className="login-form signup" onSubmit={handleSignUpSubmit}>
             <div className="login-form__content">
 
-                <div className="content__switch-buttons">
-                    <div className="input-btn">
-                        <input type="button" value="S'inscrire" className="active" />
-                    </div>                    
-                    <div className="input-btn">
-                        <input type="button" value="Se connecter" onClick={() => history.push("/connexion")}/>
-                    </div>
+                <div className="switch-form">
+                    <p onClick={() => history.push("/connexion")}>Se connecter</p>
                 </div>
 
                 <div className="input-duo"> 
@@ -37,7 +31,6 @@ const SignUpForm = ({handleUsernameChange, handlePasswordChange, handleSignUpSub
                     <InputText placeholder="Email" handleChange={handleEmailChange} value={email}/>
                     <InputNumber placeholder="Tel" handleChange={handleTelChange} value={tel} required={false}/>
                 </div>
-                <TextArea placeholder="Commentaire" handleChange={handleCommentChange} value={comment} required={false}/>
 
                 <InputButton value="S'inscrire" type="submit"/>
             </div>

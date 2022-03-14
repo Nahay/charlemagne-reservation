@@ -284,6 +284,29 @@ input[type="time"] {
   }
 }
 
+
+// --------------- INPUT PASSWORD -------------------------------
+
+.input-password input {
+  position : relative;
+
+  & + svg {
+    position : absolute;
+    top:15px;
+    right:20px;
+    
+    color:white;
+    cursor:pointer;
+    transition: color 0.5s;
+
+    &:hover {
+      color:$color-primary;
+    }
+  }
+}
+
+
+
 // --------------- CONFIRMATION BOX -----------------------------
 
 .confirmation__container {

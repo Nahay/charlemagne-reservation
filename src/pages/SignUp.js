@@ -18,7 +18,6 @@ const SignUp = () => {
     const [firstname, setFirstname] = useState("");
     const [email, setEmail] = useState("");
     const [tel, setTel] = useState("");
-    const [comment, setComment] = useState("");
      
     const nameReg = /^[ a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ'`'-]+$/;
     const emailReg = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -31,12 +30,11 @@ const SignUp = () => {
     const handleFirstnameChange = (e) => (nameReg.test(e.target.value) || e.target.value === "") && setFirstname(e.target.value);
     const handleEmailChange = (e) => setEmail(e.target.value);
     const handleTelChange = (e) => !isNaN(e.target.value) && setTel(e.target.value);
-    const handleCommentChange = (e) => setComment(e.target.value);
 
     const handleSignUpSubmit = async (e) => {
         e.preventDefault();
         if(emailReg.test(email)) {
-            const signUp = await userSignUp(username, password, name, firstname, email, tel, comment);
+            const signUp = await userSignUp(username, password, name, firstname, email, tel, "");
             if(signUp.success){
                 toast.success("Le compte a été crée avec succès ! Vous pouvez vous connecter.");
                 history.goBack();
@@ -55,7 +53,6 @@ const SignUp = () => {
               handleFirstnameChange={handleFirstnameChange}
               handleEmailChange={handleEmailChange}
               handleTelChange={handleTelChange}
-              handleCommentChange={handleCommentChange}
               handleSignUpSubmit={handleSignUpSubmit} 
               username={username}
               password={password}
@@ -63,7 +60,6 @@ const SignUp = () => {
               firstname={firstname}
               email={email}
               tel={tel}
-              comment={comment}
             />
             <div className="login-icon">
                 <FontAwesomeIcon icon={faUsers}/>

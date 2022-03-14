@@ -40,11 +40,11 @@
         order: 2;
 
         width: 30%;
-        height: 50%;
         border-radius: 2%;
         background: var(--color-black);
         transition: 0.2s;
         border: 5px solid transparent;
+        padding:40px 0;
         
         transition: all 0.3 ease;
 
@@ -53,6 +53,24 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
+            .switch-form {
+                display:flex;
+                justify-content: flex-end;
+
+                width:100%;
+
+                margin-bottom:20px;
+
+                p {
+                    cursor:pointer;
+                    font-size:15px;
+                    color: var(--color-grey);
+                    transition: color 0.5s;
+
+                    &:hover { color: $color-primary }
+                }
+            }
 
             width:80%;
 
@@ -69,6 +87,7 @@
                 margin-bottom: 10%;
                 .input-btn {
                     width: 40% !important;
+                    margin-top:0;
                 }
                 .active { background: $color-primary; color: white; }
             }
@@ -141,10 +160,6 @@
         @media(max-width:1000px) { width: 300px }
 
         @media(max-height:668px) { height: 334px }
-    }
-
-    .signup {
-        height: 70%;
     }
 
     @media(max-width:1100px) {
