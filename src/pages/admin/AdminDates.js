@@ -228,13 +228,9 @@ const AdminDates = () => {
     }
 
     const onClickDelete = async () => {
-        const foundDate = dateList.filter((d) => d.dateC === date)[0];
         
-        if(foundDate.dishes.length > 1) {
-            await delDishFromDate(date, idD, token);
-            getDateDishes(date);
-        }
-        else await deleteAndSetDate();
+        await delDishFromDate(date, idD, token);
+        getDateDishes(date);
 
         getDateList();
 
@@ -304,7 +300,7 @@ const AdminDates = () => {
                             <label htmlFor="y">Oui</label>
                         </div>
 
-                        <div className="nbP-places">
+                        <div className="nb-places">
                             <InputText
                                 value={nbP}
                                 placeholder="Places disponibles*"

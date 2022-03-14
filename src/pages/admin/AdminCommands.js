@@ -258,7 +258,182 @@ const AdminCommands = () => {
   return (
     <div className="admin-commands">
 
-      
+      <Box onClickConfirmation={removeBoxCommand} onClickDelete={handleHideCommand} boxRef={boxCommand} message="Voulez-vous vraiment supprimer cette commande ?"/>
+      <Box onClickConfirmation={removeBoxCommandList} onClickDelete={handleDeleteCommandList} boxRef={boxCommandList} message="Voulez-vous vraiment supprimer ce plat de cette commande ?"/>
+
+      <div className="admin-commands__left">
+        <div className="left__commands-list">
+          <AdminCalendar
+            rightRef={ref}
+            dateList={dateList}
+            onChangeDate={onChangeDate}
+          />
+          
+          { commandsList.length > 0 &&
+          
+          <div className="csv__download">
+                <ExcelFile filename={`RAPPORT-${moment(date).format("DD-MM-YYYY")}`} element={<button>Télécharger le rapport</button>}>
+                    <ExcelSheet dataSet={csvData} name={`RAPPORT-${moment(date).format("DD-MM-YYYY")}`}/>
+                </ExcelFile>
+          </div>
+          }
+        </div>
+      </div>
+
+      <div className="admin-commands__right" ref={ref}>
+        <h1 className="right__date">
+          {moment(date).locale("fr").format("LL")}
+        </h1>
+        <div className="commands-list">
+          <CommandsList
+            commandsListByDate={visibleCommandsList}
+            onClickCommand={onClickCommand}
+            onClickDelete={onClickCommandDelete}
+          />
+        </div>
+        <div className="right__form">
+          <form className="right__form__1" onSubmit={onCommandSubmit}>
+            <div className="input-duo">
+              <InputText
+                value={name}
+                placeholder="Nom"
+                id="Name"
+                divId="inputName"
+                handleChange={handleNameChange}
+                readOnly
+              />
+              <InputText
+                value={firstname}
+                placeholder="Prénom"
+                id="firstname"
+                divId="inputFirstname"
+                handleChange={handleFirstnameChange}
+                readOnly
+              />
+            </div>
+
+            <div className="commands-dish-list">
+              <DishCommandList
+                dishList={dishList}
+                onClickDish={(d) => onClickDish(d)}
+                onClickDelete={onClickCommandListDelete}
+              />
+            </div>
+
+            {dishClicked && !pastDate ? 
+            <div className="right__form--quantity" >
+              <div className="input__quantity">
+                  <p>Quantité : </p>
+                  <InputText
+                    value={quantity}
+                    handleChange={handleQuantityChange}
+                    placeholder="0"
+                    required={false}
+                  />
+              </div>
+              <InputButton value="Modifier" type="button" onClick={onModifyQuantity}/>
+            </div>
+            :
+            <div className="right__form--quantity disabled" >
+              <div className="input__quantity">
+                  <p>Quantité : </p>
+                  <div className="input">
+                    <input type="text" value={quantity} onChange={handleQuantityChange} placeholder="0" disabled/>
+                  </div>
+              </div>
+              <div className="input-btn">
+                  <input type="button" value="Modifier" disabled/>
+              </div>
+            </div>
+            }
+
+            <div className="container_radio_duo">
+              <div
+                className="right__form__radio"
+                onChange={handleContainerChange}
+              >
+                <span>Contenant :</span>
+                <input
+                  type="radio"
+                  value="Non"
+                  name="contaier"
+                  id="n---container"
+                  checked={container === false}
+                  onChange={handleCheckboxChange}
+                />
+                <label htmlFor="n---container">Non</label>
+                <input
+                  type="radio"
+                  value="Oui"
+                  name="container"
+                  id="y---container"
+                  checked={container === true}
+                  onChange={handleCheckboxChange}
+                />
+                <label htmlFor="y---container">Oui</label>
+              </div>
+            </div>
+
+            <div className="input-duo">
+              <div className="time__container">
+                  <div className="input__time">
+                    <p>Heure :</p>
+                    <input
+                      type="time"
+                      value={time}
+                      onChange={handleTimeChange}
+                      required />
+                  </div>
+              </div>              
+
+              <div className="total__container">
+                <div className="total__content">
+                  <p>Total :</p>
+                  <InputText value={total+" €"} handleChange={handleTotalChange} readOnly/>
+                </div>
+              </div>
+            </div>
+
+            <TextArea
+              value={comment}
+              placeholder="Commentaire..."
+              id="comment"
+              handleChange={handleCommentChange}
+            />
+
+            {!pastDate &&  
+            <div className="input-btn---save">
+              <InputButton value="Enregistrer" type="submit" />
+            </div> }
+           
+
+            {/* <div className="container_radio_duo">
+              <div className="right__form__radio" onChange={handlePaidChange}>
+                <span>Payée ?</span>
+                <input
+                  type="radio"
+                  value="Non"
+                  name="paid"
+                  id="n---paid"
+                  checked={paid === false}
+                  onChange={handleCheckboxChange}
+                />
+                <label htmlFor="n---paid">Non</label>
+                <input
+                  type="radio"
+                  value="Oui"
+                  name="paid"
+                  id="y---paid"
+                  checked={paid === true}
+                  onChange={handleCheckboxChange}
+                />
+                <label htmlFor="y---paid">Oui</label>
+              </div>
+            </div> */}
+            
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

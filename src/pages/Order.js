@@ -17,6 +17,7 @@ const Order = () => {
   const [dishByDateList, setDishByDateList] = useState([]);
   const [tableActive, setTableActive] = useState(true);
   const [date, setDate] = useState(new Date(new Date().toDateString()).getTime());
+  const [nbR, setNbR] = useState("");
 
   const previousDate = !isNaN(Date.parse(localStorage.getItem('date'))) && isNaN((localStorage.getItem('date'))) ? localStorage.getItem('date') : new Date();
   
@@ -47,8 +48,12 @@ const Order = () => {
 
     if (!dateVisible) {
       setDishByDateList([]);
+      setNbR("");
     }
-    else setDishByDateList([]);
+    else {
+      setDishByDateList(d.dishes);
+      setNbR(d.nbRemaining);
+    }
   }
 
   const onDateChange = async (dateC) => {
@@ -61,7 +66,30 @@ const Order = () => {
 
   return (
     <div className="order">
-      
+      <div className="order__left">
+        <div className="order__left__content">
+          <div className="order__left__content__icons">
+            <FontAwesomeIcon
+              icon={faTable}
+              onClick={() => setTableActive(true)}
+            />
+            <FontAwesomeIcon
+              icon={faList}
+              onClick={() => setTableActive(false)}
+            />
+          </div>
+
+          { tableActive ?
+            <ACalendar rightRef={ref} dateList={dateList} onDateChange={onDateChange} date={typeof previousDate === "string" ? new Date(previousDate) : previousDate}/>
+          : 
+            <List rightRef={ref} dateList={datesAndNb} onDateChange={onDateChange} />
+          }
+
+        </div>
+      </div>
+      <div className="order__right" ref={ref}>
+          <DayDetails date={previousDate !== null ? new Date(previousDate).getTime() : date} dishByDateList = {dishByDateList} nbR={nbR}/>
+      </div>
     </div>
   );
 };

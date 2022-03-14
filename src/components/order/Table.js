@@ -18,7 +18,7 @@ const Table = ({dishByDateList}) => {
                 dishByDateList.forEach(async d => {
                     setDishesList(dishesList =>
                         [...dishesList,
-                            {name: d.idDish.name, description: d.idDish.description }
+                            {name: d.name, description: d.description }
                         ]
                     );
                 });

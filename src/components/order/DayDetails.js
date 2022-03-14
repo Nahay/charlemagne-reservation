@@ -7,19 +7,19 @@ import "moment/locale/fr";
 import Table from '../order/Table';
 
 
-const DayDetails = ({date, dishByDateList}) => {
+const DayDetails = ({date, dishByDateList, nbR}) => {
 
     const [isAvailable, setIsAvailable] = useState(false);
     const [haveDesc, setHaveDesc] = useState(false);
 
     useEffect(() => {
-
+        console.log(nbR);
         async function getNb() {
             setIsAvailable(false);
             setHaveDesc(false);
             dishByDateList.forEach(d => {
-                if (d.numberRemaining > 0) setIsAvailable(true);
-                if (d.idDish.description !== "") setHaveDesc(true);
+                if (nbR > 0) setIsAvailable(true);
+                if (d.description !== "") setHaveDesc(true);
             });
         }
         
