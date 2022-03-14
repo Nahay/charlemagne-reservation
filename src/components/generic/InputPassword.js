@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const InputPassword = ({value, placeholder, required, handleChange}) => {
+
+  const [eye, setEye] = useState(true);
+
 
   if (value === undefined) value="";
   if (required === undefined) required = true;
 
   return (
-    <div className={"input"}>
+    <div className={"input input-password"}>
 
       {required ?
 
       <input
-        type="password"
+        type= { eye ? "password" : "text" }
         value={value}
         placeholder={placeholder}
         onChange={(e) => handleChange(e) }
@@ -22,13 +28,20 @@ const InputPassword = ({value, placeholder, required, handleChange}) => {
       :
 
       <input
-        type="password"
+        type= { eye ? "password" : "text" }
         value={value}
         placeholder={placeholder}
         onChange={(e) => handleChange(e) }
       />
       
       }
+
+      { eye ?
+        <FontAwesomeIcon icon={faEye} size="lg" onClick={() => setEye(false)}/>
+      :
+        <FontAwesomeIcon icon={faEyeSlash} size="lg" onClick={() => setEye(true)}/>
+      }
+      
     </div>
   );
 };
