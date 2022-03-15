@@ -19,7 +19,7 @@ const HeaderBody = ({ toggle }) => {
 
     const handleUserSignIn = () => history.push('/connexion');
 
-    const handleUserSignUp = () => history.push('./inscription');
+    const handleUserSignUp = () => history.push('/inscription');
 
     const isLogged = () => { 
         const userDecoded = decodeToken(localStorage.getItem("userToken"));

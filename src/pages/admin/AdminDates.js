@@ -31,6 +31,7 @@ const AdminDates = () => {
     const [comment, setComment] = useState("");
     const [nbP, setNbP] = useState("");
     const [nbR, setNbR] = useState("");
+    const [price, setPrice] = useState("");
     const [currentDishList, setCurrentDishList] = useState([]);
 
     const [idD, setIdD] = useState("");
@@ -57,6 +58,7 @@ const AdminDates = () => {
                 setComment(foundDate.comment);
                 setNbP(parseInt(foundDate.nbPlaces));
                 setNbR(foundDate.nbRemaining);
+                setPrice(foundDate.price);
                 setSelect("0");
                 setCurrentDishList(foundDate.dishes);
             }
@@ -98,6 +100,7 @@ const AdminDates = () => {
         setSelect("0");
         setNbP("");
         setNbR("");
+        setPrice("");
         setCurrentDishList([]);
     }   
 
@@ -108,6 +111,7 @@ const AdminDates = () => {
         setSelect("0");
         setNbP(d.nbPlaces);
         setNbR(d.nbRemaining);
+        setPrice(d.price);
         setCurrentDishList(d.dishes);
     }
 
@@ -142,6 +146,11 @@ const AdminDates = () => {
         const val = e.target.value;
         if(Number(val) || val === "") setNbP(val);
     }
+
+    const handlePriceChange = (e) => {
+        const val = e.target.value;
+        if(Number(val) || val === "") setPrice(val);
+    }
     
 
     // BD -------------------------------------------------------------------
@@ -163,7 +172,7 @@ const AdminDates = () => {
             const nbReserve = foundDate.nbPlaces - foundDate.nbRemaining;
 
             if (parseInt(nbP) >= nbReserve) {
-                await updateDate(date, visibility, comment, parseInt(nbP), parseInt(nbP)-nbReserve, token);
+                await updateDate(date, visibility, comment, price, parseInt(nbP), parseInt(nbP)-nbReserve, token);
                 getDateList();
             }
             else toast.error("Le nombre de places ne peut être inférieur à " +nbReserve);
@@ -214,7 +223,7 @@ const AdminDates = () => {
 
                 // la date n'existe pas : on la crée et on ajoute le plat
                 else {
-                    await createDate(date, visibility, comment, nbP, token);
+                    await createDate(date, visibility, comment, price, nbP, token);
                     setDateExists(true);
                     await addDishToDate(date, select, token);
                 }
@@ -300,13 +309,27 @@ const AdminDates = () => {
                             <label htmlFor="y">Oui</label>
                         </div>
 
-                        <div className="nb-places">
-                            <InputText
-                                value={nbP}
-                                placeholder="Places disponibles*"
-                                handleChange={handleNbChange}
-                                required={true}
-                            />
+                        <div className="right__places-price">
+                            <div className="right__places">
+                                <span>Places disponibles :</span>
+                                <InputText
+                                    value={nbP}
+                                    placeholder="Places disponibles*"
+                                    handleChange={handleNbChange}
+                                    required={true}
+                                />
+                            </div>
+                            
+                            <div className="right__price">
+                                <span>Prix du menu :</span>
+                                <InputText
+                                    value={price}
+                                    placeholder="Prix du menu*"
+                                    handleChange={handlePriceChange}
+                                    required={true}
+                                />
+                            </div>
+                            
                         </div>
 
                         <div className="select-container">

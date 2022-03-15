@@ -17,6 +17,9 @@ import { getUserById } from '../../services/usersService';
 import { getDateByDate } from "../../services/calendarService";
 import { createCommand } from "../../services/commandsService";
 
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 const PassCommand = () => {
     const token = localStorage.getItem('userToken');
@@ -25,11 +28,11 @@ const PassCommand = () => {
     const summary = useRef(null);
     const input = useRef(null);
     const form = useRef(null);
+    const signup = useRef(null);
 
     const { date } = useParams();
     const history = useHistory();
 
-    const [timeC, setTimeC] = useState("");
     const [orderInfo, setOrderInfo] = useState("");
     const [comment, setComment] = useState("");
     const [confirmEmail, setConfirmEmail] = useState(false);
@@ -38,9 +41,9 @@ const PassCommand = () => {
     const [userId, setUserId] = useState("");
 
     const [name, setName] = useState("");
-    const [firstname, setFirstname] = useState("");
     const [tel, setTel] = useState("");
     const [nbP, setNbP] = useState("");
+    const [currentDate, setCurrentDate] = useState("");
 
     const [dateComment, setDateComment] = useState("");
 
@@ -57,7 +60,6 @@ const PassCommand = () => {
 
       async function getDishList() {
         const dishes = await getDateByDate(date);
-        console.log(dishes);
         setDishList(dishes.dishes);
       }
 
@@ -72,22 +74,29 @@ const PassCommand = () => {
           // it returns an object with { success: true, user { all the user's info } }
           if (user.success) {
 
-            const { _id, firstname, name } = user.user;
+            const { _id, name } = user.user;
             setUserId(_id);
-            setFirstname(firstname);
             setName(name);
             
           }
         }
       }
 
-      async function getTimeLimit() {
+      async function getDateComment() {
         const currentDate = await getDateByDate(date);
         setDateComment(currentDate.comment);
       }
 
+      
+    async function getCurrentDate() {
+      const currentDate = await getDateByDate(date);
+      setCurrentDate(currentDate);
+      
+    }      
+      setTotal(0);
+      getCurrentDate();
       getDishList();
-      getTimeLimit();
+      getDateComment();
       getSetOrderInfo();
       getCurrentUser();
 
@@ -99,7 +108,7 @@ const PassCommand = () => {
       function getData() {
       
           setData([]);
-          console.log(dishList);
+
           if (dishList !== []) {
   
               dishList.forEach((d, i) => {
@@ -113,27 +122,6 @@ const PassCommand = () => {
 
       getData();
   }, [dishList]);
-
-
-  useEffect(() => {
-
-    const getTotal = () => {
-
-      let nbTotal = 0;
-  
-      if (data !== []) {
-        data.forEach((d) => {
-          if(parseInt(d.nbC) <= d.nb) nbTotal += d.price*Number(d.nbC);
-        });
-      }
-      
-      setTotal(nbTotal);
-      
-    }      
-    
-    getTotal();
-  }, [data]);
-
 
   const getSetOrderInfo = async () => {
     const orderMess = await getParam("order");
@@ -155,45 +143,30 @@ const PassCommand = () => {
   const onOrderSubmit = async (e) => {
     e.preventDefault();
     input.current.blur();
-
-    let wrongCommand = false;
-    let commandList = [];
-    let total = 0;
-
-    data.forEach(async (d) => {
-      // si nombre entré pas vide
-      if(d.nbC !== "") {
-
-        // Teste si les nombres des plats sont corrects et les stocke dans un tableau
-        if(parseInt(d.nbC) > d.nb) {
-            wrongCommand = true;
-            if (d.nb === 0) toast.error(`Il n'y a malheureusement plus de ${d.name}, il faut être plus rapide !`, { autoClose: 10000});
-            else toast.error(`Le nombre désiré de ${d.name} est supérieur au nombre disponible ${d.nb}.`, { autoClose: 10000});  
-        }
-        else {
-          total += d.price * parseInt(d.nbC);
-          commandList.push(d);
-        }
-      }
-    });
-
-    if(!wrongCommand && total > 0) {
-      // Créer la commande si aucun des champs entrés est faux
-      const command = await createCommand(userId, parseInt(date), timeC, false, comment, total, token);
-
-      setOrderedDishes(commandList);
-      setSummaryTotal(total);
-      
-      if (confirmEmail) {
-        // emailJS 
-        //  ...
-      }
-
-      summary.current.style.visibility = "visible";
-      summary.current.style.opacity = 1;
-
+    
+    if(confirmAccount) {
+      signup.current.style.visibility = "visible"
+      signup.current.style.opacity = 1;
     }
-    else toast.error("La commande n'a pu être réalisée, vérifiez les champs.", { autoClose: 10000}); // autoClose = le temps du toast     
+
+
+    // if(total > 0) {
+    //   // Créer la commande si aucun des champs entrés est faux
+    //   await createCommand(userId, parseInt(date), false, comment, total, token);
+
+    //   // setOrderedDishes(commandList);
+    //   setSummaryTotal(total);
+      
+    //   if (confirmEmail) {
+    //     // emailJS 
+    //     //  ...
+    //   }
+
+    //   summary.current.style.visibility = "visible";
+    //   summary.current.style.opacity = 1;
+
+    // }
+    // else toast.error("La commande n'a pu être réalisée, vérifiez les champs.", { autoClose: 10000}); // autoClose = le temps du toast     
   }
 
 
@@ -205,17 +178,39 @@ const PassCommand = () => {
 
   const handleEmailChange = () => setConfirmEmail(confirmEmail ? false : true);
 
-  const handleAccountChange = (e) => setConfirmAccount(confirmAccount ? false : true);
+  const handleAccountChange = () => setConfirmAccount(confirmAccount ? false : true);
 
   const handleTelChange = (e) => !isNaN(e.target.value) && setTel(e.target.value);
 
-  const handleNbPChange = (e) => !isNaN(e.target.value) && setNbP(e.target.value);
+  const handleNbPChange = (e) => {
+    if(!isNaN(e.target.value)){
+      setNbP(e.target.value);
+
+      e.target.value <= currentDate.nbRemaining ? setTotal(e.target.value*currentDate.price) : setTotal(0);
+    }
+  }
 
   const handlePlusClick = () => {
-
+    if(nbP === "") {
+      setNbP(1);
+      setTotal(currentDate.price);
+    }
+    else if(nbP < currentDate.nbRemaining) {
+      setNbP(parseInt(nbP)+1);
+      setTotal(parseInt(nbP+1)*currentDate.price);
+    }
   }
-  const handleMinusClick = () => {
 
+  const handleMinusClick = () => {
+    if(parseInt(nbP) > 1) {
+      setNbP(parseInt(nbP)-1);
+      setTotal(parseInt(nbP-1)*currentDate.price);
+    }
+    else setNbP("");
+
+    if(parseInt(nbP) === 1) {
+      setTotal(0);
+    }
   }
 
   return (
@@ -225,7 +220,6 @@ const PassCommand = () => {
         sumRef={summary}
         dishList={orderedDishes}
         name={name}
-        firstname={firstname}
         total={summaryTotal}
         email={confirmEmail}
       />
@@ -247,7 +241,13 @@ const PassCommand = () => {
 
                 <div className="content-tel">
                   <InputNumber placeholder="Tel" handleChange={handleTelChange} value={tel}/>
-                  <span>Servira uniquement à vous envoyer un rappel 24h avant la date de réservation.</span>
+                  <div className="tel__info">
+                    
+                    <FontAwesomeIcon icon={faInfoCircle} size="sm"/> 
+
+                    <span>Servira uniquement à vous envoyer un rappel 24h avant la date de réservation.</span>                   
+                  </div>
+
                 </div>              
               </div>         
             </div>
@@ -268,9 +268,8 @@ const PassCommand = () => {
             <div className="container__comm-others">
               <div className="others__nbP">
                 <p>Nombre de places désirées :</p>
-                <Counter value={nbP} handleChange={handleNbPChange} onClickPlus={handlePlusClick} onClickMinus={handleMinusClick}/>
+                <Counter value={nbP} handleChange={handleNbPChange} onClickPlus={handlePlusClick} onClickMinus={handleMinusClick} counterRef={input}/>
               </div>
-          
 
               <div className="others__total">
                 <p>Total : </p>
@@ -305,7 +304,7 @@ const PassCommand = () => {
 
         <div className="container__mess-btn">
           <div className="input-btn" >
-              <input type="submit" value="Réserver" />
+              <input type="submit" value="Réserver" ref={input}/>
           </div>
         </div>
 

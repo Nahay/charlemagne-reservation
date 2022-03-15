@@ -5,12 +5,13 @@ import { adminConfig } from './config';
 const API_URL = process.env.REACT_APP_API_URL;
 
 
-const createDate = async (dateC, visibility, comment, nbPlaces, token) => {
+const createDate = async (dateC, visibility, comment, price, nbPlaces, token) => {
     try {
         await axios.post(API_URL + "/calendar", {
             dateC,
             visibility,
             comment, 
+            price,
             nbPlaces
         }, adminConfig(token));
         toast.success("La date a été créée !");
@@ -47,12 +48,13 @@ const getDatesByVisibility = async () => {
     }
 };
 
-const updateDate = async (date, visibility, comment, nbPlaces, nbRemaining, token) => {
+const updateDate = async (date, visibility, comment, price, nbPlaces, nbRemaining, token) => {
     try {
         await axios.patch(
             API_URL + "/calendar/" +date, {
                 visibility,
                 comment,
+                price,
                 nbPlaces,
                 nbRemaining
             }, adminConfig(token)

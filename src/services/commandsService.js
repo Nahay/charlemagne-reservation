@@ -5,12 +5,11 @@ import { adminConfig, userConfig } from './config';
 const API_URL = process.env.REACT_APP_API_URL;
 
 
-const createCommand = async (user, dateC, timeC, paid, container, comment, total, token) => {
+const createCommand = async (user, dateC, paid, container, comment, total, token) => {
     try {
         const { data } = await axios.post(API_URL + "/commands", {
             user,
             dateC,
-            timeC,
             paid,
             container,
             comment,
@@ -85,11 +84,10 @@ const getNbOfDishByDay = async (dateC, token) => {
     }
 }
 
-const updateCommand = async (id, timeC, paid, container, comment, total, token) => {
+const updateCommand = async (id, paid, container, comment, total, token) => {
     try {
         await axios.patch(
             API_URL + "/commands/" +id, {
-                timeC,
                 paid,
                 container,
                 comment,
