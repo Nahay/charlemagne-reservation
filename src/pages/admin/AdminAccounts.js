@@ -226,7 +226,7 @@ const AdminAccounts = () => {
 
                         else {
                             // ajout bdd client
-                            await createUser(email, password, name, firstname, tel, token);
+                            await createUser(email, password, name, firstname, tel, "", token);
                             getClientAccountList();
                         }                       
                     }

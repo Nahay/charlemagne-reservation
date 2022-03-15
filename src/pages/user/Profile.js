@@ -71,8 +71,8 @@ const Profile = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        if (password === "") await updateUserNoPw(userDecoded._id, name, firstname, tel, token);
-        else await updateUser(userDecoded._id, password, name, firstname, tel, token);
+        if (password === "") await updateUserNoPw(userDecoded._id, name, firstname, tel, comment, false, token);
+        else await updateUser(userDecoded._id, password, name, firstname, tel, comment, false, token);
     }
 
 
