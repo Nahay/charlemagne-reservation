@@ -31,7 +31,7 @@ const UserTemp = () => {
                     <Route exact path="/reserver" component = {Order} />
                     <Route exact path="/passer-reservation/:date" component = {PassCommand} />
                     <Route exact path="/contact" component = {Contact} />
-                    <ProtectedUserRoute exact path="/history" component = {History} />
+                    <ProtectedUserRoute exact path="/historique" component = {History} />
                     <ProtectedLoginRoute exact path="/connexion" component = {Login}/>
                     <ProtectedLoginRoute exact path="/inscription" component = {SignUp} />
 
