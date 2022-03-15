@@ -1,0 +1,55 @@
+.profile {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+
+    height:100%;
+    width:100%;
+
+    .profile__container {
+        display:flex;
+        justify-content: space-between;
+        align-content: center;
+        // flex-direction: column;
+        flex-wrap: wrap;
+
+        height:100%;
+        width:50%;
+        min-width:620px;
+
+        padding: 0 100px;
+
+        background:var(--color-secondary);
+
+        .profile__input {
+            width:300px;
+            min-height:110px;
+            margin-right:10px;
+
+            label {
+                margin-bottom:5px;
+            }
+        }
+
+        .profile__input label, .profile__comment label {
+            color:white;
+            
+        }
+
+        .profile__input:nth-child(5) {
+            justify-self: center;
+            margin:auto;
+        }
+
+        .profile__comment {
+            width:100%;
+        }
+        
+        .input-btn {
+            align-self: flex-end;
+
+            margin-left:auto;
+            margin-top:30px;
+        }
+    }
+}

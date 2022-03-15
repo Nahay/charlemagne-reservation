@@ -56,12 +56,21 @@ const HeaderBody = ({ toggle }) => {
 
                 { isLogged() && 
 
-                <NavLink
-                    exact to="/history"
-                    activeClassName="active-link"
-                    onClick={toggle}>
-                        Historique
-                </NavLink>
+                    <>
+                        <NavLink
+                            exact to="/profil"
+                            activeClassName="active-link"
+                            onClick={toggle}>
+                                Profil
+                        </NavLink>
+
+                        <NavLink
+                            exact to="/historique"
+                            activeClassName="active-link"
+                            onClick={toggle}>
+                                Historique
+                        </NavLink>
+                    </>
                 
                 }    
 
