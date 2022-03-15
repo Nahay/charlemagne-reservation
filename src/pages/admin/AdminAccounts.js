@@ -31,6 +31,7 @@ const AdminAccounts = () => {
     const [firstname, setFirstname] = useState("");
     const [tel, setTel] = useState("");
     const [password, setPassword] = useState("");
+    const [comment, setComment] = useState("");
 
     const [create, setCreate] = useState(true);
     const [watchClients, setWatchClients] = useState(true);
@@ -90,7 +91,7 @@ const AdminAccounts = () => {
         setTel("");
     }
 
-    const onClickClientAccount = ({ _id, email, name, firstname, tel }) => {
+    const onClickClientAccount = ({ _id, email, name, firstname, tel, comment }) => {
         setId(_id);
         setAdmin(false);
         setCreate(false);
@@ -99,6 +100,7 @@ const AdminAccounts = () => {
         setName(name);
         setFirstname(firstname);
         setTel(tel);
+        setComment(comment);
     }
 
     const onClickAdminAccount = (username, _id) => {
@@ -220,13 +222,12 @@ const AdminAccounts = () => {
                         // test s'il existe déjà un utilisateur avec le nom d'utilisateur entré
 
                         const userAldreadyExist = await getUserByEmail(email, token);
-                        if (userAldreadyExist.success) toast.error("Il existe déjà un compte utilisateur possédant ce nom d'utilisateur.");
+                        if (userAldreadyExist.success) toast.error("Il existe déjà un compte utilisateur possédant cet email.");
 
                         else {
                             // ajout bdd client
-                            await createUser( email, password, name, firstname, tel, token);
+                            await createUser(email, password, name, firstname, tel, "", token);
                             getClientAccountList();
-                            resetValues();
                         }                       
                     }
                     
@@ -250,19 +251,15 @@ const AdminAccounts = () => {
                     
                 }
                 else {        
-                    if (emailReg.test(email)) {
-                        if (password === "") {
-                            // update bdd client sans mdp
-                            await updateUserNoPw(id, name, firstname, tel, false, token);
-                        }
-                        // update bdd client
-                        else {                            
-                            await updateUser(id, password, name, firstname, false, token);
-                        }
-                        getClientAccountList();
-                        resetValues();
-                    }                    
-                    else toast.error("Email non valide.");
+                    if (password === "") {
+                        // update bdd client sans mdp
+                        await updateUserNoPw(id, name, firstname, tel, comment, true, token);
+                    }
+                    // update bdd client
+                    else {                            
+                        await updateUser(id, password, name, firstname, tel, comment, true, token);
+                    }
+                    getClientAccountList();
                 }
 
             }

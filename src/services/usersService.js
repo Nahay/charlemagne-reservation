@@ -54,9 +54,16 @@ const getUserById = async (id) => {
 
 // CREATE ---------------------------------------------------------------------------------------------------------------------------------------
 
-const createUser = async (email, password, name, firstname, tel, token) => {
+const createUser = async (email, password, name, firstname, tel, comment, token) => {
     try {
-        await axios.post(API_URL + "/users", { email, password, name, firstname, tel }, adminConfig(token));
+        await axios.post(API_URL + "/users", {
+            email,
+            password,
+            name,
+            firstname,
+            tel,
+            comment
+        }, adminConfig(token));
         toast.success("L'utilisateur a été crée !");
     } catch(err) {
         toast.error(err.message);
@@ -66,8 +73,9 @@ const createUser = async (email, password, name, firstname, tel, token) => {
 
 const updateUser = async (id, password, name, firstname, tel, comment, admin, token) => {
     try {
-        await axios.patch(API_URL + "/users/" +id, { password, name, firstname, tel, comment, admin }, admin ? adminConfig(token) : userConfig(token));
+        const { data } = await axios.patch(API_URL + "/users/" +id, { password, name, firstname, tel, comment, admin }, admin ? adminConfig(token) : userConfig(token));
         toast.success("L'utilisateur a été mis à jour !");
+        return data;
     } catch(err) {
         toast.error(err.message);
     }
@@ -75,8 +83,9 @@ const updateUser = async (id, password, name, firstname, tel, comment, admin, to
 
 const updateUserNoPw = async (id, name, firstname, tel, comment, admin, token) => {
     try {
-        await axios.patch(API_URL + "/users/usernpw/" +id, { name, firstname, tel, comment, admin }, admin ? adminConfig(token) : userConfig(token));
+        const { data } = await axios.patch(API_URL + "/users/usernpw/" +id, { name, firstname, tel, comment, admin }, admin ? adminConfig(token) : userConfig(token));
         toast.success("L'utilisateur a été mis à jour !");
+        return data;
     } catch(err) {
         toast.error(err.message);
     }

@@ -7,7 +7,7 @@ import InputNumber from '../../components/generic/InputNumber';
 import InputEmail from '../../components/generic/InputEmail';
 import TextArea from '../../components/generic/TextArea';
 
-import { updateUser, updateUserNoPw, getUserById } from '../../services/usersService';
+import { updateUser, updateUserNoPw } from '../../services/usersService';
 
 
 const Profile = () => {
@@ -28,11 +28,16 @@ const Profile = () => {
 
         async function getUser() {
 
+            const token = localStorage.getItem('userToken');
+            const userDecoded = decodeToken(token);
+
             if (userDecoded) {
+
                 setName(userDecoded.name);
                 setFirstname(userDecoded.firstname);
                 setEmail(userDecoded.email);
                 setTel(userDecoded.tel);
+                setComment(userDecoded.comment);
             }
         }
 
@@ -71,8 +76,12 @@ const Profile = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        if (password === "") await updateUserNoPw(userDecoded._id, name, firstname, tel, token);
-        else await updateUser(userDecoded._id, password, name, firstname, tel, token);
+        let user = "";
+
+        if (password === "") user = await updateUserNoPw(userDecoded._id, name, firstname, tel, comment, false, token);
+        else user = await updateUser(userDecoded._id, password, name, firstname, tel, comment, false, token);
+
+        if (user.token) localStorage.setItem('userToken', user.token);
     }
 
 
