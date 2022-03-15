@@ -56,7 +56,13 @@ const getUserById = async (id) => {
 
 const createUser = async (email, password, name, firstname, tel, token) => {
     try {
-        await axios.post(API_URL + "/users", { email, password, name, firstname, tel }, adminConfig(token));
+        await axios.post(API_URL + "/users", {
+            email,
+            password,
+            name,
+            firstname,
+            tel
+        }, adminConfig(token));
         toast.success("L'utilisateur a été crée !");
     } catch(err) {
         toast.error(err.message);
