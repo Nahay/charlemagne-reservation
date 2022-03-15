@@ -12,7 +12,7 @@ import InputEmail from '../../components/generic/InputEmail';
 import AccountList from '../../components/admin/AccountList';
 import Box from "../../components/generic/Box";
 
-import { createUser, hideUser, getVisibleUsers, updateUser, updateUserNoPw, getUserByUsername } from '../../services/usersService';
+import { createUser, hideUser, getVisibleUsers, updateUser, updateUserNoPw, getUserByEmail } from '../../services/usersService';
 import { createAdmin, deleteAdmin, getAdminById, getAdminByUsername, getAdmins, updateAdmin } from '../../services/adminsService';
 
 
@@ -90,12 +90,11 @@ const AdminAccounts = () => {
         setTel("");
     }
 
-    const onClickClientAccount = ({ _id, email, username, name, firstname, tel }) => {
+    const onClickClientAccount = ({ _id, email, name, firstname, tel }) => {
         setId(_id);
         setAdmin(false);
         setCreate(false);
         setEmail(email);
-        setUsername(username);
         setPassword("");
         setName(name);
         setFirstname(firstname);
@@ -220,12 +219,12 @@ const AdminAccounts = () => {
 
                         // test s'il existe déjà un utilisateur avec le nom d'utilisateur entré
 
-                        const userAldreadyExist = await getUserByUsername(username, token);
+                        const userAldreadyExist = await getUserByEmail(email, token);
                         if (userAldreadyExist.success) toast.error("Il existe déjà un compte utilisateur possédant ce nom d'utilisateur.");
 
                         else {
                             // ajout bdd client
-                            await createUser(username, password, name, firstname, email, tel, token);
+                            await createUser( email, password, name, firstname, tel, token);
                             getClientAccountList();
                             resetValues();
                         }                       
@@ -254,11 +253,11 @@ const AdminAccounts = () => {
                     if (emailReg.test(email)) {
                         if (password === "") {
                             // update bdd client sans mdp
-                            await updateUserNoPw(id, name, firstname, email, tel, token);
+                            await updateUserNoPw(id, name, firstname, tel, false, token);
                         }
                         // update bdd client
                         else {                            
-                            await updateUser(id, password, name, firstname, email, tel, token);
+                            await updateUser(id, password, name, firstname, false, token);
                         }
                         getClientAccountList();
                         resetValues();
@@ -364,28 +363,21 @@ const AdminAccounts = () => {
                         
                         :
                             
-                            <div className="admin-form">
-
-                                <InputText
-                                    value={username}
-                                    placeholder="Nom d'utilisateur*"
-                                    handleChange={handleUsername}
-                                    readOnly={create ? false : true}
+                            <div className="admin-form">                               
+                               
+                                <InputEmail
+                                    value={email}
+                                    placeholder="Email*"
+                                    handleChange={handleEmail}
+                                    readOnly={true}
                                 />
+
                                 <InputText
                                     value={password}
                                     placeholder={create ? "Mot de passe*" : "Changer mot de passe"}
                                     required={create ? true : false}
                                     handleChange={handlePassword}
                                 />
-
-                               
-                                <InputEmail
-                                    value={email}
-                                    placeholder="Email*"
-                                    handleChange={handleEmail}
-                                />  
- 
 
                                 <InputText
                                     value={name}

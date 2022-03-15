@@ -31,7 +31,7 @@ const Order = () => {
       if(previousDate !== null) {
         await getDishByDateList(typeof previousDate === "string" ? new Date(previousDate).getTime() : previousDate);
       }
-      else await getDishByDateList(date);
+      else await getDishByDateList(new Date(new Date().toDateString).getTime());
     }
 
     getSetDates();

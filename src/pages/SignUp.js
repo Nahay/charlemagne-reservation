@@ -12,7 +12,6 @@ const SignUp = () => {
 
     const history = useHistory();
 
-    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [firstname, setFirstname] = useState("");
@@ -24,7 +23,6 @@ const SignUp = () => {
 
 
     // HANDLE -------------------------------------------------------------------
-    const handleUsernameChange = (e) => setUsername(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
     const handleNameChange = (e) => (nameReg.test(e.target.value) || e.target.value === "") && setName(e.target.value);
     const handleFirstnameChange = (e) => (nameReg.test(e.target.value) || e.target.value === "") && setFirstname(e.target.value);
@@ -34,7 +32,7 @@ const SignUp = () => {
     const handleSignUpSubmit = async (e) => {
         e.preventDefault();
         if(emailReg.test(email)) {
-            const signUp = await userSignUp(username, password, name, firstname, email, tel, "");
+            const signUp = await userSignUp(email, password, name, firstname, tel, "");
             if(signUp.success){
                 toast.success("Le compte a été crée avec succès ! Vous pouvez vous connecter.");
                 history.goBack();
@@ -46,15 +44,13 @@ const SignUp = () => {
 
     return (
         <div className="login-container">
-            <SignUpForm
-              handleUsernameChange={handleUsernameChange}
+            <SignUpForm            
+              handleEmailChange={handleEmailChange}
               handlePasswordChange={handlePasswordChange}
               handleNameChange={handleNameChange}
               handleFirstnameChange={handleFirstnameChange}
-              handleEmailChange={handleEmailChange}
               handleTelChange={handleTelChange}
               handleSignUpSubmit={handleSignUpSubmit} 
-              username={username}
               password={password}
               name={name}
               firstname={firstname}

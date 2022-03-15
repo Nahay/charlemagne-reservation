@@ -4,12 +4,11 @@ import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 
 const AccountList = ({watchClients, accountList, onClickClientAccount, onClickAdminAccount, onClickDelete}) => {
-
   return (
     <div className="list__container">
     {accountList.map((a) => {
           return (
-            <div className="list__container__box" key={a._id}>
+            <div className="list__container__box" key={a._id}> 
               <p onClick={() => {
                   if (watchClients) onClickClientAccount(a);
                   else onClickAdminAccount(a.username, a._id)}

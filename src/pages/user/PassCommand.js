@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 import InputText from "../../components/generic/InputText";
 import InputNumber from "../../components/generic/InputNumber";
+import Counter from "../../components/generic/Counter";
 import TextArea from '../../components/generic/TextArea';
 import OrderTable from "../../components/order/OrderTable";
 import Summary from "../../components/order/Summary";
@@ -207,7 +208,15 @@ const PassCommand = () => {
   const handleAccountChange = (e) => setConfirmAccount(confirmAccount ? false : true);
 
   const handleTelChange = (e) => !isNaN(e.target.value) && setTel(e.target.value);
+
   const handleNbPChange = (e) => !isNaN(e.target.value) && setNbP(e.target.value);
+
+  const handlePlusClick = () => {
+
+  }
+  const handleMinusClick = () => {
+
+  }
 
   return (
     <form className="make-order" onSubmit={onOrderSubmit} ref={form}>
@@ -228,53 +237,69 @@ const PassCommand = () => {
           {dateComment !== "" && <p>{dateComment}</p>}
         </div>
 
-        <div className="container__informations">
-          <div className="informations-content">
-            <InputText placeholder="Nom" handleChange={handleNameChange} value={name}/>
-            <InputNumber placeholder="Tel" handleChange={handleTelChange} value={tel}/>
-          </div>         
-        </div>
-        
+        <div className="container__content">
 
-        <OrderTable data={data}/>
+          <div className="content__left">
 
-        <div className="container__comm-others">
-          <TextArea
+            <div className="container__informations">
+              <div className="informations-content">
+                <InputText placeholder="Nom" handleChange={handleNameChange} value={name}/>
+
+                <div className="content-tel">
+                  <InputNumber placeholder="Tel" handleChange={handleTelChange} value={tel}/>
+                  <span>Servira uniquement à vous envoyer un rappel 24h avant la date de réservation.</span>
+                </div>              
+              </div>         
+            </div>
+
+            <OrderTable data={data}/>
+
+            <TextArea
               value={comment}
               placeholder="Commentaires (facultatif)..."
               required = {false}
               handleChange={handleComment}
-          />
-          <div className="comm-others__others">
-            <InputNumber placeholder="Nombre de personnes" handleChange={handleNbPChange} value={nbP}/>
-            <div className="others__total">
-              <p>Total : </p>
-              <p className="fixed-text"> {total} €</p>
-            </div>
-            { decodedToken ? 
-            <div className="checkbox__container">
-              <input
-              type="checkbox"
-              id="confirm-email"
-              name="confirm-email"
-              checked={confirmEmail}
-              onChange={handleEmailChange}
-              />
-              <label htmlFor="confirm-email">Recevoir un email de confirmation</label>              
-            </div>
-            :
-            <div className="checkbox__container">
-              <input
-                type="checkbox"
-                id="confirm-acc"
-                name="confirm-acc"
-                checked={confirmAccount}
-                onChange={handleAccountChange}
-                />
-              <label htmlFor="confirm-acc">Créer un compte avant de prendre réservation</label>              
-            </div>
-            }
+            />
 
+          </div>
+
+          <div className="content__right">
+
+            <div className="container__comm-others">
+              <div className="others__nbP">
+                <p>Nombre de places désirées :</p>
+                <Counter value={nbP} handleChange={handleNbPChange} onClickPlus={handlePlusClick} onClickMinus={handleMinusClick}/>
+              </div>
+          
+
+              <div className="others__total">
+                <p>Total : </p>
+                <p className="fixed-text"> {total} €</p>
+              </div>
+              { decodedToken ? 
+              <div className="checkbox__container">
+                <input
+                type="checkbox"
+                id="confirm-email"
+                name="confirm-email"
+                checked={confirmEmail}
+                onChange={handleEmailChange}
+                />
+                <label htmlFor="confirm-email">Recevoir un email de confirmation</label>              
+              </div>
+              :
+              <div className="checkbox__container">
+                <input
+                  type="checkbox"
+                  id="confirm-acc"
+                  name="confirm-acc"
+                  checked={confirmAccount}
+                  onChange={handleAccountChange}
+                  />
+                <label htmlFor="confirm-acc">Créer un compte avant de prendre réservation</label>              
+              </div>
+              }
+            </div>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { adminConfig } from './config';
+import { adminConfig, userConfig } from './config';
  
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -25,18 +25,18 @@ const getVisibleUsers = async(token) => {
     }
 }
 
-const getUserByUsername = async (username, token) => {
+const getUserByEmail = async (email, token) => {
     try {
-        const { data } = await axios.get(API_URL + "/users/user/" + username, adminConfig(token));
+        const { data } = await axios.get(API_URL + "/users/user/" + email, adminConfig(token));
         return data;
     } catch(err) {
         toast.error(err.message);
     }
 }
 
-const getFirstNameByUsername = async (username) => {
+const getFirstNameByEmail = async (email) => {
     try {
-        const { data } = await axios.get(API_URL + "/users/firstname/" + username);
+        const { data } = await axios.get(API_URL + "/users/firstname/" + email);
         return data;
     } catch(err) {
         toast.error(err.message);
@@ -54,9 +54,9 @@ const getUserById = async (id) => {
 
 // CREATE ---------------------------------------------------------------------------------------------------------------------------------------
 
-const createUser = async (username, password, name, firstname, email, tel, token) => {
+const createUser = async (email, password, name, firstname, tel, token) => {
     try {
-        await axios.post(API_URL + "/users", { username, password, name, firstname, email, tel }, adminConfig(token));
+        await axios.post(API_URL + "/users", { email, password, name, firstname, tel }, adminConfig(token));
         toast.success("L'utilisateur a été crée !");
     } catch(err) {
         toast.error(err.message);
@@ -64,18 +64,18 @@ const createUser = async (username, password, name, firstname, email, tel, token
 }
 // UPDATE -----------------------------------------------------------------------------------------------------------------------------------
 
-const updateUser = async (id, password, name, firstname, email, tel, token) => {
+const updateUser = async (id, password, name, firstname, tel, admin, token) => {
     try {
-        await axios.patch(API_URL + "/users/" +id, { password, name, firstname, email, tel }, adminConfig(token));
+        await axios.patch(API_URL + "/users/" +id, { password, name, firstname, tel }, admin ? adminConfig(token) : userConfig(token));
         toast.success("L'utilisateur a été mis à jour !");
     } catch(err) {
         toast.error(err.message);
     }
 }
 
-const updateUserNoPw = async (id, name, firstname, email, tel, token) => {
+const updateUserNoPw = async (id, name, firstname, tel, admin, token) => {
     try {
-        await axios.patch(API_URL + "/users/usernpw/" +id, { name, firstname, email, tel }, adminConfig(token));
+        await axios.patch(API_URL + "/users/usernpw/" +id, { name, firstname, tel }, admin ? adminConfig(token) : userConfig(token));
         toast.success("L'utilisateur a été mis à jour !");
     } catch(err) {
         toast.error(err.message);
@@ -104,9 +104,9 @@ const deleteUser = async (id, token) => {
     }
 }
 
-const deleteUserByUsername = async (username, token) => {
+const deleteUserByEmail = async (email, token) => {
     try {
-        await axios.delete(API_URL + "/users/user/" +username, adminConfig(token));
+        await axios.delete(API_URL + "/users/user/" +email, adminConfig(token));
         toast.success("L'utilisateur a été supprimé !");
     } catch(err) {
         console.log(err);
@@ -116,9 +116,9 @@ const deleteUserByUsername = async (username, token) => {
 
 // SIGN IN ------------------------------------------------------------------------------------------------------------------------------------
 
-const userSignIn = async (username, password) => {
+const userSignIn = async (email, password) => {
     try {
-        const { data } = await axios.post(API_URL + "/users/signin", { username, password });
+        const { data } = await axios.post(API_URL + "/users/signin", { email, password });
         return data;
     } catch(err) {
         toast.error(err.message);
@@ -127,9 +127,9 @@ const userSignIn = async (username, password) => {
 
 // SIGN UP ------------------------------------------------------------------------------------------------------------------------------------
 
-const userSignUp = async (username, password, name, firstname, email, tel, comment) => {
+const userSignUp = async (email, password, name, firstname, tel, comment) => {
     try {
-        const { data } = await axios.post(API_URL + "/users/signup", { username, password, name, firstname, email, tel, comment });
+        const { data } = await axios.post(API_URL + "/users/signup", { email, password, name, firstname, tel, comment });
         return data;
     } catch(err) {
         toast.error(err.message);
@@ -140,8 +140,8 @@ const userSignUp = async (username, password, name, firstname, email, tel, comme
 export {
     userSignIn,
     userSignUp,
-    getUserByUsername,
-    getFirstNameByUsername,
+    getUserByEmail,
+    getFirstNameByEmail,
     getUserById,
     getUsers,
     getVisibleUsers,
@@ -150,5 +150,5 @@ export {
     updateUser,
     updateUserNoPw,
     deleteUser,
-    deleteUserByUsername
+    deleteUserByEmail
 }

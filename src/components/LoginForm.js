@@ -12,22 +12,36 @@ const LoginForm = ({handleUsernameChange, handlePasswordChange, handleLoginSubmi
 
     return (
         <form className="login-form" onSubmit={handleLoginSubmit}>
+            {user ?
             <div className="login-form__content">
-                
-                {user &&
-                    <div className="switch-form">
-                        <p onClick={() => history.push("/inscription")}>S'inscrire</p>
-                    </div>
-                }
+                <div className="switch-form">
+                    <p onClick={() => history.push("/inscription")}>S'inscrire</p>
+                </div>
 
-                <InputText placeholder="Nom d'utilisateur" handleChange={handleUsernameChange} value={username}/>
+                <InputText placeholder="Email" handleChange={handleUsernameChange} value={username}/>
                 <InputPassword placeholder="Mot de passe" handleChange={handlePasswordChange} value={password}/>
+
                 <div className="content__password">
                     <span>Mot de passe oublié ?</span>
                     <p>Merci de contacter les professeurs de l'hotellerie.</p>
                 </div>
+
                 <InputButton value="Se connecter" type="submit"/>
             </div>
+
+            :
+            <div className="login-form__content">                
+                <InputText placeholder="Email" handleChange={handleUsernameChange} value={username}/>
+                <InputPassword placeholder="Mot de passe" handleChange={handlePasswordChange} value={password}/>
+
+                <div className="content__password">
+                    <span>Mot de passe oublié ?</span>
+                    <p>Merci de contacter les professeurs de l'hotellerie.</p>
+                </div>
+
+                <InputButton value="Se connecter" type="submit"/>
+            </div>
+            }
         </form>
     );
 }

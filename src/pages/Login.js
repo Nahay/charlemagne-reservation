@@ -7,13 +7,14 @@ import { faUsers } from '@fortawesome/free-solid-svg-icons';
 
 import LoginForm from '../components/LoginForm';
 
-import { getFirstNameByUsername, userSignIn } from '../services/usersService';
+import { getFirstNameByEmail, userSignIn } from '../services/usersService';
 
 
 const Login = () => {
 
     const history = useHistory();
-
+    
+    // username pour l'administrateur, mais email pour l'utilisateur
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
      
@@ -29,7 +30,7 @@ const Login = () => {
           // si il y est, on l'ajoute au local storage
           localStorage.setItem('userToken', si.token);
           history.goBack();
-          const user = await getFirstNameByUsername(username);
+          const user = await getFirstNameByEmail(username);
           toast.success("Bienvenue " + user.userFound.firstname +" !");          
         }
         else toast.error("Le nom d'utilisateur ou le mot de passe est incorrect.");

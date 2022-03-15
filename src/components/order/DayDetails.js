@@ -17,15 +17,16 @@ const DayDetails = ({date, dishByDateList, nbR}) => {
         async function getNb() {
             setIsAvailable(false);
             setHaveDesc(false);
+            
             dishByDateList.forEach(d => {
-                if (nbR > 0) setIsAvailable(true);
+                if (nbR > 0 && nbR !== "") setIsAvailable(true);
                 if (d.description !== "") setHaveDesc(true);
             });
         }
-        
+
         getNb();
     
-    }, [dishByDateList]);
+    }, [dishByDateList, nbR]);
 
 
     return ( 

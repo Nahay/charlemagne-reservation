@@ -7,7 +7,7 @@ import InputPassword from "./generic/InputPassword";
 import InputNumber from "./generic/InputNumber";
 
 
-const SignUpForm = ({handleUsernameChange, handlePasswordChange, handleSignUpSubmit, handleNameChange, handleFirstnameChange, handleTelChange, handleEmailChange, email, username, password, name, firstname, tel }) => {
+const SignUpForm = ({handlePasswordChange, handleSignUpSubmit, handleNameChange, handleFirstnameChange, handleTelChange, handleEmailChange, email, password, name, firstname, tel }) => {
 
     const history = useHistory();
 
@@ -20,17 +20,15 @@ const SignUpForm = ({handleUsernameChange, handlePasswordChange, handleSignUpSub
                 </div>
 
                 <div className="input-duo"> 
-                    <InputText placeholder="Nom" handleChange={handleNameChange} value={name}/>
-                    <InputText placeholder="Prénom" handleChange={handleFirstnameChange} value={firstname}/>
+                    <InputText placeholder="Nom*" handleChange={handleNameChange} value={name}/>
+                    <InputText placeholder="Prénom*" handleChange={handleFirstnameChange} value={firstname}/>
                 </div>
 
-                <InputText placeholder="Nom d'utilisateur" handleChange={handleUsernameChange} value={username}/>
-                <InputPassword placeholder="Mot de passe" handleChange={handlePasswordChange} value={password}/>
+                <InputText placeholder="Email*" handleChange={handleEmailChange} value={email}/>
+                <InputPassword placeholder="Mot de passe*" handleChange={handlePasswordChange} value={password}/>
                
-                <div className="input-duo"> 
-                    <InputText placeholder="Email" handleChange={handleEmailChange} value={email}/>
-                    <InputNumber placeholder="Tel" handleChange={handleTelChange} value={tel} required={false}/>
-                </div>
+  
+                <InputNumber placeholder="Tel" handleChange={handleTelChange} value={tel} required={false}/>
 
                 <InputButton value="S'inscrire" type="submit"/>
             </div>
