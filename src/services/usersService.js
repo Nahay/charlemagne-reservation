@@ -64,18 +64,18 @@ const createUser = async (email, password, name, firstname, tel, token) => {
 }
 // UPDATE -----------------------------------------------------------------------------------------------------------------------------------
 
-const updateUser = async (id, password, name, firstname, tel, admin, token) => {
+const updateUser = async (id, password, name, firstname, tel, comment, admin, token) => {
     try {
-        await axios.patch(API_URL + "/users/" +id, { password, name, firstname, tel }, admin ? adminConfig(token) : userConfig(token));
+        await axios.patch(API_URL + "/users/" +id, { password, name, firstname, tel, comment, admin }, admin ? adminConfig(token) : userConfig(token));
         toast.success("L'utilisateur a été mis à jour !");
     } catch(err) {
         toast.error(err.message);
     }
 }
 
-const updateUserNoPw = async (id, name, firstname, tel, admin, token) => {
+const updateUserNoPw = async (id, name, firstname, tel, comment, admin, token) => {
     try {
-        await axios.patch(API_URL + "/users/usernpw/" +id, { name, firstname, tel }, admin ? adminConfig(token) : userConfig(token));
+        await axios.patch(API_URL + "/users/usernpw/" +id, { name, firstname, admin, tel, comment, admin }, admin ? adminConfig(token) : userConfig(token));
         toast.success("L'utilisateur a été mis à jour !");
     } catch(err) {
         toast.error(err.message);

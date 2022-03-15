@@ -369,7 +369,7 @@ const AdminAccounts = () => {
                                     value={email}
                                     placeholder="Email*"
                                     handleChange={handleEmail}
-                                    readOnly={true}
+                                    readOnly={create ? false : true}
                                 />
 
                                 <InputText
