@@ -7,7 +7,7 @@ import InputNumber from '../../components/generic/InputNumber';
 import InputEmail from '../../components/generic/InputEmail';
 import TextArea from '../../components/generic/TextArea';
 
-import { updateUser, updateUserNoPw, getUserById, userSignIn } from '../../services/usersService';
+import { updateUser, updateUserNoPw } from '../../services/usersService';
 
 
 const Profile = () => {
@@ -27,6 +27,9 @@ const Profile = () => {
     useEffect(() => {   
 
         async function getUser() {
+
+            const token = localStorage.getItem('userToken');
+            const userDecoded = decodeToken(token);
 
             if (userDecoded) {
 
@@ -77,7 +80,7 @@ const Profile = () => {
 
         if (password === "") user = await updateUserNoPw(userDecoded._id, name, firstname, tel, comment, false, token);
         else user = await updateUser(userDecoded._id, password, name, firstname, tel, comment, false, token);
-        console.log(decodeToken(user.token));
+
         if (user.token) localStorage.setItem('userToken', user.token);
     }
 
