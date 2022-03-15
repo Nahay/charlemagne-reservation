@@ -365,12 +365,22 @@ const AdminAccounts = () => {
                             
                             <div className="admin-form">                               
                                
-                                <InputEmail
-                                    value={email}
-                                    placeholder="Email*"
-                                    handleChange={handleEmail}
-                                    readOnly={true}
-                                />
+                               { create ?
+                                    <InputEmail
+                                        value={email}
+                                        placeholder="Email*"
+                                        handleChange={handleEmail}
+                                    />
+
+                                    :
+                                    
+                                    <InputEmail
+                                        value={email}
+                                        placeholder="Email*"
+                                        handleChange={handleEmail}
+                                        readOnly={true}
+                                    />
+                               }
 
                                 <InputText
                                     value={password}
