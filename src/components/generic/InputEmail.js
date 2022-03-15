@@ -19,7 +19,7 @@ const InputEmail = ({value, placeholder, required, handleChange, readOnly}) => {
           required
           readOnly
         />
-        :
+      :
         <input
           type="email"
           value={value}
@@ -28,22 +28,21 @@ const InputEmail = ({value, placeholder, required, handleChange, readOnly}) => {
           required
         />
       :
-      readOnly ?
-      <input
-        type="email"
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => handleChange(e) }
-        readOnly
-      />
+        readOnly ?
+        <input
+          type="email"
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => handleChange(e) }
+          readOnly
+        />
       :
-      <input
-        type="email"
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => handleChange(e) }
-      />
-      
+        <input
+          type="email"
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => handleChange(e) }
+        />
       }
       
     </div>
