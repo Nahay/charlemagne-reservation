@@ -13,9 +13,9 @@ import PassCommand from '../pages/user/PassCommand';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import History from '../pages/user/History';
+import Profile from '../pages/user/Profile';
 
 import PageNotFound from '../pages/PageNotFound';
-
 
 
 const UserTemp = () => {
@@ -32,6 +32,7 @@ const UserTemp = () => {
                     <Route exact path="/passer-reservation/:date" component = {PassCommand} />
                     <Route exact path="/contact" component = {Contact} />
                     <ProtectedUserRoute exact path="/historique" component = {History} />
+                    <ProtectedUserRoute exact path="/profil" component = {Profile} />
                     <ProtectedLoginRoute exact path="/connexion" component = {Login}/>
                     <ProtectedLoginRoute exact path="/inscription" component = {SignUp} />
 

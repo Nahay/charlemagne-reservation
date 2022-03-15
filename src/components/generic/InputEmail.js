@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const InputEmail = ({value, placeholder, required, handleChange}) => {
+const InputEmail = ({value, placeholder, required, handleChange, readOnly}) => {
 
   if (value === undefined) value="";
   if (required === undefined) required = true;
@@ -10,25 +10,41 @@ const InputEmail = ({value, placeholder, required, handleChange}) => {
     <div className={"input"}>
 
       {required ?
-
-      <input
-        type="email"
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => handleChange(e) }
-        required
-      />
-
+      readOnly ?
+        <input
+          type="email"
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => handleChange(e) }
+          required
+          readOnly
+        />
       :
-
-      <input
-        type="email"
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => handleChange(e) }
-      />
-      
+        <input
+          type="email"
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => handleChange(e) }
+          required
+        />
+      :
+        readOnly ?
+        <input
+          type="email"
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => handleChange(e) }
+          readOnly
+        />
+      :
+        <input
+          type="email"
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => handleChange(e) }
+        />
       }
+      
     </div>
   );
 };
