@@ -2,21 +2,19 @@ import React from 'react';
 
 import InputButton from "../generic/InputButton";
 
-const Summary = ({onClickConfirmation, sumRef, dishList, name, firstname, total, email}) => {
+const Summary = ({onClickConfirmation, sumRef, dishList, name, total, email, nbP}) => {
 
     return (
         <div className="summary-container" ref={sumRef}>
             <div className="summary-content">
                 <div className="summary-items">
-                    <p className="summary-title">Commande effectuée ✅ !</p>
-                    <p className="summary-name">{firstname} {name}, voici le résumé de votre commande :</p>
+                    <p className="summary-title">Réservation effectuée ✅ !</p>
+                    <p className="summary-name">{name}, voici le résumé de votre réservation pour {nbP > 1 ? nbP + " personnes" : nbP + " personne"} :</p>
                     <div className="summary-list">
                         {dishList.map(d => {
                             return (
                                 <div className="list---box" key={d._id}>
                                     <p className="box---name">{d.name}</p>
-                                    <p className="box---quantity">x {d.nbC}</p>  
-                                    <p className="box---price">{d.price} €</p>  
                                 </div>
                             );
                         })}                        

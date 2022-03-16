@@ -90,9 +90,17 @@
                     justify-content: space-between;
                 }
 
-                .nb-places {
+                .right__places-price {
+                    display: flex;
+                    justify-content: space-between;
+
                     width:100%;
-                    .input { width:200px }
+
+                    .right__places, .right__price { 
+                        width: 49%;
+                        .input { width: 100% } 
+                    }
+                    
                 }
 
                 .select-container {
@@ -263,11 +271,21 @@
     }
 
     @media(max-width:600px) {
-        .admin-dates__right .right__form .right__form__1 .select-container {
-            flex-direction: column;
+        .admin-dates__right 
+        .right__form 
+        .right__form__1 {
 
-            .input-btn, input { width:100% }
-            .input-btn { margin-bottom:5px }
+            .right__places-price {
+                flex-direction: column;
+                .right__places, .right__price { width: 100%; }
+            }
+            
+            .select-container {
+                flex-direction: column;
+
+                .input-btn, input { width:100% }
+                .input-btn { margin-bottom:5px }
+            }
         }
     }
 

@@ -1,16 +1,17 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { adminConfig } from './config';
+import { adminConfig, userConfig } from './config';
  
 const API_URL = process.env.REACT_APP_API_URL;
 
 
-const createDate = async (dateC, visibility, comment, nbPlaces, token) => {
+const createDate = async (dateC, visibility, comment, price, nbPlaces, token) => {
     try {
         await axios.post(API_URL + "/calendar", {
             dateC,
             visibility,
             comment, 
+            price,
             nbPlaces
         }, adminConfig(token));
         toast.success("La date a été créée !");
@@ -47,12 +48,13 @@ const getDatesByVisibility = async () => {
     }
 };
 
-const updateDate = async (date, visibility, comment, nbPlaces, nbRemaining, token) => {
+const updateDate = async (date, visibility, comment, price, nbPlaces, nbRemaining, token) => {
     try {
         await axios.patch(
             API_URL + "/calendar/" +date, {
                 visibility,
                 comment,
+                price,
                 nbPlaces,
                 nbRemaining
             }, adminConfig(token)
@@ -63,13 +65,25 @@ const updateDate = async (date, visibility, comment, nbPlaces, nbRemaining, toke
     }
 };
 
-const updateDateNbR = async (date, nbRemaining, token) => {
+const updateDateNbR = async (date, nbRemaining, admin, token) => {
     try {
         await axios.patch(
-            API_URL + "/calendar/nbR/", {
+            API_URL + "/calendar/nbR/"+date, {
                 nbRemaining
-            }, adminConfig(token)
+            }, admin ? adminConfig(token) : userConfig(token)
         );
+        toast.success("La date a été mise à jour !");
+    } catch(err) {
+        toast.error(err.message);
+    }
+};
+
+const updateDateNbRNL = async (date, nbRemaining) => {
+    try {
+        await axios.patch(
+            API_URL + "/calendar/nbR-nl/"+date, {
+                nbRemaining
+            });
         toast.success("La date a été mise à jour !");
     } catch(err) {
         toast.error(err.message);
@@ -120,6 +134,7 @@ export {
     updateDate,
     deleteDate,
     updateDateNbR,
+    updateDateNbRNL,
     addDishToDate,
     delDishFromDate
 };

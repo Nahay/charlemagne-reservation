@@ -7,7 +7,7 @@ import InputPassword from "./generic/InputPassword";
 import InputNumber from "./generic/InputNumber";
 
 
-const SignUpForm = ({handlePasswordChange, handleSignUpSubmit, handleNameChange, handleFirstnameChange, handleTelChange, handleEmailChange, email, password, name, firstname, tel }) => {
+const SignUpForm = ({isPage, handlePasswordChange, handleSignUpSubmit, handleNameChange, handleFirstnameChange, handleTelChange, handleEmailChange, email, password, name, firstname, tel }) => {
 
     const history = useHistory();
 
@@ -15,10 +15,11 @@ const SignUpForm = ({handlePasswordChange, handleSignUpSubmit, handleNameChange,
         <form className="login-form signup" onSubmit={handleSignUpSubmit}>
             <div className="login-form__content">
 
+                {isPage &&
                 <div className="switch-form">
                     <p onClick={() => history.push("/connexion")}>Se connecter</p>
                 </div>
-
+                }
                 <div className="input-duo"> 
                     <InputText placeholder="Nom*" handleChange={handleNameChange} value={name}/>
                     <InputText placeholder="Prénom*" handleChange={handleFirstnameChange} value={firstname}/>

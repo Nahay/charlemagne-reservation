@@ -33,7 +33,7 @@ const DayDetails = ({date, dishByDateList, nbR}) => {
         <div className="day-details">
             <h1 className="day-details__title">{moment(date).locale('fr').format('LL')}</h1>
 
-            { isAvailable &&
+            { (nbR >= 0 && nbR !== "") &&
                 <div className="right__places-available">
                     <p>Places disponibles : {nbR}</p>
                 </div>

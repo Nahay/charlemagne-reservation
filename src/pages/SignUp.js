@@ -34,7 +34,8 @@ const SignUp = () => {
         if(emailReg.test(email)) {
             const signUp = await userSignUp(email, password, name, firstname, tel, "");
             if(signUp.success){
-                toast.success("Le compte a été crée avec succès ! Vous pouvez vous connecter.");
+                toast.success("Le compte a été crée avec succès !");
+                localStorage.setItem('userToken', signUp.token);
                 history.goBack();
             }
             else toast.error(signUp.message);
@@ -56,6 +57,7 @@ const SignUp = () => {
               firstname={firstname}
               email={email}
               tel={tel}
+              isPage={true}
             />
             <div className="login-icon">
                 <FontAwesomeIcon icon={faUsers}/>
