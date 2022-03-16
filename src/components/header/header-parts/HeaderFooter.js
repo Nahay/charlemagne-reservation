@@ -37,7 +37,7 @@ const HeaderFooter = ({admin, toggle}) => {
         document.documentElement.setAttribute("data-theme", newTheme);
 
         if (newTheme === 'light') {
-            theme.current.children[2].style.color = "white";
+            theme.current.children[2].style.color = "black";
             theme.current.children[0].style.color = "rgb(255, 97, 79)";
             toast.success('Thème clair appliqué !');
         }
