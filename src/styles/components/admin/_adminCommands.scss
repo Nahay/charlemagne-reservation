@@ -155,27 +155,6 @@
             }
           }
         }
-        
-        .total__content {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-
-          width: 100%;
-
-          margin-bottom:30px;
-
-          p {
-            white-space: nowrap;
-            margin-right: 15px;
-          }
-
-          .input {                
-            width: 49%;
-            
-            input { margin: 0 }
-          }
-        }
 
         .disabled {
           p {
@@ -251,20 +230,13 @@
       .input-duo {
         flex-direction: column;
         align-items: flex-start;
+        width:100%;
+
+        .input  { width: calc(100% - 40px) }
 
         input { width:100% }
         .input:first-child { margin-bottom:10px }
         .time__container  { margin-bottom: 10px }
-        .total__container {
-          margin-left:unset;
-          max-width:150px;
-        }
-
-        &:first-child {
-          width:100%;
-
-          .input  { width: calc(100% - 40px) }
-        }
       }
     }
   }

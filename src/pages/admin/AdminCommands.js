@@ -13,8 +13,7 @@ import Box from "../../components/generic/Box";
 import CommandsList from "../../components/admin/CommandsList";
 
 import { getDates } from "../../services/calendarService";
-import { hideCommand, deleteCommand, getCommandByDate, updateCommand } from "../../services/commandsService";
-import { deleteCommandList, getCommandListById } from "../../services/commandsListService";
+import { hideCommand, getCommandByDate, updateCommand } from "../../services/commandsService";
 
 
 const AdminCommands = () => {
@@ -23,7 +22,6 @@ const AdminCommands = () => {
 
   const ref = useRef(null);
   const boxCommand = useRef(null);
-  const boxCommandList = useRef(null);
   
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -200,6 +198,17 @@ const AdminCommands = () => {
                 readOnly
               />
               <InputText
+                value={name}
+                placeholder="Tel"
+                id="Name"
+                divId="inputName"
+                handleChange={handleNameChange}
+                readOnly
+              />
+            </div>
+
+            <div className="input-duo">
+              <InputText
                 value={nbP}
                 placeholder="Nombre de places"
                 id="nbP"
@@ -207,11 +216,7 @@ const AdminCommands = () => {
                 handleChange={handleNbPChange}
                 readOnly
               />
-            </div>
-
-            <div className="total__content">
-              <p>Total :</p>
-              <InputText value={total+" €"} handleChange={handleTotalChange} readOnly/>
+              <InputText value={`Total : ${total} €`} handleChange={handleTotalChange} readOnly/>
             </div>
 
             <TextArea
