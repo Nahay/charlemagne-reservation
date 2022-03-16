@@ -146,7 +146,7 @@ const AdminDates = () => {
 
     const saveDate = async () => {
         if (!dateExists) {
-            if (nbP !== "") {
+            if (nbP !== "" && price !== "") {
                 createDate(date, visibility, comment, price, nbP, token);
                 setDateExists(true);
                 
@@ -197,7 +197,7 @@ const AdminDates = () => {
         e.preventDefault();
         // si on a sélectionné qqe chose :
         if (select !== "0") {
-            if (nbP !== "") {
+            if (nbP !== "" && price !== "") {
                 // si la date existe déjà
                 if (dateExists) { 
                     const dish = dateList.filter((d) => d.dateC === date)[0].dishes.filter((d) => d._id === select)[0];
@@ -220,7 +220,7 @@ const AdminDates = () => {
                 getDateList();
                 setSelect("0");
             }
-            else toast.error("Veuillez entrer un nombre de places.");
+            else toast.error("Veuillez entrer un nombre de places ou un prix.");
         }
         else toast.error("Aucun plat n'est sélectionné.");
     }

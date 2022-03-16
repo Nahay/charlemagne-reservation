@@ -161,11 +161,6 @@ const AdminCommands = () => {
     }
   }
 
-  const handleTotalChange = (e) => {
-    const val = e.target.value;
-    if (Number(val) || val === "") setTotal(val);
-  }
-
   const handleCommentChange = (e) => setComment(e.target.value)
 
 
@@ -237,9 +232,9 @@ const AdminCommands = () => {
                   handleChange={handleNbPChange}
                 />
               </div>
-              <div className="duo-content">
+              <div className="duo-content read">
                 <span>Total : </span>
-                <InputText value={total} handleChange={handleTotalChange} placeholder="Total"/>
+                <InputText value={total} placeholder="Total" readOnly={true}/>
               </div>            
             </div>
 
