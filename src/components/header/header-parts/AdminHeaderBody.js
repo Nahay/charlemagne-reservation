@@ -45,7 +45,7 @@ const AdminHeaderBody = ({ toggle }) => {
                         Dates
                 </NavLink>
                 <NavLink
-                    to="/admin/commandes"
+                    to="/admin/reservations"
                     activeClassName="active-link"
                     onClick={toggle}>
                         Réservations
