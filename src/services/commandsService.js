@@ -22,10 +22,9 @@ const createCommand = async (user, name, tel, dateC, nbPlaces, comment, total, t
     }
 };
 
-const createCommandNL = async (user, name, tel, dateC, nbPlaces, comment, total) => {
+const createCommandNL = async (name, tel, dateC, nbPlaces, comment, total) => {
     try {
         const { data } = await axios.post(API_URL + "/commands/nl", {
-            user,
             name, 
             tel,
             dateC,

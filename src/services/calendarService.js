@@ -72,7 +72,7 @@ const updateDateNbR = async (date, nbRemaining, admin, token) => {
                 nbRemaining
             }, admin ? adminConfig(token) : userConfig(token)
         );
-        toast.success("La date a été mise à jour !");
+        admin && toast.success("La date a été mise à jour !");
     } catch(err) {
         toast.error(err.message);
     }
@@ -84,7 +84,6 @@ const updateDateNbRNL = async (date, nbRemaining) => {
             API_URL + "/calendar/nbR-nl/"+date, {
                 nbRemaining
             });
-        toast.success("La date a été mise à jour !");
     } catch(err) {
         toast.error(err.message);
     }
