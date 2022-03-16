@@ -7,15 +7,14 @@ const CommandsList = ({commandsListByDate, onClickCommand, onClickDelete}) => {
 
   return (
     <div className="list__container">
-    {commandsListByDate.map((d) => {
+    {commandsListByDate.map((c) => {
           return (
-            <div className="list__container__box" key={d._id} >
-              <div className="infos-commands" onClick={() => onClickCommand(d)}>
-                <p>{d.user.name} </p>
-                <p> {d.user.firstname} </p>
-                <p>{d.timeC}</p>
+            <div className="list__container__box" key={c._id} >
+              <div className="infos-commands" onClick={() => onClickCommand(c)}>
+                <p>{c.name} </p>
+                <p>{c.nbP}</p>
               </div>
-              <div className="icon-delete" onClick={() => onClickDelete(d._id)}>
+              <div className="icon-delete" onClick={() => onClickDelete(c._id)}>
                 <FontAwesomeIcon icon={faTrashAlt} size="sm"/>
               </div>
             </div>

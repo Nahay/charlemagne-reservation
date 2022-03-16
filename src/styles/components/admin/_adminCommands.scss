@@ -127,7 +127,7 @@
           display : flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 30px;
+          margin-bottom: 10px;
 
           input {
             margin-bottom: 0;
@@ -154,60 +154,26 @@
               }
             }
           }
-  
-          .total__container {
-            display: flex;
-            justify-content: flex-end;            
-            width: 60%;
-            margin-left: 2%;
-  
-            .total__content {
-              width: 100%;
-              display: flex;
-              align-items: center;
-              justify-content: flex-end;
-  
-              p {
-                white-space: nowrap;
-                margin-right: 15px;
-              }
-  
-              .input {                
-                width: 100%;
-                
-                input { margin: 0 }
-              }
-            }
-          }  
-        }       
+        }
         
-        .right__form--quantity {
+        .total__content {
           display: flex;
-          width: 100%;
           align-items: center;
-          margin-top: 3%;
-          margin-bottom: 40px;
+          justify-content: flex-end;
 
-          .input__quantity {
-            display: flex;
-            width: 100%;
-            align-items: center;
+          width: 100%;
 
-            input { margin-bottom: 0 }
+          margin-bottom:30px;
 
-            p {
-              white-space: nowrap;
-              margin-right: 10%;
-            }
+          p {
+            white-space: nowrap;
+            margin-right: 15px;
           }
 
-          .input-btn {
-            display: flex;
-            justify-content: flex-end;
-            height: 100%;
-            width: 50%;
-            margin-left: 2%;
-            margin-bottom: 0;
+          .input {                
+            width: 49%;
+            
+            input { margin: 0 }
           }
         }
 
@@ -224,48 +190,6 @@
             border: none;
             color: white;
             cursor: default;
-          }
-        }
-
-        .container_radio_duo {
-          display:flex;
-          justify-content: flex-start;
-
-          .right__form__radio {
-            margin-bottom: 20px;
-  
-            label { margin-left: 30px }
-          }
-
-          &:last-child { margin-bottom: 40px }
-        }
-
-        .commands-dish-list {
-          height: 184px;
-          margin-top: 2%;
-          margin-bottom: 2%;
-
-          .list__container {
-            height: 100%;
-
-            .list__container__box {
-              height: 30%;
-              padding-left: 20px;
-
-              .infos-dish {
-                display: flex;
-
-                align-items: center;
-                width: 100%;
-                height: 100%;
-
-                p {
-                  font-size: 100%;
-                  padding: 0;
-                }
-                .dish__quantity { width: 50% }
-              }
-            }
           }
         }
       }
@@ -305,8 +229,6 @@
             .input-btn:first-child { margin-bottom: 7px }
           }
         }
-
-        .dish-list { height: 200px }
       }
     }
   }

@@ -27,7 +27,7 @@ const AdminTemp = () => {
           <ProtectedAdminRoute exact path={'/admin/accueil'} component={AdminHome} />
           <ProtectedAdminRoute exact path={'/admin/plats'} component={AdminDishes} />
           <ProtectedAdminRoute exact path={'/admin/dates'} component={AdminDates} />
-          <ProtectedAdminRoute exact path={'/admin/commandes'} component={AdminCommands} />
+          <ProtectedAdminRoute exact path={'/admin/reservations'} component={AdminCommands} />
           <ProtectedAdminRoute exact path={'/admin/comptes'} component={AdminAccounts} />
           <ProtectedAdminRoute exact component = {PageNotFound} />
         </Switch>
