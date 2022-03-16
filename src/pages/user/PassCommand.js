@@ -199,7 +199,7 @@ const PassCommand = () => {
         }
 
         else {
-          await createCommandNL(null, name, tel, date, nbP, comment, total);
+          await createCommandNL(name, tel, date, nbP, comment, total);
           await updateDateNbRNL(date, currentDate.nbRemaining - parseInt(nbP));
 
           summary.current.style.visibility = "visible";
