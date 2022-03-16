@@ -17,6 +17,7 @@ const Order = () => {
   const [tableActive, setTableActive] = useState(true);
   const [date, setDate] = useState(new Date(new Date().toDateString()).getTime());
   const [nbR, setNbR] = useState("");
+  const [price, setPrice] = useState("");
 
   const previousDate = !isNaN(Date.parse(localStorage.getItem('date'))) && isNaN((localStorage.getItem('date'))) ? localStorage.getItem('date') : new Date();
   
@@ -48,19 +49,19 @@ const Order = () => {
     if (!dateVisible) {
       setDishByDateList([]);
       setNbR("");
+      setPrice("");
     }
     else {
       setDishByDateList(d.dishes);
       setNbR(d.nbRemaining);
+      setPrice(d.price);
     }
   }
 
-  const onDateChange = async (dateC) => {
-    
+  const onDateChange = async (dateC) => {    
     setDate(dateC);
     localStorage.setItem('date', new Date(dateC));
-    await getDishByDateList(dateC);
-
+    await getDishByDateList(dateC)
   }
 
   return (
@@ -87,7 +88,7 @@ const Order = () => {
         </div>
       </div>
       <div className="order__right" ref={ref}>
-          <DayDetails date={previousDate !== null ? new Date(previousDate).getTime() : date} dishByDateList = {dishByDateList} nbR={nbR}/>
+          <DayDetails date={previousDate !== null ? new Date(previousDate).getTime() : date} dishByDateList = {dishByDateList} nbR={nbR} price={price}/>
       </div>
     </div>
   );

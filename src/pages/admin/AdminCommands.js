@@ -225,10 +225,10 @@ const AdminCommands = () => {
 
             <div className="input-duo">
               <div className="duo-content">
-                <span>Nombre de places : </span>
+                <span>Nombre de personnes : </span>
                 <InputText
                   value={nbP}
-                  placeholder="Nombre de places"
+                  placeholder="Nombre de personnes"
                   handleChange={handleNbPChange}
                 />
               </div>

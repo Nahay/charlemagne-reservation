@@ -7,7 +7,7 @@ import "moment/locale/fr";
 import Table from '../order/Table';
 
 
-const DayDetails = ({date, dishByDateList, nbR}) => {
+const DayDetails = ({date, dishByDateList, nbR, price}) => {
 
     const [isAvailable, setIsAvailable] = useState(false);
     const [haveDesc, setHaveDesc] = useState(false);
@@ -34,9 +34,18 @@ const DayDetails = ({date, dishByDateList, nbR}) => {
             <h1 className="day-details__title">{moment(date).locale('fr').format('LL')}</h1>
 
             { (nbR >= 0 && nbR !== "") &&
-                <div className="right__places-available">
-                    <p>Places disponibles : {nbR}</p>
+                <div className="right__places-price">
+                    <div className="right__places-available">
+                        <p>Places disponibles : {nbR}</p>
+                    </div>
+
+                    <div className="right__price">
+                        <p>Prix : {price} €</p>
+                    </div>
+
                 </div>
+               
+                
             }
 
             <Table dishByDateList={dishByDateList}/>

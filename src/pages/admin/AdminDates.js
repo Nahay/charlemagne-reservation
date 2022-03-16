@@ -277,7 +277,7 @@ const AdminDates = () => {
                     <form className="right__form__1" onSubmit={onDateSubmit}>
 
                         <div className="right__form__radio" onChange={handleVisibilityChange}>
-                            <span>Visible ?</span>
+                            <span>Ouvert ?</span>
                             <input
                                 type="radio"
                                 value="Non"

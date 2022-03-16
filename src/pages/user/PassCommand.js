@@ -361,7 +361,7 @@ const PassCommand = () => {
                   checked={confirmAccount}
                   onChange={handleAccountChange}
                   />
-                <label htmlFor="confirm-acc">Créer un compte avant de prendre réservation</label>              
+                <label htmlFor="confirm-acc">Retenir mes informations en créant un compte</label>        
               </div>
               }
             </div>

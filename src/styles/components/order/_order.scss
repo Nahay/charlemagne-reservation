@@ -59,26 +59,30 @@
             margin-top: 50px;
             margin-bottom: 50px;
 
-            .right__places-available {
+            .right__places-price {
                 display: flex;
-                justify-content: flex-end;
                 width: 85%;
+            
+                justify-content: space-between;
+                .right__places-available, 
+                .right__price {
 
-                margin-bottom: 2%;
+                    margin-bottom: 2%;
 
-                p {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
+                    p {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
 
-                    width: 200px;
-                    height: 50px;
+                        width: 200px;
+                        height: 50px;
 
-                    color: var(--svg-color);
-                    background: var(--input-bg);                
+                        color: var(--svg-color);
+                        background: var(--input-bg);                
+                    }
                 }
-               
             }
+            
     
             .right__tip {
                 width: 85%;
@@ -187,7 +191,10 @@
     @media (max-width: 480px) {
         .order__right {
             .day-details {
-                .right__places-available {justify-content: center }
+                .right__places-price {
+                    align-items: center;
+                    flex-direction: column;
+                }
                 .table__container {
                     width: 200px !important;
                     min-width: fit-content;
