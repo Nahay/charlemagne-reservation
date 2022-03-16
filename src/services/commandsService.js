@@ -47,6 +47,15 @@ const getCommands = async (token) => {
     }
 };
 
+const getCommandById = async (id, token) => {
+    try {
+        const { data } = await axios.get(API_URL + "/commands/id/" +id, adminConfig(token));
+        return data;
+    } catch(err) {
+        toast.error(err.message);
+    }
+
+}
 const getVisibleCommands = async (token) => {
     try {
         const { data } = await axios.get(API_URL + "/commands/visible", adminConfig(token));
@@ -113,6 +122,7 @@ export {
     createCommandNL,
     getCommands,
     getVisibleCommands,
+    getCommandById,
     getCommandByDate,
     getCommandByUser,
     updateCommand,

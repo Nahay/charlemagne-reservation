@@ -12,8 +12,8 @@ import AdminCalendar from "../../components/admin/AdminCalendar";
 import Box from "../../components/generic/Box";
 import CommandsList from "../../components/admin/CommandsList";
 
-import { getDates } from "../../services/calendarService";
-import { hideCommand, getCommandByDate, updateCommand } from "../../services/commandsService";
+import { getDateByDate, getDates, updateDateNbR } from "../../services/calendarService";
+import { hideCommand, getCommandByDate, updateCommand, getCommandById } from "../../services/commandsService";
 
 
 const AdminCommands = () => {
@@ -30,15 +30,20 @@ const AdminCommands = () => {
 
   const [id, setId] = useState("");
   const [name, setName] = useState("");
+  const [tel, setTel] = useState("");
   const [nbP, setNbP] = useState("");
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState("");
   const [comment, setComment] = useState("");
   const [emptyFields, setEmptyFields] = useState(true);
 
   const [currentDelete, setCurrentDelete] = useState("");
+  const [currentDate, setCurrentDate] = useState("");
 
   const [dateList, setDatesList] = useState([]);
+
+  // pour le rapport 
   const [commandsList, setCommandsList] = useState([]);
+  // pour le composant commandslist
   const [visibleCommandsList, setVisibleCommandsList] = useState([]);
   const [pastDate, setPastDate] = useState(false);
 
@@ -75,13 +80,17 @@ const AdminCommands = () => {
     resetInput();
     getCommandsByDate();
     setPastDate(e < new Date(new Date().toDateString()).getTime());
+
+    let currentD = dateList.filter(d => d.dateC === e);
+    setCurrentDate(currentD[0]);
   }
 
   const onClickCommand = (d) => {
     setId(d._id);
     setEmptyFields(false);
-    setName(d.user.name);
-    setNbP(d.user.firstname);
+    setName(d.name);
+    setTel(d.tel);
+    setNbP(d.nbPlaces);
     setTotal(d.total);
     setComment(d.comment);
   }
@@ -115,30 +124,41 @@ const AdminCommands = () => {
     e.preventDefault();
 
     if(emptyFields) toast.error("Veuillez sélectioner une commande avant de pouvoir enregistrer.");
-
     else {
-      await updateCommand(id, comment, total, token);
+      const currentDate = await getDateByDate(date);
+      const currentCommand = await getCommandById(id, token);
 
-      getCommandsByDate();
-      resetInput();
+      let nbPlacesMax = parseInt(currentDate.nbRemaining + currentCommand.nbPlaces);
+
+      if(nbPlacesMax >= nbP) {
+        await updateCommand(id, nbP, comment, total, token);
+
+        let nbRemaining = nbPlacesMax - parseInt(nbP);
+        await updateDateNbR(date, nbRemaining, true, token);
+
+        getCommandsByDate();
+        resetInput();
+      }
+      else toast.error("Le nombre de places ne peut être supérieur à " + nbPlacesMax);
     }    
   }
 
   const resetInput = () => {
     setName("");
+    setTel("");
+    setTotal("");
     setNbP("");
     setComment("");
-    setTotal(0);
   }
-
 
   // HANDLE ---------------------------------------------------------------
 
-  const handleNameChange = (e) => setName(e.target.value)
-
   const handleNbPChange = (e) => {
     const val = e.target.value;
-    if (Number(val) || val === "") setNbP(val);
+    if (Number(val) || val === "") {
+      setNbP(val);
+      setTotal(val*currentDate.price);
+    }
   }
 
   const handleTotalChange = (e) => {
@@ -188,42 +208,46 @@ const AdminCommands = () => {
         </div>
         <div className="right__form">
           <form className="right__form__1" onSubmit={onCommandSubmit}>
+
             <div className="input-duo">
-              <InputText
+              <div className="duo-content read">
+                <span>Nom : </span>
+                <InputText
                 value={name}
                 placeholder="Nom"
-                id="Name"
-                divId="inputName"
-                handleChange={handleNameChange}
                 readOnly
               />
-              <InputText
-                value={name}
+              </div>
+              <div className="duo-content read">
+                <span>Tel : </span>
+                <InputText
+                value={tel}
                 placeholder="Tel"
-                id="Name"
-                divId="inputName"
-                handleChange={handleNameChange}
                 readOnly
               />
+              </div>            
             </div>
 
             <div className="input-duo">
-              <InputText
-                value={nbP}
-                placeholder="Nombre de places"
-                id="nbP"
-                divId="inputNbP"
-                handleChange={handleNbPChange}
-                readOnly
-              />
-              <InputText value={`Total : ${total} €`} handleChange={handleTotalChange} readOnly/>
+              <div className="duo-content">
+                <span>Nombre de places : </span>
+                <InputText
+                  value={nbP}
+                  placeholder="Nombre de places"
+                  handleChange={handleNbPChange}
+                />
+              </div>
+              <div className="duo-content">
+                <span>Total : </span>
+                <InputText value={total} handleChange={handleTotalChange} placeholder="Total"/>
+              </div>            
             </div>
 
             <TextArea
               value={comment}
               placeholder="Commentaire..."
-              id="comment"
               handleChange={handleCommentChange}
+              required={false}
             />
 
             {!pastDate &&  

@@ -98,10 +98,12 @@
     }
 
     .right__form {
-      width: 70%;
-      height: 100%;
       display: flex;
       flex-direction: column;
+
+      width: 70%;
+      height: 100%;
+
       margin-bottom:50px;
 
       .input-btn {
@@ -127,33 +129,24 @@
           display : flex;
           justify-content: space-between;
           align-items: center;
+
           margin-bottom: 10px;
 
-          input {
-            margin-bottom: 0;
-          }
-          
+          input { margin-bottom: 0 }
+
           .input { width: 49% }
 
-          .time__container {
+          .read .input input { cursor: default }
+
+          .duo-content {
             display: flex;
-            width: 100%;
-            .input__time {
-              width: 100%;
-              display: flex;
-              align-items: center;
-  
-              p {
-                white-space: nowrap;
-                margin-right: 15px;
-              }
-  
-              input {
-                width: 150px;
-                height: 50px;
-              }
-            }
+            flex-direction: column;
+
+            width: 49%;
+
+            .input { width: 100% }
           }
+          
         }
 
         .disabled {
@@ -177,11 +170,13 @@
 
   @media (max-width: 1050px) {
     flex-direction: column;
+
     height: unset;
 
     .admin-commands__left {
       width: 100%;
       height: 100vh;
+
       margin: 0 5%;
 
       .left__commands-list { width:60% }
@@ -230,7 +225,13 @@
       .input-duo {
         flex-direction: column;
         align-items: flex-start;
+
         width:100%;
+
+        .duo-content {
+          width: calc(100% - 40px);
+          &:last-child {margin-top: 5px }
+        }
 
         .input  { width: calc(100% - 40px) }
 
