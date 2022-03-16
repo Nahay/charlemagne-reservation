@@ -67,7 +67,7 @@ const AdminHome = () => {
                         <InputButton value="Changer" type="submit"/>
                     </form>
                     <form className="container__inputs__2" onSubmit={onOrderInfoSubmit}>
-                        <p>Informations des pages de commandes :</p>
+                        <p>Informations des pages de réservations :</p>
                         <TextArea
                             value={orderInfo}
                             placeholder=""
