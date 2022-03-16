@@ -234,7 +234,7 @@ const AdminCommands = () => {
               </div>
               <div className="duo-content read">
                 <span>Total : </span>
-                <InputText value={total} placeholder="Total" readOnly={true}/>
+                <InputText value={total+"€"} placeholder="Total" readOnly={true}/>
               </div>            
             </div>
 
