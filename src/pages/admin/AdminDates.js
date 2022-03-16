@@ -30,7 +30,6 @@ const AdminDates = () => {
     const [visibility, setVisibility] = useState(true);
     const [comment, setComment] = useState("");
     const [nbP, setNbP] = useState("");
-    const [nbR, setNbR] = useState("");
     const [price, setPrice] = useState("");
     const [currentDishList, setCurrentDishList] = useState([]);
 
@@ -38,7 +37,6 @@ const AdminDates = () => {
     const [deleteDish, setDeleteDish] = useState(true);
 
 
-    const [nb, setNb] = useState("");
     const [select, setSelect] = useState("0");
 
 
@@ -57,7 +55,6 @@ const AdminDates = () => {
                 setVisibility(foundDate.visibility);
                 setComment(foundDate.comment);
                 setNbP(parseInt(foundDate.nbPlaces));
-                setNbR(foundDate.nbRemaining);
                 setPrice(foundDate.price);
                 setSelect("0");
                 setCurrentDishList(foundDate.dishes);
@@ -99,7 +96,6 @@ const AdminDates = () => {
         setComment("");
         setSelect("0");
         setNbP("");
-        setNbR("");
         setPrice("");
         setCurrentDishList([]);
     }   
@@ -110,7 +106,6 @@ const AdminDates = () => {
         setComment(d.comment);
         setSelect("0");
         setNbP(d.nbPlaces);
-        setNbR(d.nbRemaining);
         setPrice(d.price);
         setCurrentDishList(d.dishes);
     }
@@ -124,12 +119,6 @@ const AdminDates = () => {
         if (!foundDate) resetValues();
         else resetValuesFromDate(foundDate);
     }
-
-    const onClickDish = ({_id, idDish}) => {
-        setIdD(_id);
-        setSelect(idDish._id);
-    }
-
 
     // HANDLE ---------------------------------------------------------------
     
@@ -158,7 +147,7 @@ const AdminDates = () => {
     const saveDate = async () => {
         if (!dateExists) {
             if (nbP !== "") {
-                createDate(date, visibility, comment, nbP, token);
+                createDate(date, visibility, comment, price, nbP, token);
                 setDateExists(true);
                 
                 getDateList();

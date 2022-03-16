@@ -11,11 +11,13 @@ import Counter from "../../components/generic/Counter";
 import TextArea from '../../components/generic/TextArea';
 import OrderTable from "../../components/order/OrderTable";
 import Summary from "../../components/order/Summary";
+import SignBox from "../../components/order/SignBox";
 
 import { getParam } from '../../services/paramsService';
 import { getUserById } from '../../services/usersService'; 
-import { getDateByDate } from "../../services/calendarService";
-import { createCommand } from "../../services/commandsService";
+import { getDateByDate, updateDateNbR, updateDateNbRNL } from "../../services/calendarService";
+import { createCommand, createCommandNL } from "../../services/commandsService";
+import { userSignUp } from "../../services/usersService";
 
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,7 +25,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PassCommand = () => {
     const token = localStorage.getItem('userToken');
-    const decodedToken = decodeToken(token);
 
     const summary = useRef(null);
     const input = useRef(null);
@@ -51,10 +52,14 @@ const PassCommand = () => {
     const [dishList, setDishList] = useState([]);
     const [data, setData] = useState([]);
 
-    const [orderedDishes, setOrderedDishes] = useState([]);
+    const [loggedIn, setLoggedIn] = useState(false);
 
-    const [summaryTotal, setSummaryTotal] = useState([]);
-
+    const [password, setPassword] = useState("");
+    const [firstname, setFirstname] = useState("");
+    const [email, setEmail] = useState("");
+     
+    const nameReg = /^[ a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ'`'-]+$/;
+    const emailReg = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
     useEffect(() => {
 
@@ -74,10 +79,12 @@ const PassCommand = () => {
           // it returns an object with { success: true, user { all the user's info } }
           if (user.success) {
 
-            const { _id, name } = user.user;
+            const { _id, name, comment, tel } = user.user;
             setUserId(_id);
             setName(name);
-            
+            setTel(tel);
+            setComment(comment);
+            setLoggedIn(true);
           }
         }
       }
@@ -123,6 +130,7 @@ const PassCommand = () => {
       getData();
   }, [dishList]);
 
+
   const getSetOrderInfo = async () => {
     const orderMess = await getParam("order");
     setOrderInfo(orderMess);
@@ -131,7 +139,7 @@ const PassCommand = () => {
   const onClickConfirmation = () => {
 
     summary.current.style.visibility = "hidden";
-    summary.current.style.opacity = "0";
+    summary.current.style.opacity = 0;
 
     history.push("/");
     toast.success("La réservation est passée avec succès !");
@@ -139,34 +147,68 @@ const PassCommand = () => {
   }
 
   // SUBMIT ------------------------------------------------
+  const onSignUpSubmit = async (e) => {
+    e.preventDefault();
+
+    if(emailReg.test(email)) {
+      const signUp = await userSignUp(email, password, name, firstname, tel, comment);
+
+      if(signUp.success){
+          toast.success("Le compte a été crée avec succès ! Voici la confirmation de votre réservation.");
+
+          await createCommand(signUp.savedUser.user._id, name, tel, date, nbP, comment, total, signUp.token);
+          await updateDateNbR(date, currentDate.nbRemaining - parseInt(nbP), false, signUp.token);
+
+          localStorage.setItem('userToken', signUp.token);
+
+          signup.current.style.visibility = "hidden";
+          signup.current.style.opacity = 0;
+
+          summary.current.style.visibility = "visible";
+          summary.current.style.opacity = 1;
+      }
+      else toast.error(signUp.message);
+  }
+  else toast.error("L'adresse email entrée n'est pas valide.");
+
+  }
 
   const onOrderSubmit = async (e) => {
     e.preventDefault();
     input.current.blur();
     
-    if(confirmAccount) {
-      signup.current.style.visibility = "visible"
-      signup.current.style.opacity = 1;
+    if(total > 0) {
+
+      if(loggedIn) {
+
+        await createCommand(userId, name, tel, date, nbP, comment, total, token);
+        await updateDateNbR(date, currentDate.nbRemaining - parseInt(nbP), false, token);
+
+        if(confirmEmail) {
+          // emailJS
+        }
+
+        summary.current.style.visibility = "visible";
+        summary.current.style.opacity = 1;
+      }
+      else {
+
+        if(confirmAccount) {
+          signup.current.style.visibility = "visible";
+          signup.current.style.opacity = 1;
+        }
+
+        else {
+          await createCommandNL(null, name, tel, date, nbP, comment, total);
+          await updateDateNbRNL(date, currentDate.nbRemaining - parseInt(nbP));
+
+          summary.current.style.visibility = "visible";
+          summary.current.style.opacity = 1;
+        }
+      }
+
     }
-
-
-    // if(total > 0) {
-    //   // Créer la commande si aucun des champs entrés est faux
-    //   await createCommand(userId, parseInt(date), false, comment, total, token);
-
-    //   // setOrderedDishes(commandList);
-    //   setSummaryTotal(total);
-      
-    //   if (confirmEmail) {
-    //     // emailJS 
-    //     //  ...
-    //   }
-
-    //   summary.current.style.visibility = "visible";
-    //   summary.current.style.opacity = 1;
-
-    // }
-    // else toast.error("La commande n'a pu être réalisée, vérifiez les champs.", { autoClose: 10000}); // autoClose = le temps du toast     
+    else toast.error("La commande n'a pu être réalisée, vérifiez les champs.", { autoClose: 10000});
   }
 
 
@@ -176,11 +218,17 @@ const PassCommand = () => {
 
   const handleComment = (e) => setComment(e.target.value);
 
-  const handleEmailChange = () => setConfirmEmail(confirmEmail ? false : true);
+  const handleConfirmEmailChange = () => setConfirmEmail(confirmEmail ? false : true);
 
   const handleAccountChange = () => setConfirmAccount(confirmAccount ? false : true);
 
   const handleTelChange = (e) => !isNaN(e.target.value) && setTel(e.target.value);
+
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+
+  const handleFirstnameChange = (e) => (nameReg.test(e.target.value) || e.target.value === "") && setFirstname(e.target.value);
+
+  const handleEmailChange = (e) => setEmail(e.target.value);
 
   const handleNbPChange = (e) => {
     if(!isNaN(e.target.value)){
@@ -214,15 +262,33 @@ const PassCommand = () => {
   }
 
   return (
-    <form className="make-order" onSubmit={onOrderSubmit} ref={form}>
-      <Summary
+    <>
+    <SignBox  
+      handleEmailChange={handleEmailChange}
+      handlePasswordChange={handlePasswordChange}
+      handleNameChange={handleNameChange}
+      handleFirstnameChange={handleFirstnameChange}
+      handleTelChange={handleTelChange}
+      handleSignUpSubmit={onSignUpSubmit} 
+      password={password}
+      name={name}
+      firstname={firstname}
+      email={email}
+      tel={tel}
+      signRef={signup}
+    />
+
+    <Summary
         onClickConfirmation={onClickConfirmation}
         sumRef={summary}
-        dishList={orderedDishes}
+        dishList={dishList}
         name={name}
-        total={summaryTotal}
+        total={total}
         email={confirmEmail}
-      />
+        nbP={nbP}
+    />
+
+    <form className="make-order" onSubmit={onOrderSubmit} ref={form}>
       <div className="make-order__container">
         <h1 className="container__date">{moment(new Date(parseInt(date))).locale('fr').format('LL')}</h1>
 
@@ -275,14 +341,14 @@ const PassCommand = () => {
                 <p>Total : </p>
                 <p className="fixed-text"> {total} €</p>
               </div>
-              { decodedToken ? 
+              { loggedIn ?
               <div className="checkbox__container">
                 <input
                 type="checkbox"
                 id="confirm-email"
                 name="confirm-email"
                 checked={confirmEmail}
-                onChange={handleEmailChange}
+                onChange={handleConfirmEmailChange}
                 />
                 <label htmlFor="confirm-email">Recevoir un email de confirmation</label>              
               </div>
@@ -310,6 +376,7 @@ const PassCommand = () => {
 
       </div>
     </form>
+    </>
   );
 };
 

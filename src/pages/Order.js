@@ -13,7 +13,6 @@ const Order = () => {
   const ref = useRef(null);
 
   const [dateList, setDatesList] = useState([]);
-  const [datesAndNb, setDatesAndNb] = useState([]);
   const [dishByDateList, setDishByDateList] = useState([]);
   const [tableActive, setTableActive] = useState(true);
   const [date, setDate] = useState(new Date(new Date().toDateString()).getTime());
@@ -82,7 +81,7 @@ const Order = () => {
           { tableActive ?
             <ACalendar rightRef={ref} dateList={dateList} onDateChange={onDateChange} date={typeof previousDate === "string" ? new Date(previousDate) : previousDate}/>
           : 
-            <List rightRef={ref} dateList={datesAndNb} onDateChange={onDateChange} />
+            <List rightRef={ref} dateList={dateList} onDateChange={onDateChange}/>
           }
 
         </div>

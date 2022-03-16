@@ -5,16 +5,34 @@ import { adminConfig, userConfig } from './config';
 const API_URL = process.env.REACT_APP_API_URL;
 
 
-const createCommand = async (user, dateC, paid, container, comment, total, token) => {
+const createCommand = async (user, name, tel, dateC, nbPlaces, comment, total, token) => {
     try {
         const { data } = await axios.post(API_URL + "/commands", {
             user,
+            name, 
+            tel,
             dateC,
-            paid,
-            container,
+            nbPlaces,
             comment,
             total
         }, userConfig(token));
+        return data;
+    } catch(err) {
+        toast.error(err.message);
+    }
+};
+
+const createCommandNL = async (user, name, tel, dateC, nbPlaces, comment, total) => {
+    try {
+        const { data } = await axios.post(API_URL + "/commands/nl", {
+            user,
+            name, 
+            tel,
+            dateC,
+            nbPlaces,
+            comment,
+            total
+        });
         return data;
     } catch(err) {
         toast.error(err.message);
@@ -57,39 +75,11 @@ const getCommandByUser = async (user, token) => {
     }
 };
 
-const getNbOfDishByDay = async (dateC, token) => {
-    try {
-        const { data } = await axios.get(API_URL + "/commands/" +dateC, adminConfig(token));
-        
-        let nbDish = [];
-
-        data.forEach(d => {
-            d.list.forEach(l => {
-                if(nbDish.length === 0) nbDish.push({_id: l.dishID._id, nb: l.quantity});
-                else {
-                    let isHere = false;
-                    nbDish.forEach(n => {
-                        if(n._id === l.dishID._id) {
-                            isHere = true;
-                            n.nb += l.quantity;
-                        }
-                    });
-                    !isHere && nbDish.push({_id: l.dishID._id, nb: l.quantity});
-                }
-            });
-        });
-        return nbDish;
-    } catch(err) {
-        toast.error(err.message);
-    }
-}
-
-const updateCommand = async (id, paid, container, comment, total, token) => {
+const updateCommand = async (id, nbPlaces, comment, total, token) => {
     try {
         await axios.patch(
             API_URL + "/commands/" +id, {
-                paid,
-                container,
+                nbPlaces,
                 comment,
                 total
             }, adminConfig(token)
@@ -121,11 +111,11 @@ const deleteCommand = async (id, token) => {
 
 export {
     createCommand,
+    createCommandNL,
     getCommands,
     getVisibleCommands,
     getCommandByDate,
     getCommandByUser,
-    getNbOfDishByDay,
     updateCommand,
     hideCommand,
     deleteCommand
