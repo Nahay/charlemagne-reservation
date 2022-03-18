@@ -112,24 +112,26 @@
                     margin: 5% 0 2% 0;
         
                     .dish-select {
-                        width:inherit;
+                        width: calc(49% - 30px);
                         height :50px;
                         
                         margin-bottom: 3%;
-                        margin-right: 10px;
-                        padding-left: 10px;
                         outline: none;
                         border: none;
                         color: var(--color-grey-dark);
                         background: var(--input-bg);
                         transition: 0.5s;
                         font-size: 16px;
-        
-                        optgroup { font-size: 14px }
+
+                        padding:0 10px 0 20px;
     
                         option {
                             font-size: 12px;
                             color: white;
+                        }
+
+                        &:hover::-webkit-calendar-picker-indicator, &:focus::-webkit-calendar-picker-indicator {
+                            opacity: 0;
                         }
     
                         &:focus > option:checked {
@@ -138,9 +140,10 @@
                         }
                     }
     
-                    .input-btn, input {
-                        width : 200px;
-                        min-width:200px;
+                    .input-btn {
+                        width : 49%;
+
+                        input {width:100%}
                     }
     
                     & + .input-btn {
@@ -283,6 +286,7 @@
             .select-container {
                 flex-direction: column;
 
+                .dish-select { width:calc(100% - 30px) }
                 .input-btn, input { width:100% }
                 .input-btn { margin-bottom:5px }
             }
