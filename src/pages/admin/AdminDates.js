@@ -136,15 +136,16 @@ const AdminDates = () => {
 
         const dish = currentDishList.filter(d => d.name.toLowerCase() === val.toLowerCase());
 
-        if (dish) {
-            console.log("ok");
+        if (dish.length > 0) {
             setIdSearch(dish[0]._id);
         }
         else {
             let found = false;
 
             dishList.forEach((d) => {
+
                 if (d.name.toLowerCase() === val.toLowerCase()) {
+                    console.log(d);
                     setIdSearch(d._id);
                     found = true;
                 }
@@ -345,7 +346,7 @@ const AdminDates = () => {
                         </div>
 
                         <div className="select-container">
-                            <input value={select} className="dish-select" type="text" list="list" onChange={handleSelectChange} />
+                            <input value={select} placeholder="Chercher un plat..." className="dish-select" type="text" list="list" onChange={handleSelectChange} />
                             <datalist id="list">
                                 {
                                     dishList.map((d) => {
