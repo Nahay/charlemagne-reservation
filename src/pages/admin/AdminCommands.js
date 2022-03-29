@@ -166,7 +166,7 @@ const AdminCommands = () => {
   return (
     <div className="admin-commands">
 
-      <Box onClickConfirmation={removeBoxCommand} onClickDelete={handleHideCommand} boxRef={boxCommand} message="Voulez-vous vraiment supprimer cette commande ?"/>
+      <Box onClickConfirmation={removeBoxCommand} onClickDelete={handleHideCommand} boxRef={boxCommand} message="Voulez-vous vraiment supprimer cette réservation ?"/>
 
       <div className="admin-commands__left">
         <div className="left__commands-list">
