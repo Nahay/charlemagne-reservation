@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { adminConfig, userConfig } from './config';
- 
+import FileDownload from 'js-file-download';
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 
@@ -47,6 +48,17 @@ const getDatesByVisibility = async () => {
         toast.error(err.message);
     }
 };
+
+const downloadExcel = async () => {
+    try { 
+        await axios.get(API_URL + "/calendar/download", { responseType: 'arraybuffer' }).then(response => { 
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            FileDownload(blob, "file.xlsx");
+        });
+    } catch(err) {
+        toast.error(err.message);
+    }
+}
 
 const updateDate = async (date, visibility, comment, price, nbPlaces, nbRemaining, token) => {
     try {
@@ -129,6 +141,7 @@ const delDishFromDate = async (date, dishID, token) => {
 export {
     createDate,
     getDates,
+    downloadExcel,
     getDateByDate,
     getDatesByVisibility,
     updateDate,

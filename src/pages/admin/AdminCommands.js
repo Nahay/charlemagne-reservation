@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import moment from "moment";
 import "moment/locale/fr";
-import ReactExport from 'react-data-export';
-
 import InputText from "../../components/generic/InputText";
 import TextArea from "../../components/generic/TextArea";
 import InputButton from "../../components/generic/InputButton";
@@ -12,19 +10,17 @@ import AdminCalendar from "../../components/admin/AdminCalendar";
 import Box from "../../components/generic/Box";
 import CommandsList from "../../components/admin/CommandsList";
 
-import { getDateByDate, getDates, updateDateNbR } from "../../services/calendarService";
+import { getDateByDate, getDates, updateDateNbR, downloadExcel } from "../../services/calendarService";
 import { hideCommand, getCommandByDate, updateCommand, getCommandById } from "../../services/commandsService";
 
+const ExcelJS = require('exceljs');
 
-const AdminCommands = () => {
-
+const AdminCommands = () => {  
   const token = localStorage.getItem("adminToken");
 
   const ref = useRef(null);
   const boxCommand = useRef(null);
   
-  const ExcelFile = ReactExport.ExcelFile;
-  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
   const [date, setDate] = useState(new Date(new Date().toDateString()).getTime());
 
@@ -46,8 +42,6 @@ const AdminCommands = () => {
   // pour le composant commandslist
   const [visibleCommandsList, setVisibleCommandsList] = useState([]);
   const [pastDate, setPastDate] = useState(false);
-
-  const [csvData, setCsvData] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
@@ -151,6 +145,9 @@ const AdminCommands = () => {
     setComment("");
   }
 
+  const onClickCSV = async () => {
+    await downloadExcel();
+  }
   // HANDLE ---------------------------------------------------------------
 
   const handleNbPChange = (e) => {
@@ -182,9 +179,7 @@ const AdminCommands = () => {
           { commandsList.length > 0 &&
           
           <div className="csv__download">
-                <ExcelFile filename={`RAPPORT-${moment(date).format("DD-MM-YYYY")}`} element={<button>Télécharger le rapport</button>}>
-                    <ExcelSheet dataSet={csvData} name={`RAPPORT-${moment(date).format("DD-MM-YYYY")}`}/>
-                </ExcelFile>
+            <button onClick={onClickCSV}>Télécharger le rapport</button>
           </div>
           }
         </div>
