@@ -3,24 +3,16 @@ import BackgroundSlider from 'react-background-slider';
 
 import Button from '../components/generic/Button';
 import Time from '../components/generic/Time';
+import * as img from '../assets/index';
 
 import { getParam } from '../services/paramsService';
 
 
 const Home = () => {
 
-    const imgList = [
-        "https://lycee-charlespointet-thann.fr/wp-content/uploads/2018/12/DSC00014-800x400.jpg",
-        "https://lycee-charlespointet-thann.fr/wp-content/uploads/2018/12/DSC00017-Copie-800x400.jpg",
-        "https://lycee-charlespointet-thann.fr/wp-content/uploads/2018/12/DSC00102-800x400.jpg",
-        "https://lycee-charlespointet-thann.fr/wp-content/uploads/2018/12/DSC00021-800x400.jpg",
-        "https://lycee-charlespointet-thann.fr/wp-content/uploads/2018/12/DSC00003-800x400.jpg",
-        "https://lycee-charlespointet-thann.fr/wp-content/uploads/2018/12/DSC00040-Copie-800x400.jpg"
-    ]
-
-
     const [welcomeMess, setWelcomeMess] = useState("");
-
+    
+    const imgList = Object.values(img);
     
     useEffect(() => {
         getSetMess();
