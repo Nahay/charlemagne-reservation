@@ -11,7 +11,7 @@ import Box from "../../components/generic/Box";
 import CommandsList from "../../components/admin/CommandsList";
 
 import { getDateByDate, getDates, updateDateNbR, downloadExcel } from "../../services/calendarService";
-import { hideCommand, getCommandByDate, updateCommand, getCommandById } from "../../services/commandsService";
+import { getCommandByDate, updateCommand, getCommandById, deleteCommand } from "../../services/commandsService";
 
 const ExcelJS = require('exceljs');
 
@@ -37,10 +37,7 @@ const AdminCommands = () => {
 
   const [dateList, setDatesList] = useState([]);
 
-  // pour le rapport 
   const [commandsList, setCommandsList] = useState([]);
-  // pour le composant commandslist
-  const [visibleCommandsList, setVisibleCommandsList] = useState([]);
   const [pastDate, setPastDate] = useState(false);
 
   useEffect(() => {
@@ -48,8 +45,6 @@ const AdminCommands = () => {
     async function getCommandsByDate() {
       const commands = await getCommandByDate(date, token);
       setCommandsList(commands);
-      const visibleCommands = commands.filter((c) => c.visible);
-      setVisibleCommandsList(visibleCommands);
     };
 
     getDateList();
@@ -64,9 +59,6 @@ const AdminCommands = () => {
   const getCommandsByDate = async () => {
     const commands = await getCommandByDate(date, token);
     setCommandsList(commands);
-
-    const visibleCommands = commands.filter((c) => c.visible);
-    setVisibleCommandsList(visibleCommands);
   };
 
   const onChangeDate = async (e) => {
@@ -90,9 +82,10 @@ const AdminCommands = () => {
   }
 
   // suppression de la commande (invisible)
-  const handleHideCommand = async () => {
+  const handleDeleteCommand = async () => {
 
-    await hideCommand(currentDelete, token);
+    await deleteCommand(currentDelete, token);
+    await updateDateNbR(date, currentDate.nbRemaining + commandsList[0].nbPlaces, true, token);
     
     getCommandsByDate();
     resetInput();
@@ -166,7 +159,7 @@ const AdminCommands = () => {
   return (
     <div className="admin-commands">
 
-      <Box onClickConfirmation={removeBoxCommand} onClickDelete={handleHideCommand} boxRef={boxCommand} message="Voulez-vous vraiment supprimer cette réservation ?"/>
+      <Box onClickConfirmation={removeBoxCommand} onClickDelete={handleDeleteCommand} boxRef={boxCommand} message="Voulez-vous vraiment supprimer cette réservation ?"/>
 
       <div className="admin-commands__left">
         <div className="left__commands-list">
@@ -191,7 +184,7 @@ const AdminCommands = () => {
         </h1>
         <div className="commands-list">
           <CommandsList
-            commandsListByDate={visibleCommandsList}
+            commandsListByDate={commandsList}
             onClickCommand={onClickCommand}
             onClickDelete={onClickCommandDelete}
           />

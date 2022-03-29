@@ -56,14 +56,6 @@ const getCommandById = async (id, token) => {
     }
 
 }
-const getVisibleCommands = async (token) => {
-    try {
-        const { data } = await axios.get(API_URL + "/commands/visible", adminConfig(token));
-        return data;
-    } catch(err) {
-        toast.error(err.message);
-    }
-};
 
 const getCommandByDate = async (dateC, token) => {
     try {
@@ -92,16 +84,7 @@ const updateCommand = async (id, nbPlaces, comment, total, token) => {
                 total
             }, adminConfig(token)
         );
-        toast.success("La commande a été mise à jour !");
-    } catch(err) {
-        toast.error(err.message);
-    }
-};
-
-const hideCommand = async (id, token) => {
-    try {
-        await axios.patch(API_URL + "/commands/hide/" + id, {}, adminConfig(token));
-        toast.success("La commande a été supprimée !");
+        toast.success("La réservation a été mise à jour !");
     } catch(err) {
         toast.error(err.message);
     }
@@ -110,7 +93,7 @@ const hideCommand = async (id, token) => {
 const deleteCommand = async (id, token) => {
     try {
         await axios.delete(API_URL + "/commands/" +id, adminConfig(token));
-        toast.success("La commande a été supprimée !");
+        toast.success("La réservation a été supprimée !");
     } catch(err) {
         toast.error(err.message);
     }
@@ -121,11 +104,9 @@ export {
     createCommand,
     createCommandNL,
     getCommands,
-    getVisibleCommands,
     getCommandById,
     getCommandByDate,
     getCommandByUser,
     updateCommand,
-    hideCommand,
     deleteCommand
 };
