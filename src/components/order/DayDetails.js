@@ -22,6 +22,8 @@ const DayDetails = ({date, dishByDateList, nbR, price}) => {
                 if (nbR > 0 && nbR !== "") setIsAvailable(true);
                 if (d.description !== "") setHaveDesc(true);
             });
+
+            if(new Date(new Date(date)) < new Date(new Date().toDateString())) setIsAvailable(false);
         }
 
         getNb();
