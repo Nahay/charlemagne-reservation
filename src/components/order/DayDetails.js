@@ -52,7 +52,7 @@ const DayDetails = ({date, dishByDateList, nbR, price}) => {
 
             <Table dishByDateList={dishByDateList}/>
             
-            { isAvailable &&
+            { isAvailable ?
 
             <>
                 { haveDesc &&
@@ -67,6 +67,14 @@ const DayDetails = ({date, dishByDateList, nbR, price}) => {
                             Réserver
                         </Link>               
                     </div>
+                </div>
+            </>
+
+            :
+
+            <>
+                <div className="day-details__button" style={{color:'white'}}>
+                    Vous ne pouvez pas réserver à cette date.
                 </div>
             </>
 
