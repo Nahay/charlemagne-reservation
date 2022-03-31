@@ -10,16 +10,9 @@ const DishBox = ({onClickConfirmation, dishBoxRef, dish}) => {
                 <div className="dish-summary-box__container">
                     <div className="dish-summary-box__content">
 
-                        <div className="dish-name">{ dish.dishID.name }</div>
-                        
-                        <div className="dish-quantity-price">
-                            <p>Quantité achetée : { dish.quantity }</p>
-                            <p>Prix unitaire : { dish.dishID.price } €</p>
-                        </div>
+                        <div className="dish-name">{ dish.name }</div>
 
-                        <div className="dish-description">{ dish.dishID.description }</div>
-                        
-                        <div className="dish-total">Total : { dish.dishID.price * dish.quantity } €</div>
+                        <div className="dish-description">{ dish.description }</div>
 
                         <div className="content__buttons">
 

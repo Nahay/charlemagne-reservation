@@ -14,13 +14,15 @@
 
         height : 75px;
 
-        cursor : pointer;
         padding-left : 30px;
         border-bottom : 1px solid #5c5c5c;
         transition : background-color ease-out 0.2s;
 
-        &:hover { background-color : $color-primary }
-        &:hover p, &:hover span { color : white }
+        &:not(.default):hover { 
+            background-color: $color-primary; 
+            cursor : pointer; 
+        }
+        &:not(.default):hover p, &:hover span { color : white }
 
         span, p { color: var(--svg-color) }
 

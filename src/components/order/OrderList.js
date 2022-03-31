@@ -12,9 +12,9 @@ const OrderList = ({ orderListByUser, handleClick }) => {
             <div className="infos-command">
               <p>Pour {o.timeC} le {moment(new Date(parseInt(o.dateC))).locale("fr").format("L")}</p>
               <div className="command__total">
-                <p>Total : {o.total} €</p>
+                <p>Nb personnes : {o.nbPlaces}</p>
               </div>
-            </div>              
+            </div>
           </div>
         );
       }

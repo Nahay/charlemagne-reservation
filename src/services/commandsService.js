@@ -51,6 +51,7 @@ const getCommandById = async (id, token) => {
     try {
         const { data } = await axios.get(API_URL + "/commands/id/" +id, adminConfig(token));
         return data;
+
     } catch(err) {
         toast.error(err.message);
     }

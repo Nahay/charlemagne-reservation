@@ -7,7 +7,8 @@ import DishBox from '../../components/generic/DishBox';
 
 import { getCommandByUser } from '../../services/commandsService';
 import { getUserById } from '../../services/usersService';
-import { getCommandListByCommandWithDish } from '../../services/commandsListService';
+import { getDateByDate } from '../../services/calendarService';
+import { toast } from 'react-toastify';
 
 const History = () => {
     const dishBox = useRef(null);
@@ -17,6 +18,8 @@ const History = () => {
     const [orderList, setOrderList] = useState([]);
     const [dishList, setDishList] = useState([]);
 
+    const [description, setDescription] = useState(false);
+    const [date, setDate] = useState("");
     const [dateClicked, setDateClicked] = useState(false);
     const [dishClicked, setDishClicked] = useState({});
 
@@ -41,9 +44,15 @@ const History = () => {
     },[]);
 
     const onClickDish = (dish) => {
-        setDishClicked(dish);
-        dishBox.current.style.visibility = "visible";
-        dishBox.current.style.opacity = 1;
+        if(dish.description !== "") { 
+            setDishClicked(dish);
+            dishBox.current.style.visibility = "visible";
+            dishBox.current.style.opacity = 1;
+        }
+        else {
+            toast.error("Aucune description n'est disponible");
+        }
+       
     }
 
     const onClickConfirmation = () => {
@@ -54,8 +63,18 @@ const History = () => {
     // HANDLE ------------------------------------------------------------
 
     const handleOrderClick = async (id) => {
-        const commands = await getCommandListByCommandWithDish(id, token);
-        setDishList(commands);
+        const commands = await getCommandByUser(user._id, token);
+        const command = commands.filter(c => c._id === id);
+        const date = await getDateByDate(command[0].dateC);
+        setDate(date);
+        setDishList(date.dishes);
+
+        let desc = false;
+        date.dishes.forEach(d => {
+            if(d.description !== "") desc = true;
+        });
+        setDescription(desc);
+
         setDateClicked(true);
         setDishClicked({});
     }
@@ -69,7 +88,7 @@ const History = () => {
                    
                 <div className="left__content">
                     <div className="history__title">
-                        <span className="title-name">{user.firstname} </span> voici l'aperçu de vos commandes
+                        <span className="title-name">{user.firstname} </span> voici l'aperçu de vos réservations
                     </div>
                     <OrderList orderListByUser={orderList} handleClick={handleOrderClick} />
                 </div>
@@ -79,10 +98,14 @@ const History = () => {
                <div className="right__content">
                    {dateClicked ?
                         <>
-                            <p className="content__empty">
-                                Cliquez sur un plat pour afficher ses détails.
-                            </p>
-                            <DishCommandList dishList={dishList} onClickDish={onClickDish}/>
+                            <DishCommandList dishList={dishList} onClickDish={onClickDish} date={date} desc={description}/>
+
+                            {description && 
+                                <p className="content__tip">
+                                    Cliquez sur un plat pour afficher ses détails.
+                                </p>
+                            }
+                            
                         </>
                     :
                         <div className="content__empty">

@@ -6,9 +6,26 @@
     width: 100%;
     height: 100%;
 
+    .list__title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        justify-self: flex-end;
+        align-self: flex-end;
+
+        width: fit-content;
+        height: 50px;
+        padding: 0 2%;
+        background: var(--input-lighter-bg);
+        color: var(--svg-color);
+
+        margin-bottom: 3%;
+    }
     .list__container {
 
         .list__container__box {
+            .default {  cursor:alias }
 
             height: fit-content;
             min-height: 75px;
@@ -35,6 +52,7 @@
                 .dish__quantity,
                 .command__total { 
                     white-space: nowrap;
+                    height: fit-content;
                     margin-right: 30px;
                 }
             }
@@ -122,6 +140,17 @@
                 font-size: 100%;
             }
 
+            .content__tip {
+                align-self: flex-end;
+
+                color: var(--color-grey-dark);
+                font-style: italic;
+                font-size: 14px;
+
+                white-space: nowrap;
+                transition: all .5s ease;
+            }
+
             p.content__empty { margin-bottom:15px }
         }
 
@@ -160,14 +189,39 @@
     }
 
     @media (max-width: 550px) {
-        .history__left .left__content .history__title {
-            font-size: 16px;
+        .history__left .left__content
+        {
+
+            .history__title {
+                font-size: 16px;
+            }
+            .list__container {
+                .list__container__box {
+                    p { font-size: 12px }
+                }
+            }
+
+
         }
     }
 
     @media (max-width: 430px) {
-        .history__left .left__content .history__title {
-            font-size: 14px;
+
+        .history__left .left__content
+        {
+
+            .history__title {
+                font-size: 14px;
+            }
+            .list__container {
+                .list__container__box {
+                    p { font-size: 10px }
+
+                    .infos-command { padding-left: 10px }
+                }
+            }
+
+
         }
 
         .history__right .right__content .content__empty {
